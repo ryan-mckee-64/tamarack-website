@@ -8,6 +8,7 @@ const NAV = [
   { label: "Products", href: "/#products" },
   { label: "BTU Calculator", href: "/calculator" },
   { label: "Manuals & Parts", href: "/manuals" },
+  { label: "3D Models", href: "/models" },
   { label: "Why Tamarack", href: "/#why" },
 ];
 
@@ -89,3 +90,4 @@ export default function Header() {
     </header>
   );
 }
+

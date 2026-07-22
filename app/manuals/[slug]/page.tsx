@@ -15,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const product = getProduct(slug);
-  if (!product) return { title: "Manual library | Tamarack Industries" };
+  if (!product) return { title: "Manuals & Parts | Tamarack Industries" };
   return {
     title: `${product.name} manuals | Tamarack Industries`,
     description: `Brochures, operator manuals and parts manuals for the Tamarack ${product.name}.`,
@@ -34,27 +34,27 @@ export default async function ProductManualsPage({
   const docs = documentsForProduct(slug);
 
   return (
-    <main className="bg-[#faf9f7]">
-      <section className="mx-auto max-w-4xl px-6 py-20">
+    <main>
+      <section className="mx-auto max-w-4xl px-6 py-20 md:px-10">
         <Link
           href="/manuals"
-          className="text-sm font-medium text-[#7a736c] transition hover:text-[#a91f2e]"
+          className="text-sm font-semibold text-[color:var(--ink-dim)] transition hover:text-[color:var(--orange)]"
         >
-          Back to manual library
+          Back to manuals and parts
         </Link>
 
-        <p className="mt-8 text-sm font-medium text-[#a91f2e]">
+        <p className="tech-label mt-8 text-[color:var(--ember)]">
           {product.family}
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#333333] sm:text-5xl">
+        <h1 className="font-display mt-3 text-4xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-5xl">
           {product.name} documents
         </h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[#5c5650]">
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
           {product.summary}
         </p>
 
-        <div className="mt-6 rounded-xl border border-[#e7e3de] bg-white p-5">
-          <p className="text-sm leading-relaxed text-[#5c5650]">
+        <div className="mt-6 rounded-xl border border-[color:var(--line)] bg-[var(--surface)] p-5">
+          <p className="text-sm leading-relaxed text-[color:var(--ink-dim)]">
             Not sure which year your machine is? Check the serial plate on the
             unit, or contact our service team and we will confirm the correct
             manual for your serial number.
