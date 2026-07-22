@@ -1,6 +1,7 @@
 // components/layout/Header.tsx
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -16,19 +17,18 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[color:var(--line)] bg-[var(--bg-85)] backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-6 md:h-20 md:px-10">
-        {/* Wordmark */}
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="block h-6 w-6 shrink-0 bg-[var(--orange)] transition-transform group-hover:scale-105" />
-          <span className="leading-none">
-            <span className="font-display block text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)] md:text-xl">
-              Tamarack
-            </span>
-            <span className="font-mono-label mt-0.5 block text-[0.56rem] uppercase tracking-[0.2em] text-[color:var(--ink-faint)]">
-              Industrial Heating &amp; Equipment
-            </span>
-          </span>
+    <header className="sticky top-0 z-50 border-b border-[color:var(--line)] bg-white">
+      <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-6 md:h-24 md:px-10">
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/images/tamarack-logo.webp"
+            alt="Tamarack Industries"
+            width={860}
+            height={303}
+            priority
+            className="h-11 w-auto transition-opacity hover:opacity-85 md:h-14"
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -37,14 +37,14 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="font-mono-label text-xs uppercase tracking-[0.16em] text-[color:var(--ink-dim)] transition-colors hover:text-[color:var(--ink)]"
+              className="text-sm font-semibold text-[color:var(--ink-dim)] transition-colors hover:text-[color:var(--ink)]"
             >
               {item.label}
             </Link>
           ))}
           <Link
             href="/contact"
-            className="bg-[var(--orange)] px-5 py-2.5 font-mono-label text-xs uppercase tracking-[0.16em] text-white transition-colors hover:bg-[color:var(--ember)]"
+            className="brand-gradient rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
             Service Request
           </Link>
@@ -53,7 +53,7 @@ export default function Header() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center border border-[color:var(--line-strong)] lg:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[color:var(--line-strong)] lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
@@ -73,7 +73,7 @@ export default function Header() {
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="font-mono-label block border-b border-[color:var(--line)] py-3 text-sm uppercase tracking-[0.16em] text-[color:var(--ink-dim)]"
+              className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
             >
               {item.label}
             </Link>
@@ -81,7 +81,7 @@ export default function Header() {
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="mt-4 block bg-[var(--orange)] px-5 py-3 text-center font-mono-label text-sm uppercase tracking-[0.16em] text-white"
+            className="brand-gradient mt-4 block rounded-full px-5 py-3 text-center text-sm font-semibold text-white"
           >
             Service Request
           </Link>
@@ -90,4 +90,3 @@ export default function Header() {
     </header>
   );
 }
-
