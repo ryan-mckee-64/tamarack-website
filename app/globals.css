@@ -21,10 +21,10 @@
   --logo-grey: #58585a;
 
   /* Surfaces */
-  --bg: #f1efea;
-  --bg-85: rgba(241, 239, 234, 0.82);
+  --bg: #ffffff;
+  --bg-85: rgba(255, 255, 255, 0.85);
   --surface: #ffffff;
-  --surface-2: #f6f4f0;
+  --surface-2: #f6f7f8;
 
   /* Text */
   --ink: #333333;
@@ -32,8 +32,8 @@
   --ink-faint: #9a9a97;
 
   /* Lines */
-  --line: #dedad3;
-  --line-strong: #c9c5bd;
+  --line: #e6e6e9;
+  --line-strong: #d2d2d8;
 
   /* Brand accents (names kept as orange/ember, values are red) */
   --orange: #e02a26;   /* bright red — primary accent */
@@ -123,4 +123,37 @@ body {
     var(--grad-3) 50%,
     var(--grad-5) 100%
   );
+}
+
+.nav-link-open {
+  color: #ffffff;
+  background-image: linear-gradient(
+    140deg,
+    var(--grad-2) 0%,
+    var(--grad-3) 50%,
+    var(--grad-4) 100%
+  );
+}
+
+.nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-dim);
+  transition: color 0.2s ease, background-image 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background-image: linear-gradient(
+    140deg,
+    var(--grad-2) 0%,
+    var(--grad-3) 50%,
+    var(--grad-4) 100%
+  );
+  box-shadow: 0 0 24px rgba(242, 98, 44, 0.45);
 }

@@ -11,8 +11,6 @@ const SPECS = [
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-[color:var(--line)]">
-      <div className="blueprint-grid absolute inset-0" aria-hidden />
-
       <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:px-10 md:py-32">
         <p className="tech-label text-[color:var(--ember)]">
           Tamarack Industries · Winnipeg, Manitoba
@@ -20,7 +18,8 @@ export default function Hero() {
 
         <h1 className="font-display mt-6 max-w-4xl text-[clamp(2.25rem,5.5vw,4.25rem)] font-extrabold leading-[1.04] tracking-[-0.02em] text-[color:var(--ink)]">
           Heating systems and construction equipment,
-          engineered in Manitoba <span className="text-[color:var(--orange)]">since 1995.</span>
+          engineered in Manitoba{" "}
+          <span className="brand-gradient-text">since 1995.</span>
         </h1>
 
         <p className="font-body mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
@@ -32,21 +31,21 @@ export default function Hero() {
         <div className="mt-9 flex flex-col gap-4 sm:flex-row">
           <Link
             href="/#products"
-            className="group inline-flex items-center justify-center gap-2 bg-[var(--orange)] px-8 py-4 font-mono-label text-xs uppercase tracking-[0.16em] text-white transition-colors hover:bg-[color:var(--ember)]"
+            className="brand-gradient group inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
             View product lines
             <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
           </Link>
           <Link
             href="/calculator"
-            className="inline-flex items-center justify-center gap-2 border border-[color:var(--line-strong)] px-8 py-4 font-mono-label text-xs uppercase tracking-[0.16em] text-[color:var(--ink)] transition-colors hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--line-strong)] px-8 py-4 text-sm font-semibold text-[color:var(--ink)] transition-colors hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
           >
             BTU Calculator
           </Link>
         </div>
 
         {/* Spec strip */}
-        <dl className="mt-20 grid grid-cols-2 gap-px overflow-hidden border border-[color:var(--line)] bg-[var(--line)] md:grid-cols-4">
+        <dl className="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[var(--line)] md:grid-cols-4">
           {SPECS.map((s) => (
             <div key={s.label} className="bg-[var(--surface)] p-6">
               <dt className="font-display text-3xl font-bold text-[color:var(--ink)] md:text-4xl">
