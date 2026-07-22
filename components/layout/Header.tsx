@@ -5,21 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ResourcesMenu from "./ResourcesMenu";
+import ProductsMenu from "./ProductsMenu";
 import { resourceGroups } from "@/lib/resources";
-
-const NAV = [
-  { label: "Products", href: "/#products" },
-  { label: "Why Tamarack", href: "/#why" },
-];
+import { productLines } from "@/lib/product-lines";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [menu, setMenu] = useState<"products" | "resources" | null>(null);
   const [mobileGroup, setMobileGroup] = useState<string | null>(null);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setResourcesOpen(false);
+      if (e.key === "Escape") setMenu(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -40,33 +37,45 @@ export default function Header() {
           />
         </Link>
 
-         {/* Desktop nav */}
+        {/* Desktop nav */}
         <nav
           className="relative hidden h-full items-stretch lg:flex"
-          onMouseLeave={() => setResourcesOpen(false)}
+          onMouseLeave={() => setMenu(null)}
         >
-          <Link href="/#products" className="nav-link">
-            Products
-          </Link>
-
           <button
-            onMouseEnter={() => setResourcesOpen(true)}
-            onClick={() => setResourcesOpen((v) => !v)}
-            aria-expanded={resourcesOpen}
-            className={`nav-link ${resourcesOpen ? "nav-link-open" : ""}`}
+            onMouseEnter={() => setMenu("products")}
+            onClick={() => setMenu(menu === "products" ? null : "products")}
+            aria-expanded={menu === "products"}
+            className={`nav-link ${menu === "products" ? "nav-link-open" : ""}`}
           >
-            Resources
+            Product Lines
             <span
               className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
-                resourcesOpen ? "rotate-180" : ""
+                menu === "products" ? "rotate-180" : ""
               }`}
             >
               &#9660;
             </span>
           </button>
 
-          <Link href="/#why" className="nav-link">
-            Why Tamarack
+          <button
+            onMouseEnter={() => setMenu("resources")}
+            onClick={() => setMenu(menu === "resources" ? null : "resources")}
+            aria-expanded={menu === "resources"}
+            className={`nav-link ${menu === "resources" ? "nav-link-open" : ""}`}
+          >
+            Resources
+            <span
+              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
+                menu === "resources" ? "rotate-180" : ""
+              }`}
+            >
+              &#9660;
+            </span>
+          </button>
+
+          <Link href="/#company" className="nav-link">
+            Company
           </Link>
 
           <div className="flex items-center pl-6">
@@ -78,12 +87,9 @@ export default function Header() {
             </Link>
           </div>
 
-          <ResourcesMenu
-            open={resourcesOpen}
-            onNavigate={() => setResourcesOpen(false)}
-          />
+          <ProductsMenu open={menu === "products"} onNavigate={() => setMenu(null)} />
+          <ResourcesMenu open={menu === "resources"} onNavigate={() => setMenu(null)} />
         </nav>
-
 
         {/* Mobile toggle */}
         <button
@@ -103,25 +109,66 @@ export default function Header() {
       {/* Mobile menu */}
       {open && (
         <nav className="max-h-[75vh] overflow-y-auto border-t border-[color:var(--line)] bg-[var(--surface)] px-6 py-4 lg:hidden">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
-            >
-              {item.label}
-            </Link>
-          ))}
+          <p className="tech-label text-[color:var(--ember)]">Product Lines</p>
+          {productLines.map((line) => {
+            const expanded = mobileGroup === `p-${line.slug}`;
+            return (
+              <div key={line.slug} className="border-b border-[color:var(--line)]">
+                <button
+                  onClick={() => setMobileGroup(expanded ? null : `p-${line.slug}`)}
+                  className="flex w-full items-center justify-between py-3 text-left text-sm font-semibold text-[color:var(--ink)]"
+                >
+                  {line.name}
+                  <span className={`text-[0.6rem] transition-transform ${expanded ? "rotate-180" : ""}`}>
+                    &#9660;
+                  </span>
+                </button>
+                {expanded && (
+                  <ul className="pb-3">
+                    <li>
+                      <Link
+                        href={`/products/${line.slug}`}
+                        onClick={() => setOpen(false)}
+                        className="block py-2 pl-3 text-sm font-semibold text-[color:var(--orange)]"
+                      >
+                        Overview
+                      </Link>
+                    </li>
+                    {line.models.map((model) => (
+                      <li key={model.slug}>
+                        <Link
+                          href={`/products/${line.slug}#${model.slug}`}
+                          onClick={() => setOpen(false)}
+                          className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
+                        >
+                          {model.name}
+                        </Link>
+                      </li>
+                    ))}
+                    {line.hasAccessories && (
+                      <li>
+                        <Link
+                          href={`/products/${line.slug}#accessories`}
+                          onClick={() => setOpen(false)}
+                          className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
+                        >
+                          Accessories
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
 
           <p className="tech-label mt-5 text-[color:var(--ember)]">Resources</p>
-
           {resourceGroups.map((group) => {
-            const expanded = mobileGroup === group.slug;
+            const expanded = mobileGroup === `r-${group.slug}`;
             return (
               <div key={group.slug} className="border-b border-[color:var(--line)]">
                 <button
-                  onClick={() => setMobileGroup(expanded ? null : group.slug)}
+                  onClick={() => setMobileGroup(expanded ? null : `r-${group.slug}`)}
                   className="flex w-full items-center justify-between py-3 text-left text-sm font-semibold text-[color:var(--ink)]"
                 >
                   {group.label}
@@ -140,9 +187,7 @@ export default function Header() {
                         >
                           {item.label}
                           {item.status === "planned" && (
-                            <span className="rounded-full bg-[var(--surface-2)] px-1.5 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
-                              Soon
-                            </span>
+                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
                           )}
                         </Link>
                       </li>
@@ -152,6 +197,14 @@ export default function Header() {
               </div>
             );
           })}
+
+          <Link
+            href="/#company"
+            onClick={() => setOpen(false)}
+            className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
+          >
+            Company
+          </Link>
 
           <Link
             href="/contact"
