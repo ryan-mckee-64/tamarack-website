@@ -1,14 +1,15 @@
 "use client";
 
-import { Suspense, useRef, useState } from "react";
+import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Center, Html, useProgress, useGLTF } from "@react-three/drei";
+import { OrbitControls, Html, useProgress, useGLTF } from "@react-three/drei";
+import type { Hotspot } from "@/lib/models";
 
 function LoadingIndicator() {
   const { progress } = useProgress();
   return (
     <Html center>
-      <div className="whitespace-nowrap rounded-lg bg-white px-4 py-2 text-sm text-[#5c5650] shadow">
+      <div className="whitespace-nowrap rounded-lg bg-white px-4 py-2 text-sm text-[color:var(--ink-dim)] shadow">
         Loading model, {Math.round(progress)} percent
       </div>
     </Html>
@@ -21,7 +22,7 @@ function LoadedModel({ url }: { url: string }) {
 }
 
 function PlaceholderMachine() {
-const red = "#a91f2e";
+  const red = "#a91f2e";
   const grey = "#6b6b6b";
   const dark = "#333333";
 
@@ -59,15 +60,50 @@ const red = "#a91f2e";
   );
 }
 
+function HotspotMarker({
+  hotspot,
+  index,
+  selected,
+  onSelect,
+}: {
+  hotspot: Hotspot;
+  index: number;
+  selected: boolean;
+  onSelect: (id: string | null) => void;
+}) {
+  return (
+    <Html position={hotspot.position} center zIndexRange={[20, 0]}>
+      <button
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={() => onSelect(selected ? null : hotspot.id)}
+        aria-label={hotspot.label}
+        className={
+          selected
+            ? "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-white bg-[var(--orange)] text-sm font-bold text-white shadow-lg ring-4 ring-[var(--orange-tint-2)] transition"
+            : "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-white bg-[var(--ember)] text-sm font-bold text-white shadow-lg transition hover:scale-110 hover:bg-[var(--orange)]"
+        }
+      >
+        {index + 1}
+      </button>
+    </Html>
+  );
+}
+
 export default function ModelScene({
   modelUrl,
   autoRotate,
+  hotspots,
+  showHotspots,
+  selectedId,
+  onSelect,
 }: {
   modelUrl: string | null;
   autoRotate: boolean;
+  hotspots: Hotspot[];
+  showHotspots: boolean;
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
 }) {
-  const controlsRef = useRef<any>(null);
-
   return (
     <Canvas
       shadows
@@ -87,9 +123,20 @@ export default function ModelScene({
       <directionalLight position={[-5, 3, -4]} intensity={0.4} />
 
       <Suspense fallback={<LoadingIndicator />}>
-        <Center>
+        <group>
           {modelUrl ? <LoadedModel url={modelUrl} /> : <PlaceholderMachine />}
-        </Center>
+
+          {showHotspots &&
+            hotspots.map((h, i) => (
+              <HotspotMarker
+                key={h.id}
+                hotspot={h}
+                index={i}
+                selected={selectedId === h.id}
+                onSelect={onSelect}
+              />
+            ))}
+        </group>
       </Suspense>
 
       <mesh
@@ -104,7 +151,6 @@ export default function ModelScene({
       <gridHelper args={[14, 14, "#d6d1cb", "#e2ded9"]} position={[0, 0, 0]} />
 
       <OrbitControls
-        ref={controlsRef}
         enablePan
         enableDamping
         dampingFactor={0.08}

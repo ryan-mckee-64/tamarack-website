@@ -19,7 +19,7 @@ export async function generateMetadata({
   if (!product) return { title: "3D Models | Tamarack Industries" };
   return {
     title: `${product.name} in 3D | Tamarack Industries`,
-    description: `Rotate and zoom the Tamarack ${product.name} from any angle.`,
+    description: `Rotate, zoom and explore the components of the Tamarack ${product.name}.`,
   };
 }
 
@@ -37,7 +37,7 @@ export default async function ProductModelPage({
 
   return (
     <main>
-      <section className="mx-auto max-w-5xl px-6 py-20 md:px-10">
+      <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-10">
         <Link
           href="/models"
           className="text-sm font-semibold text-[color:var(--ink-dim)] transition hover:text-[color:var(--orange)]"
@@ -61,6 +61,8 @@ export default async function ProductModelPage({
               <ModelViewer
                 modelUrl={model.modelUrl}
                 isPlaceholder={model.modelUrl === null}
+                hotspots={model.hotspots}
+                manualHref={`/manuals/${product.slug}`}
               />
 
               <div className="mt-8 rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-7">
