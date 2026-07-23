@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { productLines } from "@/lib/product-lines";
 
@@ -25,12 +26,22 @@ export default function ProductsMenu({
               <Link
                 href={`/products/${line.slug}`}
                 onClick={onNavigate}
-                className="block"
+                className="group block"
               >
-                <p className="text-sm font-bold text-[color:var(--ink)] transition hover:text-[color:var(--orange)]">
-                  {line.name}
-                </p>
-                <p className="mt-0.5 text-[0.68rem] text-[color:var(--ink-faint)]">
+                {line.logo ? (
+                  <Image
+                    src={line.logo}
+                    alt={line.name}
+                    width={400}
+                    height={100}
+                    className="h-6 w-auto transition-opacity group-hover:opacity-75"
+                  />
+                ) : (
+                  <p className="text-sm font-bold text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
+                    {line.name}
+                  </p>
+                )}
+                <p className="mt-1 text-[0.68rem] text-[color:var(--ink-faint)]">
                   {line.category}
                 </p>
               </Link>
@@ -39,7 +50,7 @@ export default function ProductsMenu({
                 {line.models.map((model) => (
                   <li key={model.slug}>
                     <Link
-                      href={`/products/${line.slug}#${model.slug}`}
+                      href={`/products/${line.slug}/${model.slug}`}
                       onClick={onNavigate}
                       className="block rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
                     >
