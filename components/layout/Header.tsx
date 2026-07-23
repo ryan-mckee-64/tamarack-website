@@ -6,12 +6,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import ResourcesMenu from "./ResourcesMenu";
 import ProductsMenu from "./ProductsMenu";
+import ContactMenu from "./ContactMenu";
 import { resourceGroups } from "@/lib/resources";
 import { productLines } from "@/lib/product-lines";
 
+type MenuKey = "products" | "resources" | "contact" | null;
+
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [menu, setMenu] = useState<"products" | "resources" | null>(null);
+  const [menu, setMenu] = useState<MenuKey>(null);
   const [mobileGroup, setMobileGroup] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,11 +52,7 @@ export default function Header() {
             className={`nav-link ${menu === "products" ? "nav-link-open" : ""}`}
           >
             Product Lines
-            <span
-              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
-                menu === "products" ? "rotate-180" : ""
-              }`}
-            >
+            <span className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${menu === "products" ? "rotate-180" : ""}`}>
               &#9660;
             </span>
           </button>
@@ -65,11 +64,7 @@ export default function Header() {
             className={`nav-link ${menu === "resources" ? "nav-link-open" : ""}`}
           >
             Resources
-            <span
-              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
-                menu === "resources" ? "rotate-180" : ""
-              }`}
-            >
+            <span className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${menu === "resources" ? "rotate-180" : ""}`}>
               &#9660;
             </span>
           </button>
@@ -78,13 +73,22 @@ export default function Header() {
             Company
           </Link>
 
-          <div className="flex items-center pl-6">
-            <Link
-              href="/contact"
-              className="brand-gradient rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          <div
+            className="relative flex items-center pl-6"
+            onMouseEnter={() => setMenu("contact")}
+          >
+            <button
+              onClick={() => setMenu(menu === "contact" ? null : "contact")}
+              aria-expanded={menu === "contact"}
+              className={`contact-pill ${menu === "contact" ? "contact-pill-open" : ""}`}
             >
-              Service Request
-            </Link>
+              Contact Us
+              <span className={`text-[0.6rem] transition-transform duration-200 ${menu === "contact" ? "rotate-180" : ""}`}>
+                &#9660;
+              </span>
+            </button>
+
+            <ContactMenu open={menu === "contact"} onNavigate={() => setMenu(null)} />
           </div>
 
           <ProductsMenu open={menu === "products"} onNavigate={() => setMenu(null)} />
@@ -119,39 +123,25 @@ export default function Header() {
                   className="flex w-full items-center justify-between py-3 text-left text-sm font-semibold text-[color:var(--ink)]"
                 >
                   {line.name}
-                  <span className={`text-[0.6rem] transition-transform ${expanded ? "rotate-180" : ""}`}>
-                    &#9660;
-                  </span>
+                  <span className={`text-[0.6rem] transition-transform ${expanded ? "rotate-180" : ""}`}>&#9660;</span>
                 </button>
                 {expanded && (
                   <ul className="pb-3">
                     <li>
-                      <Link
-                        href={`/products/${line.slug}`}
-                        onClick={() => setOpen(false)}
-                        className="block py-2 pl-3 text-sm font-semibold text-[color:var(--orange)]"
-                      >
+                      <Link href={`/products/${line.slug}`} onClick={() => setOpen(false)} className="block py-2 pl-3 text-sm font-semibold text-[color:var(--orange)]">
                         Overview
                       </Link>
                     </li>
                     {line.models.map((model) => (
                       <li key={model.slug}>
-                        <Link
-                          href={`/products/${line.slug}#${model.slug}`}
-                          onClick={() => setOpen(false)}
-                          className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
-                        >
+                        <Link href={`/products/${line.slug}#${model.slug}`} onClick={() => setOpen(false)} className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]">
                           {model.name}
                         </Link>
                       </li>
                     ))}
                     {line.hasAccessories && (
                       <li>
-                        <Link
-                          href={`/products/${line.slug}#accessories`}
-                          onClick={() => setOpen(false)}
-                          className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
-                        >
+                        <Link href={`/products/${line.slug}#accessories`} onClick={() => setOpen(false)} className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]">
                           Accessories
                         </Link>
                       </li>
@@ -172,19 +162,13 @@ export default function Header() {
                   className="flex w-full items-center justify-between py-3 text-left text-sm font-semibold text-[color:var(--ink)]"
                 >
                   {group.label}
-                  <span className={`text-[0.6rem] transition-transform ${expanded ? "rotate-180" : ""}`}>
-                    &#9660;
-                  </span>
+                  <span className={`text-[0.6rem] transition-transform ${expanded ? "rotate-180" : ""}`}>&#9660;</span>
                 </button>
                 {expanded && (
                   <ul className="pb-3">
                     {group.items.map((item) => (
                       <li key={item.slug}>
-                        <Link
-                          href={item.href}
-                          onClick={() => setOpen(false)}
-                          className="flex items-center gap-2 py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
-                        >
+                        <Link href={item.href} onClick={() => setOpen(false)} className="flex items-center gap-2 py-2 pl-3 text-sm text-[color:var(--ink-dim)]">
                           {item.label}
                           {item.status === "planned" && (
                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
@@ -198,21 +182,18 @@ export default function Header() {
             );
           })}
 
-          <Link
-            href="/#company"
-            onClick={() => setOpen(false)}
-            className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
-          >
+          <Link href="/#company" onClick={() => setOpen(false)} className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]">
             Company
           </Link>
 
-          <Link
-            href="/contact"
-            onClick={() => setOpen(false)}
-            className="brand-gradient mt-5 block rounded-full px-5 py-3 text-center text-sm font-semibold text-white"
-          >
-            Service Request
-          </Link>
+          <div className="mt-5 space-y-3">
+            <Link href="/contact/sales" onClick={() => setOpen(false)} className="brand-gradient block rounded-full px-5 py-3 text-center text-sm font-semibold text-white">
+              Contact Sales
+            </Link>
+            <Link href="/contact/support" onClick={() => setOpen(false)} className="block rounded-full border border-[color:var(--line-strong)] px-5 py-3 text-center text-sm font-semibold text-[color:var(--ink)]">
+              Contact Support
+            </Link>
+          </div>
         </nav>
       )}
     </header>
