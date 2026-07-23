@@ -13,9 +13,9 @@ type TabKey = "all" | DocumentCategory;
 
 const tabs: { key: TabKey; label: string }[] = [
   { key: "all", label: "All documents" },
-  { key: "brochure", label: "Brochures" },
   { key: "operator", label: "Operator manuals" },
   { key: "parts", label: "Parts manuals" },
+  { key: "component", label: "Engine and generator" },
 ];
 
 export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
@@ -52,9 +52,11 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
       .filter((g) => g.items.length > 0);
   }, [filtered]);
 
+  const isFiltered = tab !== "all" || year !== "all" || query.trim() !== "";
+
   return (
     <div>
-      <div className="flex flex-wrap gap-2 border-b border-[#e7e3de] pb-4">
+      <div className="flex flex-wrap gap-2 border-b border-[color:var(--line)] pb-4">
         {tabs.map((t) => {
           const active = tab === t.key;
           return (
@@ -63,8 +65,8 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
               onClick={() => setTab(t.key)}
               className={
                 active
-                  ? "rounded-full bg-[#a91f2e] px-4 py-2 text-sm font-medium text-white transition"
-                  : "rounded-full bg-[#f3f0ec] px-4 py-2 text-sm font-medium text-[#5c5650] transition hover:bg-[#e9e4de]"
+                  ? "brand-gradient rounded-full px-4 py-2 text-sm font-semibold text-white transition"
+                  : "rounded-full bg-[var(--surface-2)] px-4 py-2 text-sm font-semibold text-[color:var(--ink-dim)] transition hover:bg-[var(--orange-tint)] hover:text-[color:var(--ink)]"
               }
             >
               {t.label}
@@ -77,7 +79,7 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
         <div className="flex items-center gap-3">
           <label
             htmlFor="year"
-            className="text-sm font-medium text-[#5c5650] whitespace-nowrap"
+            className="tech-label whitespace-nowrap text-[color:var(--ink-dim)]"
           >
             Model year
           </label>
@@ -85,7 +87,7 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
             id="year"
             value={year}
             onChange={(e) => setYear(e.target.value)}
-            className="rounded-lg border border-[#ddd7d0] bg-white px-3 py-2 text-sm text-[#333333] outline-none focus:border-[#a91f2e]"
+            className="rounded-lg border border-[color:var(--line-strong)] bg-white px-3 py-2 text-sm text-[color:var(--ink)] outline-none focus:border-[color:var(--orange)]"
           >
             <option value="all">All years</option>
             {allYears.map((y) => (
@@ -100,21 +102,35 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by title, model or document number"
-          className="w-full rounded-lg border border-[#ddd7d0] bg-white px-3 py-2 text-sm text-[#333333] outline-none placeholder:text-[#9c948c] focus:border-[#a91f2e]"
+          placeholder="Search by model, title or document number"
+          className="w-full rounded-lg border border-[color:var(--line-strong)] bg-white px-3 py-2 text-sm text-[color:var(--ink)] outline-none placeholder:text-[color:var(--ink-faint)] focus:border-[color:var(--orange)]"
         />
       </div>
 
-      <p className="mt-4 text-sm text-[#7a736c]">
-        Showing {filtered.length} of {docs.length} documents
-      </p>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <p className="text-sm text-[color:var(--ink-dim)]">
+          Showing {filtered.length} of {docs.length} documents
+        </p>
+        {isFiltered && (
+          <button
+            onClick={() => {
+              setTab("all");
+              setYear("all");
+              setQuery("");
+            }}
+            className="text-sm font-semibold text-[color:var(--orange)] underline underline-offset-4"
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
 
       {grouped.length === 0 ? (
-        <div className="mt-8 rounded-xl border border-dashed border-[#ddd7d0] bg-[#faf9f7] p-10 text-center">
-          <p className="text-[#333333] font-medium">
+        <div className="mt-8 rounded-xl border border-dashed border-[color:var(--line-strong)] bg-[var(--surface-2)] p-10 text-center">
+          <p className="font-semibold text-[color:var(--ink)]">
             No documents match that selection
           </p>
-          <p className="mt-2 text-sm text-[#7a736c]">
+          <p className="mt-2 text-sm text-[color:var(--ink-dim)]">
             Try a different model year, or contact our service team and we will
             locate the correct manual for your serial number.
           </p>
@@ -123,7 +139,7 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
         <div className="mt-8 space-y-10">
           {grouped.map((group) => (
             <section key={group.category}>
-              <h3 className="text-lg font-semibold text-[#333333]">
+              <h3 className="font-display text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)]">
                 {categoryLabels[group.category]}
               </h3>
               <ul className="mt-4 space-y-3">
@@ -133,20 +149,22 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
                       href={doc.fileUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col gap-3 rounded-xl border border-[#e7e3de] bg-white p-5 transition hover:border-[#a91f2e] hover:shadow-sm sm:flex-row sm:items-center sm:justify-between"
+                      className="group flex flex-col gap-3 rounded-xl border border-[color:var(--line)] bg-[var(--surface)] p-5 transition hover:border-[color:var(--orange)] hover:shadow-sm sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div>
-                        <p className="font-medium text-[#333333] group-hover:text-[#a91f2e]">
+                        <p className="font-semibold text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
                           {doc.title}
                           {doc.variant ? `, ${doc.variant}` : ""}
                         </p>
-                        <p className="mt-1 text-sm text-[#7a736c]">
+                        <p className="mt-1 text-sm text-[color:var(--ink-dim)]">
                           {[
                             formatYears(doc.years),
                             doc.documentNumber
                               ? `Document ${doc.documentNumber}${
                                   doc.revision ? ` ${doc.revision}` : ""
                                 }`
+                              : doc.revision
+                              ? `Revision ${doc.revision}`
                               : null,
                             doc.fileSize ? `PDF, ${doc.fileSize}` : "PDF",
                           ]
@@ -154,7 +172,7 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
                             .join("  ·  ")}
                         </p>
                       </div>
-                      <span className="shrink-0 rounded-lg bg-[#f3f0ec] px-4 py-2 text-sm font-medium text-[#333333] transition group-hover:bg-[#a91f2e] group-hover:text-white">
+                      <span className="shrink-0 rounded-lg bg-[var(--surface-2)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)] transition group-hover:bg-[var(--orange)] group-hover:text-white">
                         Open PDF
                       </span>
                     </a>
