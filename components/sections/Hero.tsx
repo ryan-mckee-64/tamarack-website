@@ -3,16 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-// Set this to "/video/hero.mp4" once the footage is in place.
-const VIDEO_SRC: string | null = null;
-const POSTER_SRC = "/images/hero-poster.jpg";
-
-const SPECS = [
-  { value: "700,000", unit: "BTU/hr", label: "Flameless output" },
-  { value: "11,000", unit: "sq ft", label: "Glycol ground coverage" },
-  { value: "30", unit: "yrs", label: "Building since 1995" },
-  { value: "2", unit: "", label: "Plants: MB & MN" },
-];
+const VIDEO_SRC: string | null = "/videos/hero.mp4";
+// Add a still frame at this path and set it to the string to use it.
+const POSTER_SRC: string | null = null;
 
 export default function Hero() {
   const router = useRouter();
@@ -43,17 +36,19 @@ export default function Hero() {
       {/* Background */}
       {playVideo ? (
         <video
+          key={VIDEO_SRC as string}
           className="hero-media"
           autoPlay
           muted
           loop
           playsInline
           preload="metadata"
-          poster={POSTER_SRC}
+          poster={POSTER_SRC ?? undefined}
         >
           <source src={VIDEO_SRC as string} type="video/mp4" />
         </video>
-      ) : hasVideo ? (
+      ) : POSTER_SRC ? (
+        // Reduced motion: hold on a still frame instead of playing the loop.
         <img src={POSTER_SRC} alt="" className="hero-media" />
       ) : (
         <div className="hero-fallback" />
@@ -64,8 +59,8 @@ export default function Hero() {
       <div className="hero-wash" />
 
       {/* Content */}
-      <div className="relative flex h-full flex-col justify-end">
-        <div className="mx-auto w-full max-w-[1280px] px-6 pb-16 md:px-10 md:pb-20">
+      <div className="relative flex h-full flex-col justify-center">
+        <div className="mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-20">
           <p className="tech-label hero-eyebrow">
             Tamarack Industries · Winnipeg, Manitoba
           </p>
@@ -85,22 +80,6 @@ export default function Hero() {
               </span>
             </button>
           </div>
-
-          <dl className="hero-specs mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl md:grid-cols-4">
-            {SPECS.map((s) => (
-              <div key={s.label} className="hero-spec p-5">
-                <dt className="font-display hero-spec-value text-2xl font-bold md:text-3xl">
-                  {s.value}
-                  {s.unit && (
-                    <span className="hero-spec-unit ml-1 text-sm font-medium">
-                      {s.unit}
-                    </span>
-                  )}
-                </dt>
-                <dd className="tech-label hero-spec-label mt-1.5">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </div>
     </section>

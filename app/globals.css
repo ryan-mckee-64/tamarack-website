@@ -227,25 +227,25 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
+   background:
     linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.3) 45%,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.22) 45%,
       rgba(0, 0, 0, 0) 78%
     ),
     linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.68) 0%,
-      rgba(0, 0, 0, 0.12) 55%,
+      rgba(0, 0, 0, 0.62) 0%,
+      rgba(0, 0, 0, 0.08) 55%,
       rgba(0, 0, 0, 0) 100%
     ),
     radial-gradient(
       ellipse at 50% 45%,
-      rgba(0, 0, 0, 0) 15%,
-      rgba(0, 0, 0, 0.7) 100%
+      rgba(0, 0, 0, 0) 25%,
+      rgba(0, 0, 0, 0.45) 100%
     ),
-    rgba(0, 0, 0, 0.4);
+    rgba(0, 0, 0, 0.15);
 }
 
 .hero-wash {

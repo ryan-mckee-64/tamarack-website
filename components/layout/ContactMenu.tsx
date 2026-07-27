@@ -13,6 +13,11 @@ const OPTIONS = [
     label: "Support",
     blurb: "Service, parts, troubleshooting and warranty questions.",
   },
+  {
+    href: "/contact/quote",
+    label: "Get a quote",
+    blurb: "Request pricing for a specific machine or job.",
+  },
 ];
 
 export default function ContactMenu({
