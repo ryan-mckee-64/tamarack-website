@@ -85,7 +85,19 @@ export default function Header() {
             </span>
           </button>
 
-          <Link href="/#company" className="nav-link">
+          <Link
+            href="/calculator"
+            onMouseEnter={() => setMenu(null)}
+            className="nav-link"
+          >
+            BTU Calculator
+          </Link>
+
+          <Link
+            href="/#company"
+            onMouseEnter={() => setMenu(null)}
+            className="nav-link"
+          >
             Company
           </Link>
 
@@ -262,6 +274,14 @@ export default function Header() {
               </div>
             );
           })}
+
+          <Link
+            href="/calculator"
+            onClick={() => setOpen(false)}
+            className="mt-5 block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
+          >
+            BTU Calculator
+          </Link>
 
           <Link
             href="/#company"
