@@ -6,11 +6,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import ResourcesMenu from "./ResourcesMenu";
 import ProductsMenu from "./ProductsMenu";
+import SolutionsMenu from "./SolutionsMenu";
 import ContactMenu from "./ContactMenu";
 import { resourceGroups } from "@/lib/resources";
 import { productLines } from "@/lib/product-lines";
+import { solutions } from "@/lib/solutions";
 
-type MenuKey = "products" | "resources" | "contact" | null;
+type MenuKey = "products" | "solutions" | "resources" | "contact" | null;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -37,7 +39,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-[color:var(--line)] bg-white">
       <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-6 md:h-24 md:px-10">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+                <Link href="/" className="flex shrink-0 items-center">
           <Image
             src="/images/tamarack-logo.webp"
             alt="Tamarack Industries"
@@ -63,6 +65,24 @@ export default function Header() {
             <span
               className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
                 menu === "products" ? "rotate-180" : ""
+              }`}
+            >
+              &#9660;
+            </span>
+          </button>
+
+          <button
+            onMouseEnter={() => setMenu("solutions")}
+            onClick={() => setMenu(menu === "solutions" ? null : "solutions")}
+            aria-expanded={menu === "solutions"}
+            className={`nav-link ${menu === "solutions" ? "nav-link-open" : ""}`}
+          >
+            <span className="whitespace-nowrap">
+              Industry, Application, and Solutions
+            </span>
+            <span
+              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
+                menu === "solutions" ? "rotate-180" : ""
               }`}
             >
               &#9660;
@@ -102,7 +122,7 @@ export default function Header() {
           </Link>
 
           <div
-            className="relative flex items-center pl-6"
+                        className="relative flex items-center pl-3 xl:pl-6"
             onMouseEnter={() => setMenu("contact")}
           >
             <button
@@ -130,6 +150,10 @@ export default function Header() {
 
           <ProductsMenu
             open={menu === "products"}
+            onNavigate={() => setMenu(null)}
+          />
+          <SolutionsMenu
+            open={menu === "solutions"}
             onNavigate={() => setMenu(null)}
           />
           <ResourcesMenu
@@ -229,6 +253,21 @@ export default function Header() {
               </div>
             );
           })}
+
+          <p className="tech-label mt-5 text-[color:var(--ember)]">
+            Industry, Application, and Solutions
+          </p>
+          {solutions.map((solution) => (
+            <Link
+              key={solution.slug}
+              href={solution.href}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink)]"
+            >
+              {solution.label}
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
+            </Link>
+          ))}
 
           <p className="tech-label mt-5 text-[color:var(--ember)]">Resources</p>
           {resourceGroups.map((group) => {

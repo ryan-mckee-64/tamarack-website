@@ -140,11 +140,20 @@ body {
   display: flex;
   align-items: center;
   height: 100%;
-  padding: 0 1.25rem;
-  font-size: 0.875rem;
+  padding: 0 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  white-space: nowrap;
   color: var(--ink-dim);
   transition: color 0.2s ease, background-image 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Room opens up on wider screens, so go back to the roomier sizing. */
+@media (min-width: 1360px) {
+  .nav-link {
+    padding: 0 1.1rem;
+    font-size: 0.875rem;
+  }
 }
 
 .nav-link:hover {
@@ -162,9 +171,10 @@ body {
   align-items: center;
   gap: 0.4rem;
   border-radius: 9999px;
-  padding: 0.625rem 1.5rem;
-  font-size: 0.875rem;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  white-space: nowrap;
   color: #ffffff;
   background-image: linear-gradient(
     140deg,
@@ -178,6 +188,13 @@ body {
 .contact-pill:hover,
 .contact-pill-open {
   box-shadow: 0 0 26px rgba(242, 98, 44, 0.55);
+}
+
+@media (min-width: 1360px) {
+  .contact-pill {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.875rem;
+  }
 }
 /* ============================================================
    HERO — cinematic video treatment

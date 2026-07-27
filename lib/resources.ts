@@ -160,21 +160,6 @@ export const resourceGroups: ResourceGroup[] = [
       },
     ],
   },
-  {
-    slug: "tools",
-    label: "Tools",
-    blurb: "Size equipment before you order it.",
-    items: [
-      {
-        slug: "btu-calculator",
-        label: "BTU calculator",
-        href: "/calculator",
-        status: "live",
-        description:
-          "Enter your job conditions and get a recommended heater size.",
-      },
-    ],
-  },
 ];
 
 export function allResourceItems(): ResourceItem[] {
