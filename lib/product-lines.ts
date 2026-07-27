@@ -10,12 +10,16 @@ export type ProductModel = {
   image?: string;
   description?: string;
   specs?: ModelSpec[];
+  comingSoon?: boolean;
 };
 
 export type ProductLine = {
   slug: string;
   name: string;
   logo?: string;
+  // Wide wordmarks sit well in the nav dropdown. Square badge logos go
+  // illegible at that size, so the menu falls back to the name instead.
+  logoStyle?: "wordmark" | "badge";
   category: string;
   summary: string;
   models: ProductModel[];
@@ -61,39 +65,65 @@ export const productLines: ProductLine[] = [
   {
     slug: "thawzall-xhr",
     name: "Thawzall",
+    logo: "/images/thawzall-logo.png",
     category: "Flameless and hydronic heat",
     summary:
       "Flameless and hydronic heaters built for enclosed and sensitive work areas.",
     hasAccessories: true,
-    models: [
+        models: [
       {
         slug: "tch-250",
         name: "TCH 250",
         tagline: "Hydronic surface heater for thaw, cure and temporary heat.",
       },
+      {
+        slug: "xhr-700",
+        name: "XHR 700",
+        tagline: "Largest flameless heater in the XHR range.",
+      },
+      {
+        slug: "xhr-475",
+        name: "XHR 475",
+        tagline: "Mid capacity flameless heater for general site work.",
+      },
+      {
+        slug: "xhr-200",
+        name: "XHR 200",
+        tagline: "Compact flameless heater for smaller enclosed areas.",
+        comingSoon: true,
+      },
+      {
+        slug: "e-xhr-100",
+        name: "E-XHR 100",
+        tagline: "Electric flameless heater for indoor and sensitive areas.",
+      },
     ],
   },
-  {
+    {
     slug: "renegade",
     name: "Renegade",
+    logo: "/images/renegade-logo.png",
     category: "Tractor loader backhoe",
     summary:
       "Subcompact tractor loader backhoe sized for tight access work and utility trenching.",
     hasAccessories: true,
     models: [],
   },
-  {
+    {
     slug: "maverick",
     name: "Maverick",
+    logo: "/images/maverick-logo.png",
     category: "Site sweeper",
     summary:
       "Site sweepers for dust control and surface cleanup on active job sites.",
     hasAccessories: true,
     models: [],
   },
-  {
+    {
     slug: "mud-dog",
     name: "Mud Dog",
+        logo: "/images/muddog-logo.png",
+    logoStyle: "badge",
     category: "Concrete power buggy",
     summary:
       "Concrete power buggies for moving material across rough and confined job sites.",

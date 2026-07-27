@@ -226,14 +226,17 @@ export default function Header() {
                         Overview
                       </Link>
                     </li>
-                    {line.models.map((model) => (
+                                        {line.models.map((model) => (
                       <li key={model.slug}>
                         <Link
                           href={`/products/${line.slug}/${model.slug}`}
                           onClick={() => setOpen(false)}
-                          className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
+                          className="flex items-center gap-2 py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
                         >
                           {model.name}
+                          {model.comingSoon && (
+                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
+                          )}
                         </Link>
                       </li>
                     ))}

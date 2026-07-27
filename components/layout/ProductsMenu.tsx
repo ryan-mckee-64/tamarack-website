@@ -28,7 +28,7 @@ export default function ProductsMenu({
                 onClick={onNavigate}
                 className="group block"
               >
-                {line.logo ? (
+                                {line.logo && line.logoStyle !== "badge" ? (
                   <Image
                     src={line.logo}
                     alt={line.name}
@@ -37,7 +37,7 @@ export default function ProductsMenu({
                     className="h-6 w-auto transition-opacity group-hover:opacity-75"
                   />
                 ) : (
-                  <p className="text-sm font-bold text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
+                  <p className="font-display flex h-6 items-center text-[0.95rem] font-extrabold tracking-[-0.02em] text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
                     {line.name}
                   </p>
                 )}
@@ -49,12 +49,18 @@ export default function ProductsMenu({
               <ul className="mt-2">
                 {line.models.map((model) => (
                   <li key={model.slug}>
-                    <Link
+                                        <Link
                       href={`/products/${line.slug}/${model.slug}`}
                       onClick={onNavigate}
-                      className="block rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
+                      className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
                     >
                       {model.name}
+                      {model.comingSoon && (
+                        <span
+                          title="Coming soon"
+                          className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]"
+                        />
+                      )}
                     </Link>
                   </li>
                 ))}

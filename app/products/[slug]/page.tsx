@@ -41,7 +41,21 @@ export default async function ProductLinePage({
           Back to product lines
         </Link>
 
-        {line.logo ? (
+                {line.logo && line.logoStyle === "badge" ? (
+          <>
+            <p className="tech-label mt-8 text-[color:var(--ember)]">
+              {line.category}
+            </p>
+            <Image
+              src={line.logo}
+              alt={line.name}
+              width={700}
+              height={700}
+              priority
+              className="mt-5 h-40 w-auto sm:h-52"
+            />
+          </>
+        ) : line.logo ? (
           <Image
             src={line.logo}
             alt={line.name}
