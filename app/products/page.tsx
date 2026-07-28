@@ -58,7 +58,7 @@ export default function ProductsPage() {
             >
               <span className="line-card-bar" />
 
-              <div className="line-card-plate flex w-full items-center justify-center border-b border-[color:var(--line)] p-8 sm:w-[38%] sm:border-b-0 sm:border-r">
+              <div className="line-card-plate flex w-full items-center justify-center border-b border-[color:var(--line)] px-5 py-8 sm:w-[42%] sm:border-b-0 sm:border-r">
                 <LineName slug={line.slug} name={line.name} height="h-14" />
               </div>
 

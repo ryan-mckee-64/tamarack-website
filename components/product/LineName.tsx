@@ -8,7 +8,9 @@ import { getProductLine } from "@/lib/product-lines";
  *
  * The wrapper is a fixed height so cards and headings line up whether the line
  * resolves to a logo or to text. logoZoom compensates for files that carry
- * more empty margin than the others.
+ * more empty margin than the others, and is applied as height rather than a
+ * transform so the zoomed logo still reserves its own width — a transform
+ * left the wider marks sitting on top of the text beside them.
  */
 export default function LineName({
   slug,
@@ -27,16 +29,14 @@ export default function LineName({
   const zoom = line?.logoZoom ?? 1;
 
   return (
-    <span className={`flex ${height} items-center`}>
+    <span className={`inline-flex ${height} max-w-full items-center`}>
       <Image
         src={logo}
         alt={name}
         width={600}
         height={150}
-        className="h-full w-auto object-contain"
-        style={
-          zoom === 1 ? undefined : { transform: `scale(${zoom})` }
-        }
+        className="w-auto max-w-full object-contain"
+        style={{ height: `${zoom * 100}%` }}
       />
     </span>
   );
