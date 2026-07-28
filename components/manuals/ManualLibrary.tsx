@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import {
   categoryLabels,
@@ -17,6 +18,95 @@ const tabs: { key: TabKey; label: string }[] = [
   { key: "parts", label: "Parts manuals" },
   { key: "component", label: "Engine and generator" },
 ];
+
+// Engines and generators in our units are Multiquip built, so support for
+// them goes to Multiquip directly rather than through us.
+const MULTIQUIP_CONTACTS: { region: string; lines: { label: string; numbers: string[] }[] }[] = [
+  {
+    region: "United States",
+    lines: [
+      { label: "MQ Power technical support", numbers: ["800-835-2551"] },
+      { label: "Parts department", numbers: ["800-427-1244"] },
+      { label: "Sales department", numbers: ["800-426-1244"] },
+      { label: "Corporate main", numbers: ["800-421-1244"] },
+    ],
+  },
+  {
+    region: "Canada",
+    lines: [
+      {
+        label: "MQ Laval head office",
+        numbers: ["877-963-4411", "450-625-2244"],
+      },
+    ],
+  },
+];
+
+function MultiquipContacts() {
+  return (
+    <div className="mt-5 rounded-xl border border-[color:var(--line)] bg-[var(--surface-2)] p-6">
+      <div className="flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-start">
+        <div>
+          <p className="font-semibold text-[color:var(--ink)]">
+            Generator questions go to Multiquip
+          </p>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
+            The engines and generator sets in our units are built by Multiquip.
+            For technical support, parts or warranty on the generator itself,
+            their team can help you faster than we can.
+          </p>
+        </div>
+
+        <div className="shrink-0 rounded-lg border border-[color:var(--line)] bg-white px-4 py-3">
+          <Image
+            src="/images/multiquip-logo.png"
+            alt="Multiquip"
+            width={400}
+            height={400}
+            className="h-16 w-auto"
+          />
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+        {MULTIQUIP_CONTACTS.map((group) => (
+          <div key={group.region}>
+            <p className="font-mono-label text-[0.64rem] uppercase tracking-[0.14em] text-[color:var(--ink-faint)]">
+              {group.region}
+            </p>
+            <dl className="mt-2 space-y-1.5">
+              {group.lines.map((line) => (
+                <div
+                  key={line.label}
+                  className="flex flex-wrap items-baseline gap-x-2 text-sm"
+                >
+                  <dt className="text-[color:var(--ink-dim)]">{line.label}</dt>
+                  <dd className="flex flex-wrap gap-x-2 font-semibold text-[color:var(--ink)]">
+                    {line.numbers.map((n, i) => (
+                      <span key={n}>
+                        {i > 0 && (
+                          <span className="mr-2 font-normal text-[color:var(--ink-faint)]">
+                            or
+                          </span>
+                        )}
+                        <a
+                          href={`tel:+1${n.replace(/-/g, "")}`}
+                          className="transition hover:text-[color:var(--orange)]"
+                        >
+                          {n}
+                        </a>
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
   const [tab, setTab] = useState<TabKey>("all");
@@ -177,8 +267,10 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
                       </span>
                     </a>
                   </li>
-                ))}
+                                ))}
               </ul>
+
+              {group.category === "component" && <MultiquipContacts />}
             </section>
           ))}
         </div>
