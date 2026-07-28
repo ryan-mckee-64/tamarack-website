@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import PortalLoginForm from "@/components/portal/PortalLoginForm";
 
@@ -19,8 +20,16 @@ export default function PortalLoginPage() {
           Order history, documents and account information, in one place.
         </p>
 
+        {/* The form reads ?next= and ?error= from the URL, which needs a
+            Suspense boundary for the rest of the page to stay static. */}
         <div className="mt-10">
-          <PortalLoginForm />
+          <Suspense
+            fallback={
+              <div className="h-[420px] rounded-2xl border border-[color:var(--line)] bg-[var(--surface)]" />
+            }
+          >
+            <PortalLoginForm />
+          </Suspense>
         </div>
       </section>
     </main>

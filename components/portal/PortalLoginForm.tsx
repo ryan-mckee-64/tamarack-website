@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { signIn } from "@/lib/portal/auth";
 
@@ -10,6 +11,14 @@ const inputClass =
 const labelClass = "tech-label block text-[color:var(--ink-dim)]";
 
 export default function PortalLoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Proxy adds ?next= when it turns someone away from a portal page, and the
+  // auth callback adds ?error= when an emailed link has expired.
+  const next = searchParams.get("next");
+  const linkExpired = searchParams.get("error") === "link_expired";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -26,9 +35,15 @@ export default function PortalLoginForm() {
     setBusy(true);
     setError(null);
     const result = await signIn(email.trim(), password);
-    setBusy(false);
 
-    if (!result.ok) setError(result.error);
+    if (result.ok) {
+      router.push(next && next.startsWith("/") ? next : "/portal/dashboard");
+      router.refresh();
+      return;
+    }
+
+    setBusy(false);
+    setError(result.error);
   }
 
   return (
@@ -95,6 +110,16 @@ export default function PortalLoginForm() {
           Forgot password?
         </Link>
       </div>
+
+      {linkExpired && !error && (
+        <p
+          role="alert"
+          className="mt-5 rounded-lg border border-[color:var(--line-strong)] bg-white px-4 py-3 text-sm leading-relaxed text-[color:var(--ink-dim)]"
+        >
+          That link has expired or has already been used. Request a new one
+          below.
+        </p>
+      )}
 
       {error && (
         <p
