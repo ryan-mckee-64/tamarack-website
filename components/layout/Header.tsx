@@ -118,7 +118,7 @@ export default function Header() {
             onMouseEnter={() => setMenu(null)}
             className="nav-link"
           >
-            Company
+            About Us
           </Link>
 
           <div
@@ -330,7 +330,7 @@ export default function Header() {
             onClick={() => setOpen(false)}
             className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
           >
-            Company
+            About Us
           </Link>
 
           <div className="mt-5 space-y-3">

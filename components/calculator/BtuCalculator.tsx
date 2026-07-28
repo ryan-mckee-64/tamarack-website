@@ -11,6 +11,17 @@ const INSULATION = [
   { id: "open", label: "Open frame hoarding", u: 0.6, ach: 6 },
 ];
 
+// Flameless units we can size against, smallest first. XHR 200 is left out
+// until it ships. Ratings follow the model numbering, confirm before launch.
+const UNITS = [
+  { name: "Thawzall E-XHR 100", output: 100000 },
+  { name: "Thawzall TCH 250", output: 250000 },
+  { name: "Thawzall XHR 475", output: 475000 },
+  { name: "Thawzall XHR 700", output: 700000 },
+];
+
+const LARGEST = UNITS[UNITS.length - 1];
+
 function num(v: string, fallback = 0) {
   const n = parseFloat(v);
   return Number.isFinite(n) ? n : fallback;
@@ -92,106 +103,126 @@ export default function BtuCalculator() {
 
   const rounded = Math.round(result.total / 1000) * 1000;
 
-  const recommendation = useMemo(() => {
-    const t = result.total;
-    if (t <= 0) return "Enter a temperature rise to size a unit.";
-    if (t <= 250000)
-      return "Thawzall TCH 250 (250,000 BTU/hr) or a Heat King glycol system.";
-    if (t <= 700000)
-      return "Thawzall XHR 700 flameless heater (700,000 BTU/hr).";
-    const units = Math.ceil(t / 700000);
-    return `${units} × Thawzall XHR 700, or a Heat King HK1500 package. Contact us to confirm.`;
-  }, [result.total]);
-
   const fmt = (n: number) => Math.round(n).toLocaleString("en-US");
 
+  const recommendation = useMemo(() => {
+    const t = result.total;
+    if (t <= 0) {
+      return "Enter your dimensions and temperatures to size a unit.";
+    }
+
+    const fit = UNITS.find((u) => u.output >= t);
+    if (fit) {
+      return `${fit.name}, rated ${fmt(fit.output)} BTU/hr.`;
+    }
+
+    const count = Math.ceil(t / LARGEST.output);
+    return `${count} × ${LARGEST.name}, giving ${fmt(
+      count * LARGEST.output
+    )} BTU/hr combined.`;
+  }, [result.total]);
+
   return (
-    <div className="grid items-start gap-6 lg:grid-cols-[1.5fr_1fr]">
-      {/* Inputs */}
-      <div className="border border-[color:var(--line)] bg-[var(--surface)] p-8 md:p-10">
-        <p className="tech-label text-[color:var(--ember)]">Space dimensions</p>
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <NumberField id="length" label="Length" value={length} onChange={setLength} suffix="ft" min={0} />
-          <NumberField id="width" label="Width" value={width} onChange={setWidth} suffix="ft" min={0} />
-          <NumberField id="height" label="Ceiling height" value={height} onChange={setHeight} suffix="ft" min={0} />
-        </div>
-
-        <p className="tech-label mt-10 text-[color:var(--ember)]">Temperature</p>
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <NumberField id="outdoor" label="Outdoor temperature" value={outdoor} onChange={setOutdoor} suffix="°F" />
-          <NumberField id="indoor" label="Desired indoor temperature" value={indoor} onChange={setIndoor} suffix="°F" />
-        </div>
-
-        <p className="tech-label mt-10 text-[color:var(--ember)]">Enclosure type</p>
-        <div className="mt-5">
-          <label htmlFor="insulation" className="sr-only">Enclosure type</label>
-          <select
-            id="insulation"
-            value={insulationId}
-            onChange={(e) => setInsulationId(e.target.value)}
-            className="w-full appearance-none border border-[color:var(--line-strong)] bg-[var(--surface)] px-4 py-3 font-body text-[color:var(--ink)] outline-none transition-colors focus:border-[color:var(--orange)]"
-          >
-            {INSULATION.map((i) => (
-              <option key={i.id} value={i.id}>
-                {i.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Results */}
-      <div className="border-2 border-[color:var(--orange)] bg-[var(--surface)] p-8 md:p-10 lg:sticky lg:top-24">
-        <p className="tech-label text-[color:var(--orange)]">Estimated requirement</p>
-        <p className="font-display mt-4 text-5xl font-extrabold leading-none tracking-[-0.02em] text-[color:var(--ink)]">
-          {fmt(rounded)}
-        </p>
-        <p className="font-mono-label mt-3 text-sm text-[color:var(--ink-dim)]">
-          BTU/hr · {result.kw.toFixed(1)} kW · ΔT {fmt(result.dT)} °F
-        </p>
-
-        <dl className="mt-8 space-y-3 border-t border-[color:var(--line)] pt-6">
-          <div className="flex items-baseline justify-between gap-4">
-            <dt className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">Envelope loss</dt>
-            <dd className="font-mono-label text-sm text-[color:var(--ink)]">{fmt(result.conduction)}</dd>
+    <div>
+      <div className="grid items-start gap-6 lg:grid-cols-[1.5fr_1fr]">
+        {/* Inputs */}
+        <div className="border border-[color:var(--line)] bg-[var(--surface)] p-8 md:p-10">
+          <p className="tech-label text-[color:var(--ember)]">Space dimensions</p>
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <NumberField id="length" label="Length" value={length} onChange={setLength} suffix="ft" min={0} />
+            <NumberField id="width" label="Width" value={width} onChange={setWidth} suffix="ft" min={0} />
+            <NumberField id="height" label="Ceiling height" value={height} onChange={setHeight} suffix="ft" min={0} />
           </div>
-          <div className="flex items-baseline justify-between gap-4">
-            <dt className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">Air infiltration</dt>
-            <dd className="font-mono-label text-sm text-[color:var(--ink)]">{fmt(result.infiltration)}</dd>
-          </div>
-          <div className="flex items-baseline justify-between gap-4">
-            <dt className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">Safety margin 20%</dt>
-            <dd className="font-mono-label text-sm text-[color:var(--ink)]">{fmt(result.margin)}</dd>
-          </div>
-        </dl>
 
-        <div className="mt-8 bg-[var(--orange-tint)] p-5">
-          <p className="font-mono-label text-[0.64rem] uppercase tracking-[0.14em] text-[color:var(--ember)]">Suggested unit</p>
-          <p className="font-body mt-2 text-sm leading-relaxed text-[color:var(--ink)]">{recommendation}</p>
+          <p className="tech-label mt-10 text-[color:var(--ember)]">Temperature</p>
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <NumberField id="outdoor" label="Outdoor temperature" value={outdoor} onChange={setOutdoor} suffix="°F" />
+            <NumberField id="indoor" label="Desired indoor temperature" value={indoor} onChange={setIndoor} suffix="°F" />
+          </div>
+
+          <p className="tech-label mt-10 text-[color:var(--ember)]">Enclosure type</p>
+          <div className="mt-5">
+            <label htmlFor="insulation" className="sr-only">Enclosure type</label>
+            <select
+              id="insulation"
+              value={insulationId}
+              onChange={(e) => setInsulationId(e.target.value)}
+              className="w-full appearance-none border border-[color:var(--line-strong)] bg-[var(--surface)] px-4 py-3 font-body text-[color:var(--ink)] outline-none transition-colors focus:border-[color:var(--orange)]"
+            >
+              {INSULATION.map((i) => (
+                <option key={i.id} value={i.id}>
+                  {i.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <p className="font-body mt-6 text-xs leading-relaxed text-[color:var(--ink-faint)]">
-          Estimate only. Actual sizing depends on wind, run time, ventilation, and ground thaw loads.{" "}
-          <a href="/contact" className="text-[color:var(--orange)] underline underline-offset-2">Contact us</a> to confirm.
-        </p>
+        {/* Results */}
+        <div className="border-2 border-[color:var(--orange)] bg-[var(--surface)] p-8 md:p-10 lg:sticky lg:top-24">
+          <p className="tech-label text-[color:var(--orange)]">Estimated requirement</p>
+          <p className="font-display mt-4 text-5xl font-extrabold leading-none tracking-[-0.02em] text-[color:var(--ink)]">
+            {fmt(rounded)}
+          </p>
+          <p className="font-mono-label mt-3 text-sm text-[color:var(--ink-dim)]">
+            BTU/hr · {result.kw.toFixed(1)} kW · ΔT {fmt(result.dT)} °F
+          </p>
+
+          <dl className="mt-8 space-y-3 border-t border-[color:var(--line)] pt-6">
+            <div className="flex items-baseline justify-between gap-4">
+              <dt className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">Envelope loss</dt>
+              <dd className="font-mono-label text-sm text-[color:var(--ink)]">{fmt(result.conduction)}</dd>
+            </div>
+            <div className="flex items-baseline justify-between gap-4">
+              <dt className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">Air infiltration</dt>
+              <dd className="font-mono-label text-sm text-[color:var(--ink)]">{fmt(result.infiltration)}</dd>
+            </div>
+            <div className="flex items-baseline justify-between gap-4">
+              <dt className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">Safety margin 20%</dt>
+              <dd className="font-mono-label text-sm text-[color:var(--ink)]">{fmt(result.margin)}</dd>
+            </div>
+          </dl>
+
+          <div className="mt-8 bg-[var(--orange-tint)] p-5">
+            <p className="font-mono-label text-[0.64rem] uppercase tracking-[0.14em] text-[color:var(--ember)]">Suggested unit</p>
+            <p className="font-body mt-2 text-sm leading-relaxed text-[color:var(--ink)]">{recommendation}</p>
+            <p className="font-body mt-3 text-xs leading-relaxed text-[color:var(--ink-dim)]">
+              For ground thaw and concrete cure, a Heat King glycol system covers
+              the same work hydronically.
+            </p>
+          </div>
+
+          <p className="font-body mt-6 text-xs leading-relaxed text-[color:var(--ink-faint)]">
+            This is a planning estimate, not a specification. Wind exposure, run
+            time, ventilation and ground thaw loads all change what a job actually
+            needs.{" "}
+            <a href="/contact" className="text-[color:var(--orange)] underline underline-offset-2">Talk to our team</a>{" "}
+            before you order.
+          </p>
+        </div>
       </div>
 
       {/* Methodology */}
-      <details className="border border-[color:var(--line)] bg-[var(--surface-2)] p-6 lg:col-span-2">
+      <details className="mt-6 border border-[color:var(--line)] bg-[var(--surface-2)] p-6">
         <summary className="font-mono-label cursor-pointer text-xs uppercase tracking-[0.14em] text-[color:var(--ink-dim)]">
           How this is calculated
         </summary>
         <div className="font-body mt-4 space-y-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
           <p>
-            The estimate adds two heat loads plus a margin. Envelope loss is total surface
-            area times a heat transfer factor times the temperature rise. Air infiltration is
-            volume times air changes per hour times 0.018 times the temperature rise. A 20%
-            margin covers recovery and cold starts.
+            The estimate combines two heat loads and adds a margin.{" "}
+            <strong className="font-semibold text-[color:var(--ink)]">Envelope loss</strong> is
+            the heat escaping through walls, roof and floor: total surface area × a heat
+            transfer factor × the temperature rise.{" "}
+            <strong className="font-semibold text-[color:var(--ink)]">Air infiltration</strong> is
+            the heat lost replacing cold air that leaks in: volume × air changes per hour ×
+            0.018 × the temperature rise. A 20% margin is added on top to cover cold starts
+            and recovery after doors have been open.
           </p>
           <p>
-            The enclosure type sets typical values for the heat transfer factor and air
-            changes. These are planning figures for temporary and construction heating, not a
-            replacement for a full engineered heat loss calculation.
+            Your choice of enclosure type sets the heat transfer factor and the air change
+            rate, since a tarped hoarding leaks far more than an insulated building. These
+            are planning figures for temporary and construction heating. They are not a
+            substitute for an engineered heat loss calculation on a permanent structure.
           </p>
         </div>
       </details>
