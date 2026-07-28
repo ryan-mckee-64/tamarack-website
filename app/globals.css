@@ -196,6 +196,35 @@ body {
     font-size: 0.875rem;
   }
 }
+
+/* Sits beside the Service & Support pill, outlined so the gradient
+   pill stays the single primary action in the header. */
+.portal-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 9999px;
+  border: 1px solid var(--line-strong);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink);
+  transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portal-pill:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  box-shadow: 0 0 20px rgba(242, 98, 44, 0.25);
+}
+
+@media (min-width: 1360px) {
+  .portal-pill {
+    padding: 0.575rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
 /* ============================================================
    HERO — cinematic video treatment
    ============================================================ */

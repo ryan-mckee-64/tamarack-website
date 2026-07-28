@@ -6,7 +6,6 @@ const OPTIONS: {
   href: string;
   label: string;
   blurb: string;
-  comingSoon?: boolean;
 }[] = [
   {
     href: "/contact/sales",
@@ -22,12 +21,6 @@ const OPTIONS: {
     href: "/contact/quote",
     label: "Get a quote",
     blurb: "Request pricing for a specific machine or job.",
-  },
-  {
-    href: "/portal",
-    label: "Customer Portal",
-    blurb: "Order history, documents and account information.",
-    comingSoon: true,
   },
 ];
 
@@ -56,11 +49,6 @@ export default function ContactMenu({
           >
             <p className="flex items-center gap-2 text-sm font-bold text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
               {opt.label}
-              {opt.comingSoon && (
-                <span className="rounded-full bg-[var(--surface-2)] px-2 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
-                  Coming soon
-                </span>
-              )}
             </p>
             <p className="mt-1 text-[0.78rem] leading-snug text-[color:var(--ink-dim)]">
               {opt.blurb}

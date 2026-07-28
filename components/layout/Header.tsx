@@ -142,9 +142,17 @@ export default function Header() {
           >
             About Us
           </Link>
-
+          <div className="flex items-center pl-3 xl:pl-4">
+            <Link
+              href="/portal/login"
+              onMouseEnter={() => setMenu(null)}
+              className="portal-pill"
+            >
+              Customer Portal
+            </Link>
+          </div>
           <div
-            className="relative flex items-center pl-3 xl:pl-6"
+                        className="relative flex items-center pl-2 xl:pl-3"
             onMouseEnter={() => setMenu("contact")}
           >
             <button
@@ -340,6 +348,14 @@ export default function Header() {
             className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
           >
             About Us
+          </Link>
+
+          <Link
+            href="/portal/login"
+            onClick={() => setOpen(false)}
+            className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
+          >
+            Customer Portal
           </Link>
 
           <div className="mt-5 space-y-3">
