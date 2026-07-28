@@ -29,16 +29,8 @@ export default function ProductsPage() {
   return (
     <main className="bg-[var(--surface-2)]">
       {/* Header */}
-      <section className="relative overflow-hidden border-b border-[color:var(--line)] bg-[var(--surface)]">
-        <div className="blueprint-grid pointer-events-none absolute inset-0 opacity-60" />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at 12% 0%, var(--orange-tint) 0%, transparent 55%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-[1280px] px-6 py-20 md:px-10 md:py-24">
+      <section className="page-hero border-b border-[color:var(--line)]">
+        <div className="relative z-10 mx-auto max-w-[1280px] px-6 py-20 md:px-10 md:py-24">
           <p className="tech-label text-[color:var(--ember)]">Equipment</p>
           <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
             Product Lines
