@@ -23,6 +23,7 @@ export default function LineName({
 
   if (!logo) return <>{name}</>;
 
+
   return (
     <span className={`flex ${height} items-center`}>
       <Image
@@ -30,7 +31,8 @@ export default function LineName({
         alt={name}
         width={600}
         height={150}
-        className="h-full w-auto object-contain object-left"
+          className="h-full w-auto object-contain object-left"
+
       />
     </span>
   );

@@ -19,7 +19,7 @@ export type ProductLine = {
   logo?: string;
   // Wide wordmarks sit well in the nav dropdown. Square badge logos go
   // illegible at that size, so the menu falls back to the name instead.
-  logoStyle?: "wordmark" | "badge";
+    logoStyle?: "wordmark" | "badge";
   category: string;
   summary: string;
   models: ProductModel[];
@@ -122,8 +122,7 @@ export const productLines: ProductLine[] = [
     {
     slug: "mud-dog",
     name: "Mud Dog",
-        logo: "/images/muddog-logo.png",
-    logoStyle: "badge",
+                        logo: "/images/muddog-logo-2.png",
     category: "Concrete power buggy",
     summary:
       "Concrete power buggies for moving material across rough and confined job sites.",
@@ -133,6 +132,7 @@ export const productLines: ProductLine[] = [
   {
     slug: "yard-dog",
     name: "Yard Dog",
+    logo: "/images/yarddog-logo.png",
     category: "Trailer mover",
     summary:
       "Trailer movers for repositioning loaded trailers in yards and staging areas.",

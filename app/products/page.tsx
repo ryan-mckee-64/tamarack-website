@@ -29,9 +29,8 @@ export default function ProductsPage() {
               href={`/products/${line.slug}`}
               className="group flex flex-col rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-7 transition hover:border-[color:var(--orange)] hover:shadow-md"
             >
-              <p className="tech-label text-[color:var(--ember)]">{line.category}</p>
-              <h2 className="font-display mt-2 text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
-                                <LineName slug={line.slug} name={line.name} />
+                            <h2 className="flex h-14 items-center font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
+                <LineName slug={line.slug} name={line.name} height="h-14" />
               </h2>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--ink-dim)]">
                 {line.summary}
