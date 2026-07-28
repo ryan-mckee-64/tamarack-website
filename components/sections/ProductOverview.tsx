@@ -1,13 +1,17 @@
 // components/sections/ProductOverview.tsx
+// components/sections/ProductOverview.tsx
+import LineName from "@/components/product/LineName";
+
 const PRODUCTS = [
   {
     category: "Glycol heating",
     name: "Heat King",
+    slug: "heat-king",
     href: "https://www.heat-king.ca/",
     isNew: false,
     body: "Mobile glycol heating systems for concrete curing, ground thawing, and space heating in cold weather.",
     specs: [
-      ["Models", "HK150 / HK300 / HK600 / HK1500"],
+      ["Models", "HK150 / HK300 / HK600"],
       ["Coverage", "Up to 11,000 sq ft"],
       ["Fuel", "Diesel, LP/NG option"],
     ],
@@ -15,6 +19,7 @@ const PRODUCTS = [
   {
     category: "Flameless & glycol heat",
     name: "Thawzall / XHR",
+    slug: "thawzall-xhr",
     href: "http://www.thawzall.com/",
     isNew: false,
     body: "Flameless and glycol heaters, led by the XHR 700 flameless unit, for thawing, curing, and indirect space heat.",
@@ -27,6 +32,7 @@ const PRODUCTS = [
   {
     category: "Tractor loader backhoe",
     name: "Renegade",
+    slug: "renegade",
     href: "https://www.tamarack-industries.com/renegade",
     isNew: true,
     body: "A 25 HP subcompact tractor loader backhoe, purpose built for rental and towable by a half ton truck.",
@@ -39,6 +45,7 @@ const PRODUCTS = [
   {
     category: "Concrete power buggy",
     name: "Mud Dog",
+    slug: "mud-dog",
     href: "https://www.tamarack-industries.com/mud-dog",
     isNew: false,
     body: "Gas and electric concrete power buggies built for high utilization and tough job site wear.",
@@ -51,6 +58,7 @@ const PRODUCTS = [
   {
     category: "Trailer mover",
     name: "Yard Dog",
+    slug: "yard-dog",
     href: "https://www.tamarack-industries.com/yard-dog",
     isNew: false,
     body: "A walk behind trailer mover for effortless trailer management in yards, warehouses, and job sites.",
@@ -63,6 +71,7 @@ const PRODUCTS = [
   {
     category: "Site sweeper",
     name: "Maverick",
+    slug: "maverick",
     href: "https://www.tamarack-industries.com/maverick",
     isNew: true,
     body: "Site sweepers built for the rental industry, keeping lots and job sites clear of debris.",
@@ -113,7 +122,7 @@ export default function ProductOverview() {
               </div>
 
               <h3 className="font-display mt-3 text-2xl font-bold tracking-[-0.01em] text-[color:var(--ink)]">
-                {p.name}
+                                <LineName slug={p.slug} name={p.name} />
               </h3>
               <p className="font-body mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
                 {p.body}

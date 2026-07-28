@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { productLines } from "@/lib/product-lines";
+import LineName from "@/components/product/LineName";
 
 export const metadata: Metadata = {
   title: "Product Lines | Tamarack Industries",
@@ -30,7 +31,7 @@ export default function ProductsPage() {
             >
               <p className="tech-label text-[color:var(--ember)]">{line.category}</p>
               <h2 className="font-display mt-2 text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
-                {line.name}
+                                <LineName slug={line.slug} name={line.name} />
               </h2>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--ink-dim)]">
                 {line.summary}

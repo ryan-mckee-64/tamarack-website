@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import ModelViewer from "@/components/models/ModelViewer";
 import { products } from "@/lib/manuals";
 import { getProduct, modelsForProduct } from "@/lib/models";
+import LineName from "@/components/product/LineName";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -48,8 +49,9 @@ export default async function ProductModelPage({
         <p className="tech-label mt-8 text-[color:var(--ember)]">
           {product.family}
         </p>
-        <h1 className="font-display mt-3 text-4xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-5xl">
-          {product.name} in 3D
+        <h1 className="font-display mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-4xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-5xl">
+          <LineName slug={product.slug} name={product.name} height="h-10 sm:h-14" />
+          in 3D
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
           {product.summary}

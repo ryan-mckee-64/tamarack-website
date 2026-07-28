@@ -8,6 +8,7 @@ import ResourcesMenu from "./ResourcesMenu";
 import ProductsMenu from "./ProductsMenu";
 import SolutionsMenu from "./SolutionsMenu";
 import ContactMenu from "./ContactMenu";
+import LineName from "@/components/product/LineName";
 import { resourceGroups } from "@/lib/resources";
 import { productLines } from "@/lib/product-lines";
 import { solutions } from "@/lib/solutions";
@@ -206,7 +207,7 @@ export default function Header() {
                   }
                   className="flex w-full items-center justify-between py-3 text-left text-sm font-semibold text-[color:var(--ink)]"
                 >
-                  {line.name}
+                                    <LineName slug={line.slug} name={line.name} height="h-5" />
                   <span
                     className={`text-[0.6rem] transition-transform ${
                       expanded ? "rotate-180" : ""

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductLine, getModel, allModelParams } from "@/lib/product-lines";
+import LineName from "@/components/product/LineName";
 
 export function generateStaticParams() {
   return allModelParams();
@@ -66,7 +67,9 @@ export default async function ModelPage({
 
           {/* Detail */}
           <div>
-            <p className="tech-label text-[color:var(--ember)]">{line.name}</p>
+            <div className="tech-label text-[color:var(--ember)]">
+              <LineName slug={line.slug} name={line.name} height="h-6" />
+            </div>
             <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
               {m.name}
             </h1>
