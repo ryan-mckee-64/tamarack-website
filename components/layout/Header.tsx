@@ -56,55 +56,76 @@ export default function Header() {
           className="relative hidden h-full items-stretch lg:flex"
           onMouseLeave={() => setMenu(null)}
         >
-          <button
-            onMouseEnter={() => setMenu("products")}
-            onClick={() => setMenu(menu === "products" ? null : "products")}
-            aria-expanded={menu === "products"}
-            className={`nav-link ${menu === "products" ? "nav-link-open" : ""}`}
-          >
-            Product Lines
-            <span
-              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
-                menu === "products" ? "rotate-180" : ""
-              }`}
+               <div className="relative flex items-stretch">
+            <button
+              onMouseEnter={() => setMenu("products")}
+              onClick={() => setMenu(menu === "products" ? null : "products")}
+              aria-expanded={menu === "products"}
+              className={`nav-link ${menu === "products" ? "nav-link-open" : ""}`}
             >
-              &#9660;
-            </span>
-          </button>
+              Product Lines
+              <span
+                className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
+                  menu === "products" ? "rotate-180" : ""
+                }`}
+              >
+                &#9660;
+              </span>
+            </button>
 
-          <button
-            onMouseEnter={() => setMenu("solutions")}
-            onClick={() => setMenu(menu === "solutions" ? null : "solutions")}
-            aria-expanded={menu === "solutions"}
-            className={`nav-link ${menu === "solutions" ? "nav-link-open" : ""}`}
-          >
-            <span className="whitespace-nowrap">
-              Industry, Application, and Solutions
-            </span>
-            <span
-              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
-                menu === "solutions" ? "rotate-180" : ""
-              }`}
-            >
-              &#9660;
-            </span>
-          </button>
+            <ProductsMenu
+              open={menu === "products"}
+              onNavigate={() => setMenu(null)}
+            />
+          </div>
 
-          <button
-            onMouseEnter={() => setMenu("resources")}
-            onClick={() => setMenu(menu === "resources" ? null : "resources")}
-            aria-expanded={menu === "resources"}
-            className={`nav-link ${menu === "resources" ? "nav-link-open" : ""}`}
-          >
-            Resources
-            <span
-              className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
-                menu === "resources" ? "rotate-180" : ""
-              }`}
+          <div className="relative flex items-stretch">
+            <button
+              onMouseEnter={() => setMenu("solutions")}
+              onClick={() => setMenu(menu === "solutions" ? null : "solutions")}
+              aria-expanded={menu === "solutions"}
+              className={`nav-link ${menu === "solutions" ? "nav-link-open" : ""}`}
             >
-              &#9660;
-            </span>
-          </button>
+              <span className="whitespace-nowrap">
+                Industry, Application, and Solutions
+              </span>
+              <span
+                className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
+                  menu === "solutions" ? "rotate-180" : ""
+                }`}
+              >
+                &#9660;
+              </span>
+            </button>
+
+            <SolutionsMenu
+              open={menu === "solutions"}
+              onNavigate={() => setMenu(null)}
+            />
+          </div>
+
+          <div className="relative flex items-stretch">
+            <button
+              onMouseEnter={() => setMenu("resources")}
+              onClick={() => setMenu(menu === "resources" ? null : "resources")}
+              aria-expanded={menu === "resources"}
+              className={`nav-link ${menu === "resources" ? "nav-link-open" : ""}`}
+            >
+              Resources
+              <span
+                className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
+                  menu === "resources" ? "rotate-180" : ""
+                }`}
+              >
+                &#9660;
+              </span>
+            </button>
+
+            <ResourcesMenu
+              open={menu === "resources"}
+              onNavigate={() => setMenu(null)}
+            />
+          </div>
 
           <Link
             href="/calculator"
@@ -123,7 +144,7 @@ export default function Header() {
           </Link>
 
           <div
-                        className="relative flex items-center pl-3 xl:pl-6"
+            className="relative flex items-center pl-3 xl:pl-6"
             onMouseEnter={() => setMenu("contact")}
           >
             <button
@@ -133,7 +154,7 @@ export default function Header() {
                 menu === "contact" ? "contact-pill-open" : ""
               }`}
             >
-                            Service &amp; Support
+              Service &amp; Support
               <span
                 className={`text-[0.6rem] transition-transform duration-200 ${
                   menu === "contact" ? "rotate-180" : ""
@@ -148,19 +169,6 @@ export default function Header() {
               onNavigate={() => setMenu(null)}
             />
           </div>
-
-          <ProductsMenu
-            open={menu === "products"}
-            onNavigate={() => setMenu(null)}
-          />
-          <SolutionsMenu
-            open={menu === "solutions"}
-            onNavigate={() => setMenu(null)}
-          />
-          <ResourcesMenu
-            open={menu === "resources"}
-            onNavigate={() => setMenu(null)}
-          />
         </nav>
 
         {/* Mobile toggle */}

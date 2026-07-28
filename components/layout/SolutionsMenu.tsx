@@ -12,7 +12,7 @@ export default function SolutionsMenu({
 }) {
   return (
     <div
-      className={`absolute left-0 top-full z-50 w-[340px] transition-all duration-200 ease-out ${
+            className={`absolute left-1/2 top-full z-50 w-[340px] -translate-x-1/2 transition-all duration-200 ease-out ${
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0"

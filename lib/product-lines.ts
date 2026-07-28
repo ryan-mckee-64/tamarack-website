@@ -20,6 +20,8 @@ export type ProductLine = {
   // Wide wordmarks sit well in the nav dropdown. Square badge logos go
   // illegible at that size, so the menu falls back to the name instead.
     logoStyle?: "wordmark" | "badge";
+  accent?: string;
+  logoZoom?: number;
   category: string;
   summary: string;
   models: ProductModel[];
@@ -28,8 +30,10 @@ export type ProductLine = {
 
 export const productLines: ProductLine[] = [
   {
-    slug: "heat-king",
-    name: "Heat King",
+        slug: "heat-king",
+       name: "Heat King",
+    accent: "#e02a26",
+    logoZoom: 1.3,
     logo: "/images/heat-king-logo.png",
     category: "Glycol heaters",
     summary:
@@ -63,8 +67,10 @@ export const productLines: ProductLine[] = [
     ],
   },
   {
-    slug: "thawzall-xhr",
-    name: "Thawzall",
+        slug: "thawzall-xhr",
+       name: "Thawzall",
+    accent: "#b01f2e",
+    logoZoom: 1.3,
     logo: "/images/thawzall-logo.png",
     category: "Flameless and hydronic heat",
     summary:
@@ -100,8 +106,9 @@ export const productLines: ProductLine[] = [
     ],
   },
     {
-    slug: "renegade",
+        slug: "renegade",
     name: "Renegade",
+    accent: "#f5b301",
     logo: "/images/renegade-logo.png",
     category: "Tractor loader backhoe",
     summary:
@@ -110,8 +117,9 @@ export const productLines: ProductLine[] = [
     models: [],
   },
     {
-    slug: "maverick",
+       slug: "maverick",
     name: "Maverick",
+    accent: "#ffc400",
     logo: "/images/maverick-logo.png",
     category: "Site sweeper",
     summary:
@@ -120,8 +128,10 @@ export const productLines: ProductLine[] = [
     models: [],
   },
     {
-    slug: "mud-dog",
-    name: "Mud Dog",
+        slug: "mud-dog",
+        name: "Mud Dog",
+    accent: "#e2711d",
+    logoZoom: 1.25,
                         logo: "/images/muddog-logo-2.png",
     category: "Concrete power buggy",
     summary:
@@ -130,8 +140,10 @@ export const productLines: ProductLine[] = [
     models: [],
   },
   {
-    slug: "yard-dog",
-    name: "Yard Dog",
+        slug: "yard-dog",
+        name: "Yard Dog",
+    accent: "#b08d2e",
+    logoZoom: 1.3,
     logo: "/images/yarddog-logo.png",
     category: "Trailer mover",
     summary:

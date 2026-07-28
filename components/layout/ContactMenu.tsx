@@ -40,7 +40,7 @@ export default function ContactMenu({
 }) {
   return (
     <div
-      className={`absolute right-0 top-full z-50 w-[320px] transition-all duration-200 ease-out ${
+            className={`absolute right-0 top-full z-50 w-[320px] transition-all duration-200 ease-out xl:left-1/2 xl:right-auto xl:-translate-x-1/2 ${
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0"
