@@ -37,7 +37,8 @@ export async function GET(request: NextRequest) {
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) return NextResponse.redirect(`${origin}${destination}`);
+    console.error("[auth/callback] code exchange failed:", error.message);
   }
-
+  
   return NextResponse.redirect(`${origin}/portal/login?error=link_expired`);
 }

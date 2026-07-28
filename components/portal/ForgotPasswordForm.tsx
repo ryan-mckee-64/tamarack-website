@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { requestPasswordReset } from "@/lib/portal/auth";
+import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
   "w-full mt-1.5 rounded-lg border border-[color:var(--line-strong)] bg-white px-3 py-2.5 text-sm text-[color:var(--ink)] outline-none transition focus:border-[color:var(--orange)]";
@@ -23,11 +23,28 @@ export default function ForgotPasswordForm() {
 
     setBusy(true);
     setError(null);
-    const result = await requestPasswordReset(email.trim());
+
+    // Request from the browser, not a server action. The PKCE code verifier
+    // this generates has to be readable by /auth/callback later, and letting
+    // the browser client write that cookie is what makes the redemption work.
+    const supabase = createClient();
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      email.trim(),
+      {
+        redirectTo: `${window.location.origin}/auth/callback?next=/portal/reset-password`,
+      },
+    );
+
     setBusy(false);
 
-    if (result.ok) setSent(true);
-    else setError(result.error);
+    if (resetError?.message.toLowerCase().includes("rate limit")) {
+      setError("Too many requests. Wait a minute and try again.");
+      return;
+    }
+
+    // Report success either way. Telling a stranger which addresses have
+    // accounts is a free customer list for them.
+    setSent(true);
   }
 
   if (sent) {
