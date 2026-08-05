@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { productLines } from "@/lib/product-lines";
 
-const SALES_EMAIL = "sales@tamarackindustries.com";
-const SUPPORT_EMAIL = "service@tamarackindustries.com";
+const SALES_EMAIL = "Sales@tamarack-ind.com";
+const SUPPORT_EMAIL = "Support@tamarack-ind.com";
 
 type Dept = "sales" | "support";
 

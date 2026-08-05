@@ -51,7 +51,7 @@ function MultiquipContacts() {
             Generator questions go to Multiquip
           </p>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
-            The engines and generator sets in our units are built by Multiquip.
+            The generator sets in our units are built by Multiquip.
             For technical support, parts or warranty on the generator itself,
             their team can help you faster than we can.
           </p>
