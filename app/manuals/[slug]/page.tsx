@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ManualLibrary from "@/components/manuals/ManualLibrary";
 import { products, getProduct, documentsForProduct } from "@/lib/manuals";
+import { getProductLine } from "@/lib/product-lines";
 import LineName from "@/components/product/LineName";
 
 export function generateStaticParams() {
@@ -35,8 +36,12 @@ export default async function ProductManualsPage({
 
   const docs = documentsForProduct(slug);
 
+  // Each line carries its own colour on the Product Lines page; the manual
+  // pages borrow the same one rather than defining a second palette.
+  const accent = getProductLine(slug)?.accent ?? "var(--orange)";
+
   return (
-    <main>
+    <main style={{ "--accent": accent } as React.CSSProperties}>
       {/* Same warm bloom and hatching as the Product Lines header, with the
           machine ghosted in behind it. mix-blend-multiply is what lets a
           white-background product shot sit on a tinted hero: white multiplies
@@ -45,7 +50,8 @@ export default async function ProductManualsPage({
         {product.heroImage && (
           <div
             aria-hidden
-            className="pointer-events-none absolute right-0 top-16 z-0 hidden w-[46%] select-none opacity-[0.30] mix-blend-multiply lg:block"
+            style={{ top: product.heroTop ?? 64 }}
+            className="pointer-events-none absolute right-0 z-0 hidden w-[46%] select-none opacity-[0.30] mix-blend-multiply lg:block"
           >
             <Image
               src={product.heroImage}
@@ -70,14 +76,24 @@ export default async function ProductManualsPage({
             Back to manuals and parts
           </Link>
 
-          <p className="tech-label mt-8 text-[color:var(--ember)]">
+          {/* Mixed well toward black so the lighter accents stay readable as
+              small text. The cards' 78% leaves Maverick's yellow at 2.6:1;
+              55% clears 4.5:1 for all six lines. The rule below carries the
+              accent at full strength, where contrast does not apply. */}
+          <p
+            className="tech-label mt-8"
+            style={{ color: "color-mix(in srgb, var(--accent) 55%, #000000)" }}
+          >
             {product.family}
           </p>
           <h1 className="font-display mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-4xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-5xl">
             <LineName slug={product.slug} name={product.name} height="h-10 sm:h-14" />
             documents
           </h1>
-          <hr className="brand-rule mt-6 w-24" />
+          <hr
+            className="mt-6 h-[3px] w-24 rounded-full border-0"
+            style={{ backgroundColor: "var(--accent)" }}
+          />
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
             {product.summary}
           </p>

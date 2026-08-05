@@ -23,6 +23,12 @@ export type Product = {
    * without one simply gets the plain white header.
    */
   heroImage?: string;
+  /**
+   * Vertical offset of that shot within the header, in pixels. Studio
+   * cutouts sit fine at the default; jobsite photos where the machine is
+   * low in frame need a negative value to pull it up into view.
+   */
+  heroTop?: number;
 };
 
 export const categoryLabels: Record<DocumentCategory, string> = {
@@ -87,7 +93,8 @@ export const products: Product[] = [
     family: "Subcompact tractor loader backhoe",
     summary:
       "Subcompact tractor loader backhoe sized for tight access work and utility trenching.",
-          heroImage: "/images/renegade.png",
+         heroImage: "/images/renegade.png",
+    heroTop: -56,
   },
   {
     slug: "mud-dog",
@@ -112,6 +119,7 @@ export const products: Product[] = [
     summary:
       "Site sweepers for dust control and surface cleanup on active job sites.",
           heroImage: "/images/maverick.png",
+    heroTop: -56,
   },
 ];
 
