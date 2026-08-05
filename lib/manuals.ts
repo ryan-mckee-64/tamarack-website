@@ -78,7 +78,7 @@ export const products: Product[] = [
     summary:
       "Glycol ground thaw and heating units for concrete curing, ground thaw and temporary heat.",
           heroImage: "/images/heat-king.png",
-    heroTop: -56,
+    heroTop: -5,
   },
   {
     slug: "thawzall-xhr",
@@ -87,7 +87,7 @@ export const products: Product[] = [
     summary:
       "Flameless air heaters and combination units built for enclosed and sensitive work areas.",
               heroImage: "/images/thawzall.png",
-    heroTop: -56,
+    heroTop: -5,
   },
   {
     slug: "renegade",
@@ -105,6 +105,7 @@ export const products: Product[] = [
     summary:
       "Concrete power buggies for moving material across rough and confined job sites.",
           heroImage: "/images/muddog.png",
+          heroTop: -5,
   },
   {
     slug: "yard-dog",
