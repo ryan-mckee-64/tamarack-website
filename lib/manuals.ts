@@ -18,6 +18,11 @@ export type Product = {
   name: string;
   family: string;
   summary: string;
+  /**
+   * Machine shot faded in behind the page header. Optional — a product
+   * without one simply gets the plain white header.
+   */
+  heroImage?: string;
 };
 
 export const categoryLabels: Record<DocumentCategory, string> = {
@@ -66,6 +71,7 @@ export const products: Product[] = [
     family: "Glycol heaters",
     summary:
       "Glycol ground thaw and heating units for concrete curing, ground thaw and temporary heat.",
+      heroImage: "/images/heat-king.png",
   },
   {
     slug: "thawzall-xhr",

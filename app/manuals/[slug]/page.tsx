@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import ManualLibrary from "@/components/manuals/ManualLibrary";
 import { products, getProduct, documentsForProduct } from "@/lib/manuals";
 import LineName from "@/components/product/LineName";
+import Image from "next/image";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -36,7 +37,30 @@ export default async function ProductManualsPage({
 
   return (
     <main>
-      <section className="mx-auto max-w-4xl px-6 py-20 md:px-10">
+      {/* The machine sits behind the header rather than beside it, so the
+          page still reads as a document index and not a product page. Its
+          photo background is white, same as the page, so only the machine
+          shows once the mask has feathered the edges away. */}
+      <section className="relative isolate mx-auto max-w-4xl overflow-hidden px-6 py-20 md:px-10">
+        {product.heroImage && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-20 -z-10 hidden w-[58%] select-none opacity-[0.15] lg:block"
+          >
+            <Image
+              src={product.heroImage}
+              alt=""
+              width={878}
+              height={522}
+              priority={false}
+              // A radial mask feathers every edge at once, so the machine
+              // dissolves into the page instead of ending on a crop line.
+              // closest-side matters: the default farthest-corner leaves the
+              // mid-edges of a wide image partly opaque, which crops visibly.
+              className="h-auto w-full object-contain saturate-[0.6] [mask-image:radial-gradient(ellipse_closest-side_at_center,black_22%,transparent_78%)]"
+            />
+          </div>
+        )}
         <Link
           href="/manuals"
           className="text-sm font-semibold text-[color:var(--ink-dim)] transition hover:text-[color:var(--orange)]"
