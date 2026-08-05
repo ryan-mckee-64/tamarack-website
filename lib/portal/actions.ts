@@ -9,6 +9,14 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { netPriceCents } from "@/lib/portal/format";
+import {
+  claimTotals,
+  lineAmountCents,
+  lineHasContent,
+  toCents,
+  toNumber,
+  type ClaimPartLine,
+} from "@/lib/portal/warranty";
 
 type Result<T = undefined> =
   | { ok: true; data?: T }
@@ -104,15 +112,36 @@ export async function submitOrder(
   };
 }
 
-export async function submitWarrantyClaim(input: {
+export type WarrantyClaimInput = {
+  // Customer info
+  companyBranch: string;
+  address: string;
+  cityState: string;
+  contactName: string;
+  phone: string;
+  email: string;
+  // Machine info
   serialNumber: string;
   productLine: string;
   model: string;
+  hoursOnUnit: string;
   purchasedOn: string;
   failedOn: string;
-  hoursOnUnit: string;
+  poOrInvoice: string;
+  // Parts, labour and travel
+  parts: ClaimPartLine[];
+  laborHours: string;
+  travelHours: string;
+  // Failure and sign off
   description: string;
-}): Promise<Result> {
+  submittedBy: string;
+  submittedOn: string;
+  certified: boolean;
+};
+
+export async function submitWarrantyClaim(
+  input: WarrantyClaimInput,
+): Promise<Result> {
   const supabase = await createClient();
 
   const {
@@ -123,20 +152,84 @@ export async function submitWarrantyClaim(input: {
   if (!input.serialNumber.trim() || !input.description.trim())
     return { ok: false, error: "Serial number and description are required." };
 
+  if (!input.submittedBy.trim())
+    return { ok: false, error: "Add the name of whoever is submitting the claim." };
+
+  if (!input.certified)
+    return {
+      ok: false,
+      error: "Confirm the information is correct before submitting.",
+    };
+
+  // Only lines the customer actually filled in are stored, and the money is
+  // recomputed here — the browser's arithmetic is for display only.
+  const lines = (input.parts ?? []).filter(lineHasContent);
+  const totals = claimTotals(lines, input.laborHours, input.travelHours);
+
   const hours = Number.parseInt(input.hoursOnUnit, 10);
+  const text = (value: string) => value.trim() || null;
 
-  const { error } = await supabase.from("warranty_claims").insert({
-    user_id: user.id,
-    serial_number: input.serialNumber.trim(),
-    product_line: input.productLine || null,
-    model: input.model.trim() || null,
-    purchased_on: input.purchasedOn || null,
-    failed_on: input.failedOn || null,
-    hours_on_unit: Number.isFinite(hours) ? hours : null,
-    description: input.description.trim(),
-  });
+  const { data: claim, error } = await supabase
+    .from("warranty_claims")
+    .insert({
+      user_id: user.id,
+      serial_number: input.serialNumber.trim(),
+      product_line: input.productLine || null,
+      model: text(input.model),
+      purchased_on: input.purchasedOn || null,
+      failed_on: input.failedOn || null,
+      hours_on_unit: Number.isFinite(hours) ? hours : null,
+      description: input.description.trim(),
 
-  if (error) return { ok: false, error: "Could not submit your claim. Try again." };
+      company_branch: text(input.companyBranch),
+      address: text(input.address),
+      city_state: text(input.cityState),
+      contact_name: text(input.contactName),
+      phone: text(input.phone),
+      email: text(input.email),
+      po_or_invoice: text(input.poOrInvoice),
+
+      labor_hours: Math.max(0, toNumber(input.laborHours)),
+      travel_hours: Math.max(0, toNumber(input.travelHours)),
+      parts_total_cents: totals.partsTotalCents,
+      labor_total_cents: totals.laborTotalCents,
+      travel_total_cents: totals.travelTotalCents,
+      grand_total_cents: totals.grandTotalCents,
+
+      submitted_by: input.submittedBy.trim(),
+      submitted_on: input.submittedOn || null,
+      certified: true,
+    })
+    .select("id")
+    .single();
+
+  if (error || !claim)
+    return { ok: false, error: "Could not submit your claim. Try again." };
+
+  if (lines.length) {
+    const { error: partsError } = await supabase
+      .from("warranty_claim_parts")
+      .insert(
+        lines.map((line, index) => ({
+          claim_id: claim.id,
+          line_number: index + 1,
+          part_number: text(line.partNumber),
+          description: text(line.description),
+          quantity: Math.max(0, toNumber(line.quantity)),
+          unit_price_cents: Math.max(0, toCents(line.unitPrice)),
+          amount_cents: Math.max(0, lineAmountCents(line)),
+        })),
+      );
+
+    // The claim itself is saved and carries the parts total, so a failure
+    // here costs detail rather than the submission.
+    if (partsError)
+      return {
+        ok: false,
+        error:
+          "Your claim was saved, but the parts list did not attach. Contact support with your serial number.",
+      };
+  }
 
   revalidatePath("/portal/warranty");
   return { ok: true };

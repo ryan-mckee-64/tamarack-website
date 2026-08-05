@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { productLines } from "@/lib/product-lines";
-import { shortDate } from "@/lib/portal/format";
+import { money, shortDate } from "@/lib/portal/format";
 import WarrantyForm from "@/components/portal/WarrantyForm";
 
 export const dynamic = "force-dynamic";
@@ -26,21 +26,31 @@ export default async function WarrantyPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/portal/login");
 
-  const { data: claims } = await supabase
-    .from("warranty_claims")
-    .select("id, serial_number, model, status, created_at, description")
-    .order("created_at", { ascending: false });
+  const [{ data: profile }, { data: claims }] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("full_name, company")
+      .eq("id", user.id)
+      .maybeSingle(),
+    supabase
+      .from("warranty_claims")
+      .select(
+        "id, serial_number, model, status, created_at, description, grand_total_cents, submitted_by",
+      )
+      .order("created_at", { ascending: false }),
+  ]);
 
   return (
     <main>
-      <section className="mx-auto max-w-3xl px-6 py-16 md:px-10">
+      <section className="mx-auto max-w-5xl px-6 py-16 md:px-10">
         <p className="tech-label text-[color:var(--ember)]">Warranty</p>
         <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)]">
-          Submit a claim
+          Warranty claim form
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-[color:var(--ink-dim)]">
-          The more detail on the failure and the hours on the unit, the faster
-          our service team can process it.
+          Fill this in here rather than printing it — it reaches our service
+          team the moment you submit. The more detail on the failure and the
+          hours on the unit, the faster it moves.
         </p>
 
         <div className="mt-10">
@@ -49,6 +59,11 @@ export default async function WarrantyPage() {
               slug: l.slug,
               name: l.name,
             }))}
+            defaults={{
+              companyBranch: profile?.company ?? "",
+              contactName: profile?.full_name ?? "",
+              email: user.email ?? "",
+            }}
           />
         </div>
 
@@ -74,8 +89,12 @@ export default async function WarrantyPage() {
                   </div>
                   <p className="mt-2 text-[0.78rem] text-[color:var(--ink-faint)]">
                     Submitted {shortDate(claim.created_at)}
+                    {claim.submitted_by ? ` by ${claim.submitted_by}` : ""}
+                    {claim.grand_total_cents
+                      ? ` · ${money(claim.grand_total_cents)} claimed`
+                      : ""}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
+                  <p className="mt-3 text-sm leading-relaxed whitespace-pre-line text-[color:var(--ink-dim)]">
                     {claim.description}
                   </p>
                 </li>

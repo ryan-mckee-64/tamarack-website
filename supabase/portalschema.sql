@@ -141,6 +141,9 @@ create policy "Users create own serial enquiries"
 -- ---------------------------------------------------------------------------
 -- Warranty claims
 -- ---------------------------------------------------------------------------
+-- Mirrors the printed Tamarack warranty claim form. purchased_on carries the
+-- form's "Delivery Date", failed_on its "Failure Date" and hours_on_unit its
+-- "Hour Meter" reading; the rest of the form's boxes are named after it.
 create table if not exists public.warranty_claims (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users (id) on delete cascade,
@@ -154,8 +157,52 @@ create table if not exists public.warranty_claims (
   status text not null default 'submitted'
     check (status in ('submitted', 'in_review', 'approved', 'declined', 'closed')),
   staff_notes text,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+
+  -- Customer info
+  company_branch text,
+  address text,
+  city_state text,
+  contact_name text,
+  phone text,
+  email text,
+
+  -- Machine info
+  po_or_invoice text,
+
+  -- Labour and travel. Totals are always recomputed server side from the
+  -- hours and the line items, never taken from the browser.
+  labor_hours numeric(6, 2) not null default 0,
+  travel_hours numeric(6, 2) not null default 0,
+  parts_total_cents integer not null default 0,
+  labor_total_cents integer not null default 0,
+  travel_total_cents integer not null default 0,
+  grand_total_cents integer not null default 0,
+
+  -- Sign off
+  submitted_by text,
+  submitted_on date,
+  certified boolean not null default false
 );
+
+-- Re-runnable upgrade for databases created before the full form landed.
+alter table public.warranty_claims
+  add column if not exists company_branch text,
+  add column if not exists address text,
+  add column if not exists city_state text,
+  add column if not exists contact_name text,
+  add column if not exists phone text,
+  add column if not exists email text,
+  add column if not exists po_or_invoice text,
+  add column if not exists labor_hours numeric(6, 2) not null default 0,
+  add column if not exists travel_hours numeric(6, 2) not null default 0,
+  add column if not exists parts_total_cents integer not null default 0,
+  add column if not exists labor_total_cents integer not null default 0,
+  add column if not exists travel_total_cents integer not null default 0,
+  add column if not exists grand_total_cents integer not null default 0,
+  add column if not exists submitted_by text,
+  add column if not exists submitted_on date,
+  add column if not exists certified boolean not null default false;
 
 create index if not exists warranty_claims_user_id_idx on public.warranty_claims (user_id);
 
@@ -172,6 +219,54 @@ create policy "Users submit own claims"
   on public.warranty_claims for insert
   to authenticated
   with check ((select auth.uid()) = user_id);
+
+
+-- ---------------------------------------------------------------------------
+-- Parts claimed on a warranty claim — the line item table on the paper form.
+-- ---------------------------------------------------------------------------
+create table if not exists public.warranty_claim_parts (
+  id uuid primary key default gen_random_uuid(),
+  claim_id uuid not null
+    references public.warranty_claims (id) on delete cascade,
+  line_number integer not null default 0,
+  part_number text,
+  description text,
+  quantity numeric(10, 2) not null default 0,
+  unit_price_cents integer not null default 0,
+  amount_cents integer not null default 0
+);
+
+create index if not exists warranty_claim_parts_claim_id_idx
+  on public.warranty_claim_parts (claim_id);
+
+alter table public.warranty_claim_parts enable row level security;
+
+-- Reachable only through a claim the caller owns.
+drop policy if exists "Users read own claim parts" on public.warranty_claim_parts;
+create policy "Users read own claim parts"
+  on public.warranty_claim_parts for select
+  to authenticated
+  using (
+    exists (
+      select 1
+      from public.warranty_claims c
+      where c.id = warranty_claim_parts.claim_id
+        and c.user_id = (select auth.uid())
+    )
+  );
+
+drop policy if exists "Users add parts to own claims" on public.warranty_claim_parts;
+create policy "Users add parts to own claims"
+  on public.warranty_claim_parts for insert
+  to authenticated
+  with check (
+    exists (
+      select 1
+      from public.warranty_claims c
+      where c.id = warranty_claim_parts.claim_id
+        and c.user_id = (select auth.uid())
+    )
+  );
 
 
 -- ---------------------------------------------------------------------------
