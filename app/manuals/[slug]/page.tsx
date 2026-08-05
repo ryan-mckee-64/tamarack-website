@@ -45,7 +45,7 @@ export default async function ProductManualsPage({
         {product.heroImage && (
           <div
             aria-hidden
-            className="pointer-events-none absolute right-0 top-20 -z-10 hidden w-[58%] select-none opacity-[0.15] lg:block"
+            className="pointer-events-none absolute right-0 top-20 -z-10 hidden w-[58%] select-none opacity-[0.24] lg:block"
           >
             <Image
               src={product.heroImage}

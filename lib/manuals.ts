@@ -79,6 +79,7 @@ export const products: Product[] = [
     family: "Flameless and glycol heat",
     summary:
       "Flameless air heaters and combination units built for enclosed and sensitive work areas.",
+          heroImage: "/images/thawzall.png",
   },
   {
     slug: "renegade",
@@ -86,6 +87,7 @@ export const products: Product[] = [
     family: "Subcompact tractor loader backhoe",
     summary:
       "Subcompact tractor loader backhoe sized for tight access work and utility trenching.",
+          heroImage: "/images/renegade.png",
   },
   {
     slug: "mud-dog",
@@ -93,6 +95,7 @@ export const products: Product[] = [
     family: "Concrete power buggy",
     summary:
       "Concrete power buggies for moving material across rough and confined job sites.",
+          heroImage: "/images/muddog.png",
   },
   {
     slug: "yard-dog",
@@ -100,6 +103,7 @@ export const products: Product[] = [
     family: "Trailer mover",
     summary:
       "Trailer movers for repositioning loaded trailers in yards and staging areas.",
+          heroImage: "/images/yarddog.png",
   },
   {
     slug: "maverick",
@@ -107,6 +111,7 @@ export const products: Product[] = [
     family: "Site sweeper",
     summary:
       "Site sweepers for dust control and surface cleanup on active job sites.",
+          heroImage: "/images/maverick.png",
   },
 ];
 
