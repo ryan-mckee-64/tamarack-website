@@ -33,15 +33,9 @@ export default async function OrdersPage() {
         {!orders?.length ? (
           <div className="mt-10 rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-8">
             <p className="text-sm leading-relaxed text-[color:var(--ink-dim)]">
-              No orders yet. Anything you submit from the parts catalogue shows
-              up here with its status.
+              No orders yet. Orders placed through your Tamarack dealer show up
+              here with their status.
             </p>
-            <Link
-              href="/portal/parts"
-              className="mt-6 inline-block text-sm font-semibold text-[color:var(--orange)] underline underline-offset-4"
-            >
-              Browse parts
-            </Link>
           </div>
         ) : (
           <div className="mt-8 overflow-x-auto rounded-2xl border border-[color:var(--line)]">

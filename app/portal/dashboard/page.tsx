@@ -15,11 +15,6 @@ export const metadata: Metadata = {
 
 const SECTIONS = [
   {
-    href: "/portal/parts",
-    label: "Parts pricing and availability",
-    blurb: "Your account pricing, live stock, and ordering.",
-  },
-  {
     href: "/portal/orders",
     label: "Order history",
     blurb: "Everything you have ordered and where it is.",
@@ -38,11 +33,6 @@ const SECTIONS = [
     href: "/portal/warranty",
     label: "Warranty claims",
     blurb: "Submit a claim and track where it stands.",
-  },
-  {
-    href: "/portal/service-centers",
-    label: "Service centres",
-    blurb: "Authorised service and parts locations.",
   },
 ];
 
