@@ -408,7 +408,28 @@ body {
       transparent 68%
     );
 }
-
+/* Same bloom, tinted with the product line's own colour instead of the house
+   orange. Add alongside .page-hero and set --accent on an ancestor; without
+   one it falls back to the standard orange grads. Declared after .page-hero
+   so it wins at equal specificity. */
+.page-hero-accent::before {
+  background:
+    radial-gradient(
+      60% 95% at 6% -10%,
+      color-mix(in srgb, var(--accent, var(--grad-4)) 30%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 80% at 38% -20%,
+      color-mix(in srgb, var(--accent, var(--grad-5)) 20%, transparent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      55% 90% at 100% 0%,
+      color-mix(in srgb, var(--accent, var(--grad-3)) 16%, transparent) 0%,
+      transparent 68%
+    );
+}
 /* Fine diagonal hatching, faded out before it reaches the content */
 .page-hero::after {
   content: "";

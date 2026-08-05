@@ -77,7 +77,8 @@ export const products: Product[] = [
     family: "Glycol heaters",
     summary:
       "Glycol ground thaw and heating units for concrete curing, ground thaw and temporary heat.",
-      heroImage: "/images/heat-king.png",
+          heroImage: "/images/heat-king.png",
+    heroTop: -56,
   },
   {
     slug: "thawzall-xhr",
@@ -85,7 +86,8 @@ export const products: Product[] = [
     family: "Flameless and glycol heat",
     summary:
       "Flameless air heaters and combination units built for enclosed and sensitive work areas.",
-          heroImage: "/images/thawzall.png",
+              heroImage: "/images/thawzall.png",
+    heroTop: -56,
   },
   {
     slug: "renegade",

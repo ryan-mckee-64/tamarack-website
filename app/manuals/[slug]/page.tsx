@@ -46,7 +46,7 @@ export default async function ProductManualsPage({
           machine ghosted in behind it. mix-blend-multiply is what lets a
           white-background product shot sit on a tinted hero: white multiplies
           away to nothing, so only the machine itself darkens the gradient. */}
-      <section className="page-hero border-b border-[color:var(--line)]">
+        <section className="page-hero page-hero-accent border-b border-[color:var(--line)]">
         {product.heroImage && (
           <div
             aria-hidden
