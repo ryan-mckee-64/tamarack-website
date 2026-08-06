@@ -50,7 +50,7 @@ export const aboutItems: AboutItem[] = [
     slug: "share-your-unit",
     label: "Send us a picture of your unit",
     href: "/about/share-your-unit",
-    status: "planned",
+    status: "live",
     blurb: "Show us your machine on the job and we will send you something from Tamarack.",
     highlight: true,
   },
