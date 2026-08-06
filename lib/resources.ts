@@ -113,7 +113,7 @@ export const resourceGroups: ResourceGroup[] = [
         slug: "model-comparison",
         label: "Model comparison chart",
         href: "/resources/model-comparison",
-        status: "planned",
+        status: "live",
         description: "Compare output, coverage and dimensions across models.",
       },
       {

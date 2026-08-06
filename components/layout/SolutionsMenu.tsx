@@ -29,21 +29,10 @@ export default function SolutionsMenu({
                 className="flex items-center gap-1.5 rounded-md px-1.5 py-[5px] text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
               >
                 <span className="whitespace-nowrap">{solution.label}</span>
-                <span
-                  title="Coming soon"
-                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]"
-                />
               </Link>
             </li>
           ))}
         </ul>
-
-        <div className="mt-5 flex items-center justify-end border-t border-[color:var(--line)] pt-3.5">
-          <span className="flex items-center gap-1.5 text-[0.7rem] text-[color:var(--ink-faint)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--line-strong)]" />
-            Coming soon
-          </span>
-        </div>
       </div>
     </div>
   );

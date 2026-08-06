@@ -34,12 +34,6 @@ export default function ResourcesMenu({
                       className="flex items-center gap-1.5 rounded-md px-1.5 py-[5px] text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
                     >
                       <span className="whitespace-nowrap">{item.label}</span>
-                      {item.status === "planned" && (
-                        <span
-                          title="Coming soon"
-                          className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]"
-                        />
-                      )}
                     </Link>
                   </li>
                 ))}
@@ -48,7 +42,7 @@ export default function ResourcesMenu({
           ))}
         </div>
 
-        <div className="flex items-center justify-between border-t border-[color:var(--line)] pt-3.5">
+        <div className="border-t border-[color:var(--line)] pt-3.5">
           <Link
             href="/resources"
             onClick={onNavigate}
@@ -56,10 +50,6 @@ export default function ResourcesMenu({
           >
             View all resources
           </Link>
-          <span className="flex items-center gap-1.5 text-[0.7rem] text-[color:var(--ink-faint)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--line-strong)]" />
-            Coming soon
-          </span>
         </div>
       </div>
     </div>

@@ -8,12 +8,20 @@ import ResourcesMenu from "./ResourcesMenu";
 import ProductsMenu from "./ProductsMenu";
 import SolutionsMenu from "./SolutionsMenu";
 import ContactMenu from "./ContactMenu";
+import AboutMenu from "./AboutMenu";
 import LineName from "@/components/product/LineName";
 import { resourceGroups } from "@/lib/resources";
 import { productLines } from "@/lib/product-lines";
 import { solutions } from "@/lib/solutions";
+import { aboutItems } from "@/lib/about";
 
-type MenuKey = "products" | "solutions" | "resources" | "contact" | null;
+type MenuKey =
+  | "products"
+  | "solutions"
+  | "resources"
+  | "about"
+  | "contact"
+  | null;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -135,13 +143,29 @@ export default function Header() {
             BTU Calculator
           </Link>
 
-          <Link
-            href="/#company"
-            onMouseEnter={() => setMenu(null)}
-            className="nav-link"
-          >
-            About Us
-          </Link>
+          <div className="relative flex items-stretch">
+            <button
+              onMouseEnter={() => setMenu("about")}
+              onClick={() => setMenu(menu === "about" ? null : "about")}
+              aria-expanded={menu === "about"}
+              className={`nav-link ${menu === "about" ? "nav-link-open" : ""}`}
+            >
+              About Us
+              <span
+                className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
+                  menu === "about" ? "rotate-180" : ""
+                }`}
+              >
+                &#9660;
+              </span>
+            </button>
+
+            <AboutMenu
+              open={menu === "about"}
+              onNavigate={() => setMenu(null)}
+            />
+          </div>
+
           <div className="flex items-center pl-3 xl:pl-4">
             <Link
               href="/portal/login"
@@ -251,9 +275,6 @@ export default function Header() {
                           className="flex items-center gap-2 py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
                         >
                           {model.name}
-                          {model.comingSoon && (
-                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
-                          )}
                         </Link>
                       </li>
                     ))}
@@ -285,7 +306,6 @@ export default function Header() {
               className="flex items-center gap-2 border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink)]"
             >
               {solution.label}
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
             </Link>
           ))}
 
@@ -322,9 +342,6 @@ export default function Header() {
                           className="flex items-center gap-2 py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
                         >
                           {item.label}
-                          {item.status === "planned" && (
-                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]" />
-                          )}
                         </Link>
                       </li>
                     ))}
@@ -342,13 +359,21 @@ export default function Header() {
             BTU Calculator
           </Link>
 
-          <Link
-            href="/#company"
-            onClick={() => setOpen(false)}
-            className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
-          >
-            About Us
-          </Link>
+          <p className="tech-label mt-5 text-[color:var(--ember)]">About Us</p>
+          {aboutItems.map((item) => (
+            <Link
+              key={item.slug}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className={`flex items-center gap-2 border-b border-[color:var(--line)] py-3 text-sm font-semibold ${
+                item.highlight
+                  ? "text-[color:var(--orange)]"
+                  : "text-[color:var(--ink)]"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
 
           <Link
             href="/portal/login"

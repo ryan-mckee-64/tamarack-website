@@ -20,9 +20,12 @@ export default function ProductsMenu({
       }`}
     >
       <div className="mt-2 rounded-2xl border border-[color:var(--line)] bg-white p-6 shadow-xl">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+        {/* Columns rather than a grid: a 2 column grid ties each row to its
+            tallest cell, which left a dead gap under Heat King next to the
+            much longer Thawzall list. Columns balance on height instead. */}
+        <div className="columns-2 gap-x-7 [column-fill:balance]">
           {productLines.map((line) => (
-            <div key={line.slug}>
+            <div key={line.slug} className="mb-5 break-inside-avoid last:mb-0">
               <Link
                 href={`/products/${line.slug}`}
                 onClick={onNavigate}
@@ -55,12 +58,6 @@ export default function ProductsMenu({
                       className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
                     >
                       {model.name}
-                      {model.comingSoon && (
-                        <span
-                          title="Coming soon"
-                          className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--line-strong)]"
-                        />
-                      )}
                     </Link>
                   </li>
                 ))}
