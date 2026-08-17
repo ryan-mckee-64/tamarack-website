@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductLine, getModel, allModelParams } from "@/lib/product-lines";
+import { modelsForProduct } from "@/lib/models";
 import LineName from "@/components/product/LineName";
+import ModelViewer from "@/components/models/ModelViewer";
 
 export function generateStaticParams() {
   return allModelParams();
@@ -35,6 +37,7 @@ export default async function ModelPage({
   if (!line || !m) notFound();
 
   const siblings = line.models.filter((x) => x.slug !== m.slug);
+  const model3d = modelsForProduct(line.slug)[0];
 
   return (
     <main>
@@ -83,28 +86,6 @@ export default async function ModelPage({
               </p>
             )}
 
-            {m.specs && m.specs.length > 0 ? (
-              <dl className="mt-8 divide-y divide-[color:var(--line)] border-t border-[color:var(--line)]">
-                {m.specs.map((s) => (
-                  <div
-                    key={s.label}
-                    className="flex flex-col gap-1 py-3 sm:flex-row sm:gap-8"
-                  >
-                    <dt className="tech-label w-52 shrink-0 text-[color:var(--ink-dim)]">
-                      {s.label}
-                    </dt>
-                    <dd className="text-sm text-[color:var(--ink)]">
-                      {s.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            ) : (
-              <p className="mt-8 border-t border-[color:var(--line)] pt-5 text-sm text-[color:var(--ink-faint)]">
-                Full specifications coming soon.
-              </p>
-            )}
-
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="/contact/sales"
@@ -112,6 +93,16 @@ export default async function ModelPage({
               >
                 Request a quote
               </Link>
+              {m.brochure && (
+                <a
+                  href={m.brochure}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-[color:var(--line-strong)] px-6 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
+                >
+                  View brochure
+                </a>
+              )}
               <Link
                 href={`/manuals/${line.slug}`}
                 className="rounded-full border border-[color:var(--line-strong)] px-6 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
@@ -121,6 +112,58 @@ export default async function ModelPage({
             </div>
           </div>
         </div>
+
+        {/* Specifications */}
+        <div className="mt-20">
+          <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--orange)] sm:text-3xl">
+            Specifications
+          </h2>
+
+          {m.specs && m.specs.length > 0 ? (
+            <dl className="mt-6 overflow-hidden rounded-2xl bg-[var(--surface-2)]">
+              {m.specs.map((s, i) => (
+                <div
+                  key={s.label}
+                  className={`flex flex-col gap-1 px-6 py-4 sm:flex-row sm:gap-8 ${
+                    i % 2 === 1 ? "bg-[var(--surface)]" : ""
+                  }`}
+                >
+                  <dt className="tech-label w-64 shrink-0 text-[color:var(--ink)]">
+                    {s.label}
+                  </dt>
+                  <dd className="text-sm text-[color:var(--ink-dim)]">
+                    {s.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <p className="mt-6 rounded-2xl bg-[var(--surface-2)] px-6 py-5 text-sm text-[color:var(--ink-faint)]">
+              Full specifications coming soon.
+            </p>
+          )}
+        </div>
+
+        {/* Interactive 3D model. Lives here rather than on a separate page. */}
+        {model3d && (
+          <div className="mt-20">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
+              Explore it in 3D
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
+              Drag to rotate the machine. Select a marker to see the component,
+              its part number and its specifications.
+            </p>
+            <div className="mt-7">
+              <ModelViewer
+                modelUrl={model3d.modelUrl}
+                isPlaceholder={model3d.modelUrl === null}
+                hotspots={model3d.hotspots}
+                manualHref={`/manuals/${line.slug}`}
+              />
+            </div>
+          </div>
+        )}
 
         {siblings.length > 0 && (
           <div className="mt-24 border-t border-[color:var(--line)] pt-12">

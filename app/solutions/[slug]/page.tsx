@@ -31,7 +31,7 @@ export default async function SolutionPage({
     <main>
       <section className="mx-auto max-w-3xl px-6 py-20 md:px-10">
         <p className="tech-label text-[color:var(--ember)]">
-          Industry, application and solutions
+          {solution.kind === "application" ? "By application" : "By industry"}
         </p>
         <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
           {solution.label}
@@ -40,23 +40,50 @@ export default async function SolutionPage({
           {solution.description}
         </p>
 
-        <div className="mt-10 rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-8">
+        {/* Equipment for this application or industry. Photos for each
+            solution drop in above this block once they arrive. */}
+        {solution.products.length > 0 && (
+          <div className="mt-14">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
+              Equipment for this work
+            </h2>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {solution.products.map((product) => (
+                <li key={product.label}>
+                  <Link
+                    href={product.href}
+                    className="group flex items-center justify-between rounded-xl border border-[color:var(--line)] bg-[var(--surface)] px-5 py-4 transition hover:border-[color:var(--orange)] hover:shadow-sm"
+                  >
+                    <span className="text-sm font-semibold text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
+                      {product.label}
+                    </span>
+                    <span className="text-[color:var(--ink-faint)] transition group-hover:translate-x-0.5 group-hover:text-[color:var(--orange)]">
+                      &rarr;
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="mt-14 rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-8">
           <p className="font-semibold text-[color:var(--ink)]">
-            This section is being prepared
+            Not sure which unit you need?
           </p>
           <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
-            We are putting this section together now. In the meantime our sales
-            team can help match equipment to your application.
+            Our sales team can size a unit to your site, or start with the BTU
+            calculator to work out the coverage you need.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/products"
+              href="/calculator"
               className="brand-gradient rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
-              Browse product lines
+              BTU calculator
             </Link>
             <Link
-              href="/contact"
+              href="/contact/sales"
               className="rounded-full border border-[color:var(--line-strong)] px-6 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
             >
               Contact our team

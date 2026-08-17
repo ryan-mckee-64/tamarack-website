@@ -18,19 +18,15 @@ export type AboutItem = {
 };
 
 export const aboutItems: AboutItem[] = [
+  // Our story and the history timeline are one page now: the timeline runs
+  // down the side of the company section on the homepage.
   {
-    slug: "our-story",
-    label: "Our story",
+    slug: "about-tamarack",
+    label: "About Tamarack",
     href: "/#company",
     status: "live",
-    blurb: "Who we are, and how Tamarack has built equipment since 1995.",
-  },
-  {
-    slug: "history",
-    label: "History timeline",
-    href: "/about/history",
-    status: "planned",
-    blurb: "Milestones from the first units to the current product lines.",
+    blurb:
+      "Who we are, how we work, and the milestones from 1995 to the current product lines.",
   },
   {
     slug: "careers",

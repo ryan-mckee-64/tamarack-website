@@ -32,20 +32,29 @@ export default function ProductsMenu({
                 className="group block"
               >
                                 {line.logo && line.logoStyle !== "badge" ? (
+                  // logoZoom scales the wordmark off the 1.5rem baseline, so
+                  // marks that carry extra empty margin in the file (Heat King,
+                  // Thawzall) still read at the same visual size as the rest.
                   <Image
                     src={line.logo}
                     alt={line.name}
                     width={400}
                     height={100}
-                    className="h-6 w-auto transition-opacity group-hover:opacity-75"
+                    className="w-auto transition-opacity group-hover:opacity-75"
+                    style={{ height: `${1.5 * (line.logoZoom ?? 1)}rem` }}
                   />
                 ) : (
                   <p className="font-display flex h-6 items-center text-[0.95rem] font-extrabold tracking-[-0.02em] text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
                     {line.name}
                   </p>
                 )}
-                <p className="mt-1 text-[0.68rem] text-[color:var(--ink-faint)]">
+                <p className="mt-1 flex items-center gap-2 text-[0.68rem] text-[color:var(--ink-faint)]">
                   {line.category}
+                  {line.comingSoon && (
+                    <span className="shrink-0 rounded-full bg-[var(--surface-2)] px-2 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
+                      Coming soon
+                    </span>
+                  )}
                 </p>
               </Link>
 
@@ -58,6 +67,11 @@ export default function ProductsMenu({
                       className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
                     >
                       {model.name}
+                      {model.comingSoon && (
+                        <span className="rounded-full bg-[var(--surface-2)] px-1.5 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
+                          Coming soon
+                        </span>
+                      )}
                     </Link>
                   </li>
                 ))}

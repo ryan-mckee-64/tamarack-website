@@ -51,9 +51,9 @@ export const resourceGroups: ResourceGroup[] = [
     blurb: "Practical guidance for planning and running a job.",
     items: [
       {
-        slug: "thaw-cure-guide",
-        label: "Thaw and cure guide",
-        href: "/resources/thaw-cure-guide",
+        slug: "application-guide",
+        label: "Application guide",
+        href: "/resources/application-guide",
         status: "planned",
         description:
           "Ground thaw rates, concrete cure requirements and how to size a job.",
@@ -80,14 +80,8 @@ export const resourceGroups: ResourceGroup[] = [
     label: "Product Information",
     blurb: "Specifications, comparisons and interactive models.",
     items: [
-      {
-        slug: "3d-models",
-        label: "3D models",
-        href: "/models",
-        status: "live",
-        description:
-          "Rotate equipment and select components to see part numbers and specs.",
-      },
+      // 3D models are no longer listed here. Each model page carries its own
+      // interactive viewer instead, so there is nothing to link to separately.
       {
         slug: "equipment-catalogue",
         label: "Equipment catalogue",
@@ -145,18 +139,26 @@ export const resourceGroups: ResourceGroup[] = [
         description: "Equipment running in real job conditions.",
       },
       {
-        slug: "walk-arounds",
-        label: "Walk arounds and tours",
-        href: "/resources/walk-arounds",
-        status: "planned",
-        description: "A guided look at each machine and its controls.",
-      },
-      {
-        slug: "maintenance-videos",
-        label: "Maintenance videos",
-        href: "/resources/maintenance-videos",
+        slug: "maintenance-tutorials",
+        label: "Maintenance tutorials",
+        href: "/resources/maintenance-tutorials",
         status: "planned",
         description: "Routine service procedures shown step by step.",
+      },
+    ],
+  },
+  {
+    slug: "tools",
+    label: "Tools",
+    blurb: "Sizing tools for planning a job.",
+    items: [
+      {
+        slug: "btu-calculator",
+        label: "BTU calculator",
+        href: "/calculator",
+        status: "live",
+        description:
+          "Work out the heating load and coverage a job needs, then match it to a unit.",
       },
     ],
   },

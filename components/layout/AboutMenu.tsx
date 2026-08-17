@@ -12,7 +12,7 @@ export default function AboutMenu({
 }) {
   return (
     <div
-      className={`absolute left-1/2 top-full z-50 w-[340px] -translate-x-1/2 transition-all duration-200 ease-out ${
+      className={`absolute left-1/2 top-full z-50 w-[300px] -translate-x-1/2 transition-all duration-200 ease-out ${
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0"
@@ -24,7 +24,7 @@ export default function AboutMenu({
             key={item.slug}
             href={item.href}
             onClick={onNavigate}
-            className={`group block rounded-xl px-4 py-3 transition hover:bg-[var(--surface-2)] ${
+            className={`group block rounded-xl px-4 py-2.5 transition hover:bg-[var(--surface-2)] ${
               item.highlight ? "mt-1 border-t border-[color:var(--line)] pt-4" : ""
             }`}
           >
@@ -36,9 +36,6 @@ export default function AboutMenu({
               }`}
             >
               {item.label}
-            </p>
-            <p className="mt-1 text-[0.78rem] leading-snug text-[color:var(--ink-dim)]">
-              {item.blurb}
             </p>
           </Link>
         ))}

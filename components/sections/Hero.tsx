@@ -66,7 +66,7 @@ export default function Hero() {
           </p>
 
           <h1 className="font-display hero-title mt-5 max-w-4xl text-[clamp(2.5rem,6.5vw,5rem)] font-extrabold leading-[1.02] tracking-[-0.035em]">
-            Winter doesn&rsquo;t stop the job.
+            Trusted in rental for 30 years.
           </h1>
 
           <div className="mt-9">

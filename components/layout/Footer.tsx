@@ -1,27 +1,28 @@
 // components/layout/Footer.tsx
+import Image from "next/image";
 import Link from "next/link";
 
 const COLUMNS = [
   {
     title: "Heating",
     links: [
-      { label: "Heat King", href: "/#products" },
-      { label: "Thawzall / XHR", href: "/#products" },
-      { label: "BTU Calculator", href: "/calculator" },
+      { label: "Heat King", href: "/products/heat-king" },
+      { label: "Thawzall", href: "/products/thawzall-xhr" },
     ],
   },
   {
     title: "Equipment",
     links: [
-      { label: "Renegade", href: "/#products" },
-      { label: "Mud Dog", href: "/#products" },
-      { label: "Yard Dog", href: "/#products" },
-      { label: "Maverick", href: "/#products" },
+      { label: "Renegade", href: "/products/renegade" },
+      { label: "Mud Dog", href: "/products/mud-dog" },
+      { label: "Yard Dog", href: "/products/yard-dog" },
+      { label: "Maverick", href: "/products/maverick" },
     ],
   },
   {
-    title: "Support",
+    title: "Resources",
     links: [
+      { label: "BTU Calculator", href: "/calculator" },
       { label: "Manuals & Parts", href: "/manuals" },
       { label: "Service Request", href: "/contact" },
       { label: "Contact", href: "/contact" },
@@ -36,10 +37,16 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div>
-            <div className="font-display text-2xl font-bold tracking-[-0.01em] text-[color:var(--ink)]">
-              Tamarack<span className="text-[color:var(--orange)]">.</span>
-            </div>
-            <p className="tech-label mt-1 text-[color:var(--ink-faint)]">Industrial Heating &amp; Equipment</p>
+            <Link href="/" className="inline-flex">
+              <Image
+                src="/images/tamarack-logo.webp"
+                alt="Tamarack Industries"
+                width={860}
+                height={303}
+                className="h-14 w-auto transition-opacity hover:opacity-85"
+              />
+            </Link>
+            <p className="tech-label mt-4 text-[color:var(--ink-faint)]">Industrial Heating &amp; Equipment</p>
             <p className="font-body mt-5 max-w-xs text-sm leading-relaxed text-[color:var(--ink-dim)]">
               Heating and construction equipment, designed and manufactured in Manitoba since 1995.
             </p>

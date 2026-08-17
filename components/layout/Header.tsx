@@ -12,7 +12,7 @@ import AboutMenu from "./AboutMenu";
 import LineName from "@/components/product/LineName";
 import { resourceGroups } from "@/lib/resources";
 import { productLines } from "@/lib/product-lines";
-import { solutions } from "@/lib/solutions";
+import { applicationSolutions, industrySolutions } from "@/lib/solutions";
 import { aboutItems } from "@/lib/about";
 
 type MenuKey =
@@ -95,7 +95,7 @@ export default function Header() {
               className={`nav-link ${menu === "solutions" ? "nav-link-open" : ""}`}
             >
               <span className="whitespace-nowrap">
-                Industry, Application, and Solutions
+                Applications and Industry solutions
               </span>
               <span
                 className={`ml-1.5 text-[0.6rem] transition-transform duration-200 ${
@@ -135,13 +135,8 @@ export default function Header() {
             />
           </div>
 
-          <Link
-            href="/calculator"
-            onMouseEnter={() => setMenu(null)}
-            className="nav-link"
-          >
-            BTU Calculator
-          </Link>
+          {/* The BTU calculator now lives under Resources > Tools rather than
+              as its own top level item. */}
 
           <div className="relative flex items-stretch">
             <button
@@ -296,9 +291,23 @@ export default function Header() {
           })}
 
           <p className="tech-label mt-5 text-[color:var(--ember)]">
-            Industry, Application, and Solutions
+            By application
           </p>
-          {solutions.map((solution) => (
+          {applicationSolutions.map((solution) => (
+            <Link
+              key={solution.slug}
+              href={solution.href}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink)]"
+            >
+              {solution.label}
+            </Link>
+          ))}
+
+          <p className="tech-label mt-5 text-[color:var(--ember)]">
+            By industry
+          </p>
+          {industrySolutions.map((solution) => (
             <Link
               key={solution.slug}
               href={solution.href}
@@ -350,14 +359,6 @@ export default function Header() {
               </div>
             );
           })}
-
-          <Link
-            href="/calculator"
-            onClick={() => setOpen(false)}
-            className="mt-5 block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
-          >
-            BTU Calculator
-          </Link>
 
           <p className="tech-label mt-5 text-[color:var(--ember)]">About Us</p>
           {aboutItems.map((item) => (

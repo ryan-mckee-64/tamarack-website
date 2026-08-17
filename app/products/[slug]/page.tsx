@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { productLines, getProductLine } from "@/lib/product-lines";
+import { modelsForProduct } from "@/lib/models";
+import ModelViewer from "@/components/models/ModelViewer";
 
 export function generateStaticParams() {
   return productLines.map((p) => ({ slug: p.slug }));
@@ -30,6 +32,8 @@ export default async function ProductLinePage({
   const { slug } = await params;
   const line = getProductLine(slug);
   if (!line) notFound();
+
+  const model3d = modelsForProduct(line.slug)[0];
 
   return (
     <main>
@@ -86,12 +90,6 @@ export default async function ProductLinePage({
           >
             Manuals and parts
           </Link>
-          <Link
-            href={`/models/${line.slug}`}
-            className="rounded-full border border-[color:var(--line-strong)] px-6 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
-          >
-            View in 3D
-          </Link>
         </div>
 
         {line.models.length > 0 && (
@@ -135,6 +133,27 @@ export default async function ProductLinePage({
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Interactive 3D model, on the product page rather than its own. */}
+        {model3d && (
+          <div className="mt-16">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
+              Explore it in 3D
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
+              Drag to rotate the machine. Select a marker to see the component,
+              its part number and its specifications.
+            </p>
+            <div className="mt-7">
+              <ModelViewer
+                modelUrl={model3d.modelUrl}
+                isPlaceholder={model3d.modelUrl === null}
+                hotspots={model3d.hotspots}
+                manualHref={`/manuals/${line.slug}`}
+              />
             </div>
           </div>
         )}
