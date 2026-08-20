@@ -135,6 +135,23 @@ export default function TradeShowsPage() {
                               )}
                             </p>
                           </div>
+
+                          {/* The show's own logo. Contained in a fixed box so
+                              three very different shapes still line up down the
+                              column, and decorative because the show name is
+                              already the heading right beside it. */}
+                          {show.logo && (
+                            <div className="flex shrink-0 items-center justify-start sm:w-32 sm:justify-center sm:self-center">
+                              <Image
+                                src={show.logo}
+                                alt=""
+                                aria-hidden
+                                width={400}
+                                height={280}
+                                className="h-14 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04] sm:h-16"
+                              />
+                            </div>
+                          )}
                         </div>
                       </article>
                     </Reveal>

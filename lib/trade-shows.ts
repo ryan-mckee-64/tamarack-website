@@ -15,6 +15,8 @@ export type TradeShow = {
   city: string;
   /** Null until the booth is assigned — renders as "Booth TBD". */
   booth: string | null;
+  /** The show's own logo, under /public. Sits on the right of its card. */
+  logo?: string;
   /** Optional link to the show's own site. */
   url?: string;
 };
@@ -28,6 +30,7 @@ export const tradeShows: TradeShow[] = [
     venue: "Las Vegas Convention Center",
     city: "Las Vegas, NV",
     booth: "Central Hall #C3231",
+    logo: "/images/concrete.png",
   },
   {
     slug: "ara-show-2027",
@@ -46,6 +49,7 @@ export const tradeShows: TradeShow[] = [
     venue: "Kentucky Exposition Center",
     city: "Louisville, KY",
     booth: null,
+    logo: "/images/utility.png",
   },
 ];
 

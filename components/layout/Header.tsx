@@ -181,7 +181,7 @@ export default function Header() {
                 menu === "contact" ? "contact-pill-open" : ""
               }`}
             >
-              Service &amp; Support
+              Sales &amp; Support
               <span
                 className={`text-[0.6rem] transition-transform duration-200 ${
                   menu === "contact" ? "rotate-180" : ""
