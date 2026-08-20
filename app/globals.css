@@ -90,6 +90,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 .brand-gradient {
   background-image: linear-gradient(
@@ -451,4 +457,33 @@ body {
     rgba(0, 0, 0, 0.9),
     transparent 70%
   );
+}
+
+/* ============================================================
+   SCROLL REVEAL — used by components/motion/Reveal.tsx
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+  /* Release the compositing layer once the animation is done. Leaving
+     will-change on pins a layer per element for the life of the page. */
+  will-change: auto;
+}
+
+/* Anyone who has asked for reduced motion gets the content in place, and the
+   global rule above already flattens the transition to nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

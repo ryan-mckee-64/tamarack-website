@@ -39,7 +39,7 @@ export const aboutItems: AboutItem[] = [
     slug: "trade-shows",
     label: "Trade shows",
     href: "/about/trade-shows",
-    status: "planned",
+    status: "live",
     blurb: "Where to find us, and what we are bringing to each show.",
   },
   {
