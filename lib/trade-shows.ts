@@ -40,6 +40,7 @@ export const tradeShows: TradeShow[] = [
     venue: "Ernest N. Morial Convention Center",
     city: "New Orleans, LA",
     booth: null,
+    logo: "/images/ara.png",
   },
   {
     slug: "utility-expo-2027",
