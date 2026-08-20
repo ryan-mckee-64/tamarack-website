@@ -84,22 +84,39 @@ export default async function ProductLinePage({
               </Link>
 
               <div className="mt-10 max-w-xl">
+                {/* The brand logos are supplied with an opaque white
+                    background, so on a dark hero they can only ever be a white
+                    rectangle. Rather than fight that, the white becomes a
+                    deliberate nameplate: a tight plate capped with the line's
+                    own accent colour and lifted off the background with a
+                    shadow. logoZoom normalises the very different amounts of
+                    empty margin baked into each file. */}
                 {line.logo ? (
-                  <Image
-                    src={line.logo}
-                    alt={line.name}
-                    width={700}
-                    height={175}
-                    priority
-                    className="h-11 w-auto sm:h-14"
-                  />
+                  <div className="inline-flex flex-col overflow-hidden rounded-md bg-white shadow-[0_16px_40px_-16px_rgba(0,0,0,0.9)]">
+                    <span
+                      aria-hidden
+                      className="h-1 w-full"
+                      style={{ background: line.accent ?? "var(--orange)" }}
+                    />
+                    <span className="flex items-center px-5 py-3">
+                      <Image
+                        src={line.logo}
+                        alt={line.name}
+                        width={700}
+                        height={175}
+                        priority
+                        className="w-auto"
+                        style={{ height: `${2 * (line.logoZoom ?? 1)}rem` }}
+                      />
+                    </span>
+                  </div>
                 ) : (
                   <p className="font-display text-3xl font-extrabold text-white">
                     {line.name}
                   </p>
                 )}
 
-                <p className="tech-label mt-4 text-[color:var(--orange)]">
+                <p className="tech-label mt-5 text-[color:var(--orange)]">
                   {lp.eyebrow}
                 </p>
 
