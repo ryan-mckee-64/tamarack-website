@@ -161,17 +161,8 @@ export default function Header() {
             />
           </div>
 
-          <div className="flex items-center pl-3 xl:pl-4">
-            <Link
-              href="/portal/login"
-              onMouseEnter={() => setMenu(null)}
-              className="portal-pill"
-            >
-              Customer Portal
-            </Link>
-          </div>
           <div
-                        className="relative flex items-center pl-2 xl:pl-3"
+                        className="relative flex items-center pl-3 xl:pl-4"
             onMouseEnter={() => setMenu("contact")}
           >
             <button
