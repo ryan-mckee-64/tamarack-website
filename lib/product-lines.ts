@@ -3,6 +3,49 @@ export type ModelSpec = {
   value: string;
 };
 
+/** One column in the "<Line> advantage" row. Either a paragraph or a short
+ *  bullet list, not both. */
+export type LineAdvantage = {
+  title: string;
+  body?: string;
+  bullets?: string[];
+  /** Optional icon file under /public. Rendered above the title when set. */
+  icon?: string;
+};
+
+/** One card in the "Built for performance" row: a photo and a short writeup. */
+export type LineFeature = {
+  title: string;
+  body: string;
+  image?: string;
+};
+
+/** The long form product line page. A line without this falls back to the
+ *  short layout: logo, summary, model cards. Fill one in per line to give it
+ *  the full treatment. */
+export type LinePage = {
+  /** Small line under the logo, e.g. "Mobile glycol heating systems". */
+  eyebrow: string;
+  /** One entry per line of the headline. Each gets an accent period. */
+  headline: string[];
+  intro: string;
+  heroImage?: string;
+  /** The three short claims under the intro. */
+  heroPoints: string[];
+  advantageTitle: string;
+  advantages: LineAdvantage[];
+  /** Heading over the model comparison row, e.g. "3 sizes to fit your job". */
+  modelsTitle: string;
+  featuresTitle: string;
+  features: LineFeature[];
+  closing?: {
+    title: string;
+    titleAccent: string;
+    body: string;
+    image?: string;
+  };
+};
+
 export type ProductModel = {
   slug: string;
   name: string;
@@ -14,6 +57,10 @@ export type ProductModel = {
   /** Path to the brochure PDF under /public. The "View brochure" button on the
    *  model page only renders when this is set. */
   brochure?: string;
+  /** High level specs for the comparison row on the product line page. Plain
+   *  strings so each line can word them its own way. A model without these is
+   *  left out of that row. */
+  cardSpecs?: string[];
 };
 
 export type ProductLine = {
@@ -32,6 +79,8 @@ export type ProductLine = {
   /** Whole line is not in production yet. Shows a "Coming soon" tag in the
    *  Product Lines menu. */
   comingSoon?: boolean;
+  /** The long form page content. Omit for lines that are not written yet. */
+  linePage?: LinePage;
 };
 
 export const productLines: ProductLine[] = [
@@ -56,6 +105,18 @@ export const productLines: ProductLine[] = [
         // Drop the brochure PDF at this path to switch on the View brochure
         // button: public/docs/brochures/hk-150-brochure.pdf
         // brochure: "/docs/brochures/hk-150-brochure.pdf",
+        cardSpecs: [
+          "150,000 BTU/hr",
+          "2 - 700 ft hoses (made up of 1-700 ft, 1-500 ft & 1-200 ft)",
+          "Thaw up to 2,800 ft²",
+          "Cure up to 5,600 ft²",
+          "Temporary heat up to 6,200 ft²",
+          "50+ hrs run time",
+          "New compact design (124\" x 72\" x 70\")",
+          "Lifting hooks & forklift pockets (standard)",
+          "Powered reel with freewheel feature",
+          "On board air compressor for evacuating hoses",
+        ],
         specs: [
           { label: "Ground thawing capacity", value: "up to 2,800 ft²" },
           { label: "Concrete curing capacity", value: "up to 5,600 ft²" },
@@ -89,6 +150,19 @@ export const productLines: ProductLine[] = [
         image: "/images/heat-king300.png",
         description:
           "The general purpose unit in the range, covering most ground thaw and concrete cure work on a typical site.",
+        // TODO: copy the spec rows from the HK 300 spec sheet, same shape and
+        // row order as HK 150 above.
+        cardSpecs: [
+          "300,000 BTU/hr",
+          "2 - 1,400 ft hoses",
+          "Thaw up to 5,600 ft²",
+          "Cure up to 11,200 ft²",
+          "Temporary heat up to 12,400 ft²",
+          "50+ hrs run time",
+          "Lifting hooks & forklift pockets (standard)",
+          "Powered reel with freewheel feature",
+          "On board air compressor for evacuating hoses",
+        ],
       },
       {
         slug: "hk-600",
@@ -97,8 +171,85 @@ export const productLines: ProductLine[] = [
         image: "/images/heat-king600.png",
         description:
           "The largest unit in the range, built for large scale ground thaw and multi zone heating where coverage area is the limiting factor.",
+        // TODO: copy the spec rows from the HK 600 spec sheet.
+        cardSpecs: [
+          "600,000 BTU/hr",
+          "2 - 2,800 ft hoses",
+          "Thaw up to 11,200 ft²",
+          "Cure up to 22,400 ft²",
+          "Temporary heat up to 24,800 ft²",
+          "50+ hrs run time",
+          "Lifting hooks & forklift pockets (standard)",
+          "Powered reel with freewheel feature",
+          "On board air compressor for evacuating hoses",
+        ],
       },
     ],
+    linePage: {
+      eyebrow: "Mobile glycol heating systems",
+      headline: ["Reliable", "Safe", "Simple"],
+      intro:
+        "A fast and efficient way to prepare foundation sites and cure concrete in cold weather.",
+      heroImage: "/images/heat-king.png",
+      heroPoints: [
+        "Precise digital temperature control",
+        "Built for safety and easy to use",
+        "Rugged design built for the long term",
+      ],
+      advantageTitle: "Heat King advantage",
+      advantages: [
+        {
+          title: "Fast and efficient",
+          body: "Glycol gets up to operating temperature faster than competitors.",
+        },
+        {
+          title: "Double loop technology",
+          body: "Shorter hoses, more fluid and higher efficiency pumps deliver more consistent temperature to the field, for better concrete curing and ground thawing results.",
+        },
+        {
+          title: "Blow out and store",
+          body: "Glycol can be blown out of the field hoses and stored in the reservoir, with no need for extra storage containers.",
+        },
+        {
+          title: "Versatile applications",
+          bullets: [
+            "Foundation thawing and concrete curing",
+            "In-floor heating manifolds",
+            "Tank heating",
+            "Steam coil glycol retrieval",
+          ],
+        },
+        {
+          title: "Flexible",
+          body: "Glycol can be left in the field hoses or in the reservoir, whichever suits the application.",
+        },
+      ],
+      modelsTitle: "3 sizes to fit your job",
+      featuresTitle: "Built for performance and peace of mind",
+      features: [
+        {
+          title: "Precise digital temperature control",
+          body: "Digital temperature control and monitoring lets you adjust output in 1 degree increments between 0 and 180 degrees F, on an easy to read display.",
+          // image: "/images/heat-king/control-display.jpg",
+        },
+        {
+          title: "User friendly control panel",
+          body: "Large switches work with winter gloves. The emergency stop button instantly shuts down all functions, and a GFI breaker protects the entire system.",
+          // image: "/images/heat-king/control-panel.jpg",
+        },
+        {
+          title: "Rugged design",
+          body: "The powered reel holds all 1,400 to 5,600 feet of hose. Lockable doors protect equipment and tools, and everything is controlled by a heavy duty CSA and UL approved foot switch.",
+          // image: "/images/heat-king/hose-reel.jpg",
+        },
+      ],
+      closing: {
+        title: "Built by contractors.",
+        titleAccent: "Made for the toughest jobs.",
+        body: "Heat King mobile glycol heating systems deliver the reliability, simplicity and performance you need to keep your projects on schedule, no matter how cold it gets.",
+        // image: "/images/heat-king/jobsite.jpg",
+      },
+    },
   },
   {
         slug: "thawzall-xhr",
