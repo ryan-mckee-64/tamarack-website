@@ -42,6 +42,18 @@ export default async function ProductLinePage({
     (m) => m.cardSpecs && m.cardSpecs.length > 0
   );
 
+  // The comparison row holds anywhere from one model to four, so the grid
+  // tracks the count rather than always splitting into thirds. Otherwise a
+  // single model sits in a third of the width with a hole beside it, and four
+  // wrap as three plus a stray.
+  const compareGrid =
+    compareModels.length === 1
+      ? "mx-auto max-w-md"
+      : compareModels.length === 2
+        ? "mx-auto max-w-3xl sm:grid-cols-2"
+        : compareModels.length === 4
+          ? "sm:grid-cols-2 xl:grid-cols-4"
+          : "sm:grid-cols-2 lg:grid-cols-3";
   return (
     <main>
       {lp ? (
@@ -194,7 +206,7 @@ export default async function ProductLinePage({
                 </h2>
                 <span className="brand-gradient mx-auto mt-4 block h-0.5 w-16" />
 
-                <div className="mt-14 grid gap-6 lg:grid-cols-3">
+                <div className={`mt-14 grid gap-6 ${compareGrid}`}>
                   {compareModels.map((model) => (
                     <Link
                       key={model.slug}
