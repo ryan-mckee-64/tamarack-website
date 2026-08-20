@@ -6,6 +6,12 @@ export type ProductDocument = {
   category: DocumentCategory;
   title: string;
   variant?: string;
+  /**
+   * Models this document covers, used by the model filter. Leave it off for
+   * anything that applies to the whole line — a generic manual or a generator
+   * set — so those stay visible whichever model is selected.
+   */
+  models?: string[];
   documentNumber?: string;
   revision?: string;
   years: number[];
@@ -18,6 +24,12 @@ export type Product = {
   name: string;
   family: string;
   summary: string;
+  /**
+   * Model numbers shown under the summary, on both the manuals index card and
+   * the line's own manuals page. Optional — a line with no published model
+   * numbers just omits the line.
+   */
+  modelsLabel?: string;
   /**
    * Machine shot faded in behind the page header. Optional — a product
    * without one simply gets the plain white header.
@@ -75,53 +87,50 @@ export const products: Product[] = [
     slug: "heat-king",
     name: "Heat King",
     family: "Glycol heaters",
-    summary:
-      "Glycol ground thaw and heating units for concrete curing, ground thaw and temporary heat.",
-          heroImage: "/images/heat-king.png",
+    summary: "Mobile glycol heaters",
+    modelsLabel: "HK 150, HK 300, HK 600",
+    heroImage: "/images/heat-king.png",
     heroTop: -17,
   },
   {
     slug: "thawzall-xhr",
     name: "Thawzall XHR",
     family: "Flameless and glycol heat",
-    summary:
-      "Flameless air heaters and combination units built for enclosed and sensitive work areas.",
-              heroImage: "/images/thawzall.png",
+    summary: "Flameless heaters and mobile glycol heaters",
+    modelsLabel: "TCH 250, XHR 700, XHR 475, E-XHR 100",
+    heroImage: "/images/thawzall.png",
     heroTop: -17,
   },
   {
     slug: "renegade",
     name: "Renegade",
     family: "Subcompact tractor loader backhoe",
-    summary:
-      "Subcompact tractor loader backhoe sized for tight access work and utility trenching.",
-         heroImage: "/images/renegade.png",
+    summary: "Subcompact tractor loader backhoes",
+    heroImage: "/images/renegade.png",
     heroTop: -56,
   },
   {
     slug: "mud-dog",
     name: "Mud Dog",
     family: "Concrete power buggy",
-    summary:
-      "Concrete power buggies for moving material across rough and confined job sites.",
-          heroImage: "/images/muddog.png",
-          heroTop: -5,
+    summary: "Concrete buggies",
+    modelsLabel: "CB-1600, CB-1600E",
+    heroImage: "/images/muddog.png",
+    heroTop: -5,
   },
   {
     slug: "yard-dog",
     name: "Yard Dog",
     family: "Trailer mover",
-    summary:
-      "Trailer movers for repositioning loaded trailers in yards and staging areas.",
-          heroImage: "/images/yarddog.png",
+    summary: "Trailer movers",
+    heroImage: "/images/yarddog.png",
   },
   {
     slug: "maverick",
     name: "Maverick",
     family: "Site sweeper",
-    summary:
-      "Site sweepers for dust control and surface cleanup on active job sites.",
-          heroImage: "/images/maverick.png",
+    summary: "Site sweepers",
+    heroImage: "/images/maverick.png",
     heroTop: -56,
   },
 ];
@@ -149,6 +158,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "Heat King operator manual",
     variant: "HK 150",
+    models: ["HK 150"],
     years: yearRange(2019, 2026),
     fileUrl: "/docs/heat-king/operator/HK150%20Manual%202019-Current.pdf",
   },
@@ -158,6 +168,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "Heat King operator manual",
     variant: "HK 150, Wayne burner",
+    models: ["HK 150"],
     years: yearRange(2020, 2026),
     fileUrl: "/docs/heat-king/operator/HK150-Manual-2020-WAYNE-min.pdf",
   },
@@ -167,6 +178,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "Heat King operator manual",
     variant: "HK 300B",
+    models: ["HK 300"],
     years: yearRange(2019, 2026),
     fileUrl: "/docs/heat-king/operator/HK300B%20Manual%202019-Current.pdf",
   },
@@ -176,6 +188,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "Heat King operator manual",
     variant: "HK 600",
+    models: ["HK 600"],
     years: yearRange(2019, 2026),
     fileUrl: "/docs/heat-king/operator/HK600%20Manual%202019-Current.pdf",
   },
@@ -185,6 +198,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "IDF 1000 operator manual",
     variant: "IDF 1000",
+    models: ["IDF 1000"],
     years: yearRange(2017, 2018),
     fileUrl: "/docs/heat-king/operator/IDF1000-Manual-2017-version-compressed.pdf",
   },
@@ -194,6 +208,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 150, early models",
+    models: ["HK 150"],
     years: yearRange(2005, 2010),
     fileUrl: "/docs/heat-king/parts/HK150-Parts-Manual-Early-models.pdf",
   },
@@ -203,6 +218,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 150",
+    models: ["HK 150"],
     years: yearRange(2011, 2014),
     fileUrl: "/docs/heat-king/parts/HK150-Parts-Manual-pre-2015.pdf",
   },
@@ -212,6 +228,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 150",
+    models: ["HK 150"],
     years: yearRange(2015, 2020),
     fileUrl: "/docs/heat-king/parts/HK-150-Parts-Manual-Post-2015.pdf",
   },
@@ -221,6 +238,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 150",
+    models: ["HK 150"],
     years: yearRange(2021, 2026),
     fileUrl: "/docs/heat-king/parts/HK150-PARTS-MANUAL-2021.pdf",
   },
@@ -230,6 +248,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 300",
+    models: ["HK 300"],
     years: yearRange(2008, 2014),
     fileUrl: "/docs/heat-king/parts/HK300-Parts-Manual-pre-2015.pdf",
   },
@@ -239,6 +258,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 300",
+    models: ["HK 300"],
     years: yearRange(2015, 2026),
     fileUrl: "/docs/heat-king/parts/HK-300-Parts-Manual-post-2015.pdf",
   },
@@ -248,6 +268,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 300B",
+    models: ["HK 300"],
     years: yearRange(2019, 2026),
     fileUrl: "/docs/heat-king/parts/HK300B-PARTS-MANUAL-2019-compressed.pdf",
   },
@@ -257,6 +278,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 500",
+    models: ["HK 500"],
     years: yearRange(2008, 2014),
     fileUrl: "/docs/heat-king/parts/HK-500-Parts-Manual-Pre-2015.pdf",
   },
@@ -266,6 +288,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 500, dual axle units",
+    models: ["HK 500"],
     years: yearRange(2008, 2026),
     fileUrl: "/docs/heat-king/parts/HK500-Parts-Manual-for-dual-axle-units.pdf",
   },
@@ -275,6 +298,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "Heat King parts manual",
     variant: "HK 600",
+    models: ["HK 600"],
     years: yearRange(2019, 2026),
     fileUrl: "/docs/heat-king/parts/HK600-Parts-Manual.pdf",
   },
@@ -284,6 +308,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "IDF 1000 parts manual",
     variant: "IDF 1000",
+    models: ["IDF 1000"],
     years: yearRange(2017, 2018),
     fileUrl: "/docs/heat-king/parts/IDF1000-Parts-Manual-2017-2018.pdf",
   },
@@ -328,6 +353,7 @@ export const documents: ProductDocument[] = [
     productSlug: "mud-dog",
     category: "operator",
     title: "Concrete buggy operator manual",
+    models: ["CB-1600"],
     years: yearRange(2021, 2026),
     fileUrl: "/docs/mud-dog/operator/Buggy-June-2021-1.pdf",
   },
@@ -337,6 +363,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "CB1600E electric buggy operator manual",
     variant: "CB1600E electric",
+    models: ["CB-1600E"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/mud-dog/operator/CB1600E%2BELECTRIC%2BBUGGY%2BMANUAL.pdf",
   },
@@ -346,6 +373,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "CB1600E electric buggy parts manual",
     variant: "CB1600E electric",
+    models: ["CB-1600E"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/mud-dog/parts/CB1600E%2BELECTRIC%2BBUGGY%2BPARTS%2BMANUAL%2B.pdf",
   },
@@ -355,6 +383,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "CB1600 concrete buggy parts manual",
     variant: "CB1600",
+    models: ["CB-1600"],
     years: yearRange(2021, 2026),
     fileUrl: "/docs/mud-dog/parts/RPLConcrete-Buggy-CB1600-OCT-21.pdf",
   },
@@ -364,6 +393,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "TCH 250 and TCH 150 operator manual",
     variant: "TCH 250, TCH 150",
+    models: ["TCH 250", "TCH 150"],
     years: yearRange(2012, 2017),
     fileUrl: "/docs/thawzall-xhr/operator/TCH250-TCH150-Operators-Manual-Pre-2018.pdf",
   },
@@ -373,6 +403,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "TCH 250 operator manual",
     variant: "TCH 250",
+    models: ["TCH 250"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/TCH-250-manual-2018.pdf",
   },
@@ -382,6 +413,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "TCH 250 operator manual, Carel controls",
     variant: "TCH 250, Carel controls",
+    models: ["TCH 250"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/TCH-250-Operators-Manual-With-Carel-Controls.pdf",
   },
@@ -391,6 +423,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "TCH 250 operator manual, Schneider controls",
     variant: "TCH 250, Schneider controls",
+    models: ["TCH 250"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/TCH-250-Operators-Manual-With-Schneider-Controls.pdf",
   },
@@ -400,6 +433,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "H150 and H250 operator manual",
     variant: "H150, H250",
+    models: ["H150", "H250"],
     years: yearRange(2015, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/H150-H250-Operators-Manual.pdf",
   },
@@ -409,6 +443,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "H750 operator manual",
     variant: "H750",
+    models: ["H750"],
     years: yearRange(2015, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/H750-Operators-Manual-.pdf",
   },
@@ -418,6 +453,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "E-XHR operator manual",
     variant: "E-XHR",
+    models: ["E-XHR"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/E-XHR-Operators-Manual-1-1.pdf",
   },
@@ -427,6 +463,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "XHR 750 operator manual",
     variant: "XHR 750",
+    models: ["XHR 750"],
     revision: "V2",
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/XHR750-manual-2018-V2.pdf",
@@ -437,6 +474,7 @@ export const documents: ProductDocument[] = [
     category: "operator",
     title: "XHR 700 operator manual",
     variant: "XHR 700",
+    models: ["XHR 700"],
     years: yearRange(2019, 2026),
     fileUrl: "/docs/thawzall-xhr/operator/XHR700-2019-MANUAL.pdf",
   },
@@ -455,6 +493,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "TCH 250 parts manual",
     variant: "TCH 250",
+    models: ["TCH 250"],
     revision: "R3",
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/parts/TCH250-R3-Parts-Manual-compressed.pdf",
@@ -465,6 +504,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "E-XHR parts manual",
     variant: "E-XHR",
+    models: ["E-XHR"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/parts/E-XHR-PARTS-MANUAL.pdf",
   },
@@ -474,6 +514,7 @@ export const documents: ProductDocument[] = [
     category: "parts",
     title: "XHR 750 parts manual",
     variant: "XHR 750",
+    models: ["XHR 750"],
     years: yearRange(2018, 2026),
     fileUrl: "/docs/thawzall-xhr/parts/XHR750-Parts-Manual.pdf",
   },

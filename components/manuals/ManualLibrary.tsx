@@ -48,12 +48,12 @@ function MultiquipContacts() {
       <div className="flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-start">
         <div>
           <p className="font-semibold text-[color:var(--ink)]">
-            Generator questions go to Multiquip
+            Questions regarding Multiquip generators
           </p>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
-            The generator sets in our units are built by Multiquip.
-            For technical support, parts or warranty on the generator itself,
-            their team can help you faster than we can.
+            We use Multiquip generators on our machines. For questions
+            regarding technical support, parts, or warranty for the generator,
+            reach out to Multiquip directly.
           </p>
         </div>
 
@@ -111,6 +111,7 @@ function MultiquipContacts() {
 export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
   const [tab, setTab] = useState<TabKey>("all");
   const [year, setYear] = useState<string>("all");
+  const [model, setModel] = useState<string>("all");
   const [query, setQuery] = useState("");
 
   const allYears = useMemo(() => {
@@ -119,11 +120,26 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
     return [...set].sort((a, b) => b - a);
   }, [docs]);
 
+  // Built from the documents themselves, so a model only appears once there
+  // is something to show for it. Numeric collation keeps HK 600 after HK 150
+  // rather than sorting them as plain strings.
+  const allModels = useMemo(() => {
+    const set = new Set<string>();
+    docs.forEach((d) => (d.models ?? []).forEach((m) => set.add(m)));
+    return [...set].sort((a, b) =>
+      a.localeCompare(b, "en", { numeric: true, sensitivity: "base" }),
+    );
+  }, [docs]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return docs.filter((d) => {
       if (tab !== "all" && d.category !== tab) return false;
       if (year !== "all" && !d.years.includes(Number(year))) return false;
+      // A document with no models covers the whole line — a generic manual or
+      // a generator set — so it stays visible whichever model is picked.
+      if (model !== "all" && d.models?.length && !d.models.includes(model))
+        return false;
       if (!q) return true;
       const haystack = [d.title, d.variant, d.documentNumber, d.revision]
         .filter(Boolean)
@@ -131,7 +147,7 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
         .toLowerCase();
       return haystack.includes(q);
     });
-  }, [docs, tab, year, query]);
+  }, [docs, tab, year, model, query]);
 
   const grouped = useMemo(() => {
     return categoryOrder
@@ -142,7 +158,8 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
       .filter((g) => g.items.length > 0);
   }, [filtered]);
 
-  const isFiltered = tab !== "all" || year !== "all" || query.trim() !== "";
+  const isFiltered =
+    tab !== "all" || year !== "all" || model !== "all" || query.trim() !== "";
 
   return (
     <div>
@@ -188,6 +205,30 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
           </select>
         </div>
 
+        {allModels.length > 0 && (
+          <div className="flex items-center gap-3">
+            <label
+              htmlFor="model"
+              className="tech-label whitespace-nowrap text-[color:var(--ink-dim)]"
+            >
+              Model
+            </label>
+            <select
+              id="model"
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              className="rounded-lg border border-[color:var(--line-strong)] bg-white px-3 py-2 text-sm text-[color:var(--ink)] outline-none focus:border-[color:var(--orange)]"
+            >
+              <option value="all">All models</option>
+              {allModels.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <input
           type="search"
           value={query}
@@ -206,6 +247,7 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
             onClick={() => {
               setTab("all");
               setYear("all");
+              setModel("all");
               setQuery("");
             }}
             className="text-sm font-semibold text-[color:var(--orange)] underline underline-offset-4"
@@ -221,8 +263,8 @@ export default function ManualLibrary({ docs }: { docs: ProductDocument[] }) {
             No documents match that selection
           </p>
           <p className="mt-2 text-sm text-[color:var(--ink-dim)]">
-            Try a different model year, or contact our service team and we will
-            locate the correct manual for your serial number.
+            Try a different model or model year, or contact our service team
+            and we will locate the correct manual for your serial number.
           </p>
         </div>
       ) : (

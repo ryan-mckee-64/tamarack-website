@@ -5,9 +5,9 @@ import { getProductLine } from "@/lib/product-lines";
 import LineName from "@/components/product/LineName";
 
 export const metadata: Metadata = {
-  title: "Manuals & Parts | Tamarack Industries",
+  title: "Operator and Parts Manuals | Tamarack Industries",
   description:
-    "Brochures, operator manuals and parts manuals for every Tamarack product line, organized by model year.",
+    "Operator manuals and parts manuals for every Tamarack product line. Select the product line, then filter for your model.",
 };
 
 // The manual pages borrow each line's colour from the Product Lines data
@@ -33,13 +33,12 @@ export default function ManualsPage() {
         <div className="relative z-10 mx-auto max-w-[1280px] px-6 py-20 md:px-10 md:py-24">
           <p className="tech-label text-[color:var(--ember)]">Support</p>
           <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
-            Manuals &amp; Parts
+            Operator and Parts Manuals
           </h1>
           <hr className="brand-rule mt-6 w-24" />
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
-            Brochures, operator manuals and parts manuals for every Tamarack
-            product line. Select your product, then filter by the model year of
-            your machine to see the documents that apply to it.
+            Select the product line, then filter for your model to find
+            operator and parts manuals.
           </p>
         </div>
       </section>
@@ -69,9 +68,16 @@ export default function ManualsPage() {
                   <span className="line-card-chip w-fit rounded-full px-3 py-1 text-[0.68rem] font-semibold">
                     {product.family}
                   </span>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--ink-dim)]">
-                    {product.summary}
-                  </p>
+                  <div className="mt-3 flex-1">
+                    <p className="text-sm leading-relaxed text-[color:var(--ink-dim)]">
+                      {product.summary}
+                    </p>
+                    {product.modelsLabel && (
+                      <p className="mt-1.5 text-sm font-semibold text-[color:var(--ink-dim)]">
+                        {product.modelsLabel}
+                      </p>
+                    )}
+                  </div>
                   <p className="mt-5 text-sm text-[color:var(--ink-faint)]">
                     {counts.total}{" "}
                     {counts.total === 1 ? "document" : "documents"}

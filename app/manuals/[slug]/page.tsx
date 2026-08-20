@@ -97,16 +97,27 @@ export default async function ProductManualsPage({
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
             {product.summary}
           </p>
+          {product.modelsLabel && (
+            <p className="mt-2 text-base font-semibold text-[color:var(--ink-dim)]">
+              {product.modelsLabel}
+            </p>
+          )}
         </div>
       </section>
 
       <section className="mx-auto max-w-4xl px-6 py-16 md:px-10">
-        <div className="rounded-xl border border-[color:var(--line)] bg-[var(--surface)] p-5">
+        <div className="rounded-xl border border-[color:var(--line)] bg-[var(--surface)] p-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
           <p className="text-sm leading-relaxed text-[color:var(--ink-dim)]">
             Not sure which year your machine is? Check the serial plate on the
             unit, or contact our service team and we will confirm the correct
             manual for your serial number.
           </p>
+          <Link
+            href="/contact/support"
+            className="brand-gradient mt-4 inline-block shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 sm:mt-0"
+          >
+            Contact support
+          </Link>
         </div>
 
         <div className="mt-14">
