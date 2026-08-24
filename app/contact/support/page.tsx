@@ -19,12 +19,7 @@ export default function SupportPage() {
         <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
           Service and parts
         </h1>
-        <p className="mt-5 text-lg leading-relaxed text-[color:var(--ink-dim)]">
-          Include your serial number and model year where you can. It lets our
-          team pull the right manual and parts list before they reply.
-        </p>
-
-        <div className="mt-6 rounded-xl border border-[color:var(--line)] bg-[var(--surface)] p-5">
+        <div className="mt-8 rounded-xlborder border-[color:var(--line)] bg-[var(--surface)] p-5">
           <p className="text-sm leading-relaxed text-[color:var(--ink-dim)]">
             Looking for a manual or parts diagram?{" "}
             <Link href="/manuals" className="font-semibold text-[color:var(--orange)] underline underline-offset-4">

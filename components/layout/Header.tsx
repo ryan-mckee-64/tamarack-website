@@ -367,13 +367,6 @@ export default function Header() {
             </Link>
           ))}
 
-          <Link
-            href="/portal/login"
-            onClick={() => setOpen(false)}
-            className="block border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink-dim)]"
-          >
-            Customer Portal
-          </Link>
 
           <div className="mt-5 space-y-3">
             <Link

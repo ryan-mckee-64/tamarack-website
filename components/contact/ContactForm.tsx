@@ -25,7 +25,11 @@ export default function ContactForm({ department }: { department: Dept }) {
   const [product, setProduct] = useState("");
   const [modelYear, setModelYear] = useState("");
   const [serial, setSerial] = useState("");
-  const [enquiryType, setEnquiryType] = useState(isSales ? "Purchase" : "Service");
+  // Sales asks what kind of outfit you are; support asks what the enquiry is
+  // about. Two different questions, so two pieces of state rather than one
+  // field that means something different depending on the department.
+  const [companyType, setCompanyType] = useState("Rental company");
+  const [inquiryType, setInquiryType] = useState("Service");
   const [message, setMessage] = useState("");
 
   const valid = name.trim() !== "" && userEmail.trim() !== "" && message.trim() !== "";
@@ -43,10 +47,12 @@ export default function ContactForm({ department }: { department: Dept }) {
       body += "Model year: " + (modelYear || "Not provided") + "\n";
       body += "Serial number: " + (serial || "Not provided") + "\n";
     }
-    body += "Enquiry type: " + enquiryType + "\n\n";
+    body += isSales
+      ? "Company type: " + companyType + "\n\n"
+      : "Inquiry type: " + inquiryType + "\n\n";
     body += message;
 
-    const subject = (isSales ? "Sales" : "Support") + " enquiry from " + name;
+    const subject = (isSales ? "Sales" : "Support") + " inquiry from " + name;
 
     window.location.href =
       "mailto:" + email +
@@ -147,22 +153,41 @@ export default function ContactForm({ department }: { department: Dept }) {
         </div>
 
         <div>
-          <label htmlFor="enquiryType" className={labelClass}>Enquiry type</label>
-          <select
-            id="enquiryType"
-            value={enquiryType}
-            onChange={(e) => setEnquiryType(e.target.value)}
-            className={inputClass}
-          >
-            {isSales && <option>Purchase</option>}
-            {isSales && <option>Rental</option>}
-            {isSales && <option>Pricing and availability</option>}
-            {isSales && <option>Dealer enquiry</option>}
-            {!isSales && <option>Service</option>}
-            {!isSales && <option>Parts order</option>}
-            {!isSales && <option>Troubleshooting</option>}
-            {!isSales && <option>Warranty</option>}
-          </select>
+          {isSales ? (
+            <>
+              <label htmlFor="companyType" className={labelClass}>
+                Company type
+              </label>
+              <select
+                id="companyType"
+                value={companyType}
+                onChange={(e) => setCompanyType(e.target.value)}
+                className={inputClass}
+              >
+                <option>Rental company</option>
+                <option>Dealer</option>
+                <option>Contractor</option>
+                <option>Other</option>
+              </select>
+            </>
+          ) : (
+            <>
+              <label htmlFor="inquiryType" className={labelClass}>
+                Inquiry type
+              </label>
+              <select
+                id="inquiryType"
+                value={inquiryType}
+                onChange={(e) => setInquiryType(e.target.value)}
+                className={inputClass}
+              >
+                <option>Service</option>
+                <option>Parts order</option>
+                <option>Troubleshooting</option>
+                <option>Warranty</option>
+              </select>
+            </>
+          )}
         </div>
 
         {!isSales && (
@@ -209,7 +234,7 @@ export default function ContactForm({ department }: { department: Dept }) {
         disabled={!valid}
         className="brand-gradient mt-7 rounded-full px-8 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
       >
-        Send enquiry
+        Send inquiry
       </button>
     </form>
   );

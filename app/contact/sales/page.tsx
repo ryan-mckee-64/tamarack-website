@@ -4,7 +4,7 @@ import ContactForm from "@/components/contact/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Sales | Tamarack Industries",
-  description: "Pricing, availability, rentals and new equipment enquiries.",
+  description: "Pricing, availability, and product inquiries.",
 };
 
 export default function SalesPage() {
@@ -19,11 +19,6 @@ export default function SalesPage() {
         <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
           Talk to sales
         </h1>
-        <p className="mt-5 text-lg leading-relaxed text-[color:var(--ink-dim)]">
-          Tell us about the job and we will help you size the right equipment,
-          whether you are buying or renting.
-        </p>
-
         <div className="mt-10">
           <ContactForm department="sales" />
         </div>

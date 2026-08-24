@@ -33,12 +33,12 @@ export type ModelComparison = {
 
 export const modelComparisons: ModelComparison[] = [
   {
-    slug: "heat-king",
+    slug: "glycol-heaters",
     lineSlug: "heat-king",
-    title: "Heat King",
+    title: "Glycol heaters",
     summary:
-      "Glycol ground thaw and heating units. Coverage figures are maximums under typical conditions.",
-    models: ["HK 150", "HK 300", "HK 600"],
+      "Mobile glycol heating units across the Heat King and Thawzall lines. Coverage figures are maximums under typical conditions.",
+    models: ["HK 150", "HK 300", "HK 600", "TCH 250"],
     rows: [
       {
         label: "Heater capacity",
@@ -46,6 +46,7 @@ export const modelComparisons: ModelComparison[] = [
           { value: "150,000 BTU/hr" },
           { value: "300,000 BTU/hr" },
           { value: "600,000 BTU/hr" },
+          { value: "280,000 BTU/hr" },
         ],
       },
       {
@@ -54,6 +55,7 @@ export const modelComparisons: ModelComparison[] = [
           { value: "5,600 ft²" },
           { value: "11,200 ft²" },
           { value: "22,400 ft²" },
+          { value: "12,000 ft²" },
         ],
       },
       {
@@ -62,6 +64,7 @@ export const modelComparisons: ModelComparison[] = [
           { value: "2,800 ft²" },
           { value: "5,600 ft²" },
           { value: "11,200 ft²" },
+          { value: "6,000 ft²" },
         ],
       },
       {
@@ -70,6 +73,7 @@ export const modelComparisons: ModelComparison[] = [
           { value: "6,200 ft²" },
           { value: "12,000 ft²" },
           { value: "15,000 ft²" },
+          { value: "12,000 ft²" },
         ],
       },
       {
@@ -81,6 +85,7 @@ export const modelComparisons: ModelComparison[] = [
           },
           { value: "4 × 700 ft hoses" },
           { value: "8 × 700 ft hoses" },
+          { value: "5 × 600 ft hoses" },
         ],
       },
       {
@@ -89,6 +94,7 @@ export const modelComparisons: ModelComparison[] = [
           { value: "50+ hr" },
           { value: "Up to 120 hr" },
           { value: "Up to 60 hr" },
+          { value: "Up to 100 hr" },
         ],
       },
     ],

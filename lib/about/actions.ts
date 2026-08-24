@@ -11,7 +11,7 @@ import { createClient } from "@/lib/supabase/server";
 
 // Note: a "use server" file may only export async functions, so any constant
 // here has to stay module-local — exporting one breaks every export in the
-// file. The marketing address lives in the notification block below.
+// file. The notification address lives in the block at the end.
 
 const MAX_PHOTOS = 6;
 
@@ -68,7 +68,7 @@ export async function submitUnitPhotos(input: {
   // place this becomes:
   //
   //   await sendMail({
-  //     to: "Marketing@tamarack-ind.com",
+    //     to: "sklassen@tamarack-ind.com",
   //     replyTo: text(input.email) ?? undefined,
   //     subject: `Unit photos from ${company}`,
   //     text: [`${name} at ${company}`, ...paths].join("\n"),

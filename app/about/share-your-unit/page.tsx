@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import ShareYourUnitForm from "@/components/about/ShareYourUnitForm";
 
 export const metadata: Metadata = {
-  title: "Send Us a Picture of Your Unit | Tamarack Industries",
+  title: "Jobsite Photo Submission | Tamarack Industries",
   description:
     "Send our marketing team a photo of your Tamarack machine on the job.",
 };
@@ -22,13 +22,12 @@ export default function ShareYourUnitPage() {
 
           <p className="tech-label mt-8 text-[color:var(--ember)]">About us</p>
           <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
-            Send us a picture of your unit
+            Jobsite photo submission
           </h1>
           <hr className="brand-rule mt-6 w-24" />
           <p className="mt-6 text-lg leading-relaxed text-[color:var(--ink-dim)]">
-            We like seeing where our machines end up. Send our marketing team a
-            photo of yours on the job and we will send you something from
-            Tamarack.
+            Send us a photo of your Tamarack equipment on the job and we&apos;ll
+            send you something from us!
           </p>
         </div>
       </section>
