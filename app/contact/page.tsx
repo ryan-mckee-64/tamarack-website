@@ -10,7 +10,7 @@ const OPTIONS = [
   {
     href: "/contact/sales",
     label: "Sales",
-    blurb: "Pricing, availability, rentals, new equipment and dealer enquiries.",
+    blurb: "Pricing, availability, and product inquiries.",
   },
   {
     href: "/contact/support",

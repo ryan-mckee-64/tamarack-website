@@ -94,7 +94,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: "ground-preparation",
-    label: "Ground preparation",
+    label: "Site preparation",
     href: "/solutions/ground-preparation",
     kind: "application",
     description:

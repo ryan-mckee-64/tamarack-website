@@ -2,7 +2,78 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { productLines } from "@/lib/product-lines";
+import { visibleProductLines, visibleModels, type ProductLine } from "@/lib/product-lines";
+
+function ComingSoon() {
+  return (
+    <span className="shrink-0 rounded-full bg-[var(--surface-2)] px-1.5 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
+      Coming soon
+    </span>
+  );
+}
+
+// Models render in one flat list unless the line splits them into groups
+// (Thawzall does: glycol on one side, flameless on the other). Ungrouped
+// models always come first, so a line that only groups some of its range
+// still reads top to bottom.
+function ModelList({
+  line,
+  onNavigate,
+}: {
+  line: ProductLine;
+  onNavigate: () => void;
+}) {
+  const models = visibleModels(line);
+  const groups: string[] = [];
+  models.forEach((m) => {
+    const g = m.group ?? "";
+    if (!groups.includes(g)) groups.push(g);
+  });
+
+  return (
+    <>
+      {groups.map((group) => (
+        <div key={group || "ungrouped"} className={group ? "mt-2.5" : "mt-2"}>
+          {group && (
+            <p className="px-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faint)]">
+              {group}
+            </p>
+          )}
+          <ul className={group ? "mt-1" : ""}>
+            {models
+              .filter((m) => (m.group ?? "") === group)
+              .map((model) => (
+                <li key={model.slug}>
+                  <Link
+                    href={`/products/${line.slug}/${model.slug}`}
+                    onClick={onNavigate}
+                    className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
+                  >
+                    {model.name}
+                    {model.comingSoon && <ComingSoon />}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </div>
+      ))}
+
+      {line.hasAccessories && (
+        <ul className="mt-1">
+          <li>
+            <Link
+              href={`/products/${line.slug}#accessories`}
+              onClick={onNavigate}
+              className="block rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
+            >
+              Accessories
+            </Link>
+          </li>
+        </ul>
+      )}
+    </>
+  );
+}
 
 export default function ProductsMenu({
   open,
@@ -13,7 +84,7 @@ export default function ProductsMenu({
 }) {
   return (
     <div
-            className={`absolute left-1/2 top-full z-50 w-[540px] -translate-x-1/2 transition-all duration-200 ease-out ${
+      className={`absolute left-1/2 top-full z-50 w-[540px] -translate-x-1/2 transition-all duration-200 ease-out ${
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0"
@@ -24,14 +95,14 @@ export default function ProductsMenu({
             tallest cell, which left a dead gap under Heat King next to the
             much longer Thawzall list. Columns balance on height instead. */}
         <div className="columns-2 gap-x-7 [column-fill:balance]">
-          {productLines.map((line) => (
+          {visibleProductLines.map((line) => (
             <div key={line.slug} className="mb-5 break-inside-avoid last:mb-0">
               <Link
                 href={`/products/${line.slug}`}
                 onClick={onNavigate}
                 className="group block"
               >
-                                {line.logo && line.logoStyle !== "badge" ? (
+                {line.logo && line.logoStyle !== "badge" ? (
                   // logoZoom scales the wordmark off the 1.5rem baseline, so
                   // marks that carry extra empty margin in the file (Heat King,
                   // Thawzall) still read at the same visual size as the rest.
@@ -50,43 +121,11 @@ export default function ProductsMenu({
                 )}
                 <p className="mt-1 flex items-center gap-2 text-[0.68rem] text-[color:var(--ink-faint)]">
                   {line.category}
-                  {line.comingSoon && (
-                    <span className="shrink-0 rounded-full bg-[var(--surface-2)] px-2 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
-                      Coming soon
-                    </span>
-                  )}
+                  {line.comingSoon && <ComingSoon />}
                 </p>
               </Link>
 
-              <ul className="mt-2">
-                {line.models.map((model) => (
-                  <li key={model.slug}>
-                                        <Link
-                      href={`/products/${line.slug}/${model.slug}`}
-                      onClick={onNavigate}
-                      className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
-                    >
-                      {model.name}
-                      {model.comingSoon && (
-                        <span className="rounded-full bg-[var(--surface-2)] px-1.5 py-0.5 text-[0.6rem] font-semibold text-[color:var(--ink-faint)]">
-                          Coming soon
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-                {line.hasAccessories && (
-                  <li>
-                    <Link
-                      href={`/products/${line.slug}#accessories`}
-                      onClick={onNavigate}
-                      className="block rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
-                    >
-                      Accessories
-                    </Link>
-                  </li>
-                )}
-              </ul>
+              <ModelList line={line} onNavigate={onNavigate} />
             </div>
           ))}
         </div>

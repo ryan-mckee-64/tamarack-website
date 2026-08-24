@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { productLines } from "@/lib/product-lines";
+import { visibleProductLines } from "@/lib/product-lines";
 
 const SALES_EMAIL = "Sales@tamarack-ind.com";
 const SUPPORT_EMAIL = "Support@tamarack-ind.com";
@@ -137,7 +137,7 @@ export default function ContactForm({ department }: { department: Dept }) {
             className={inputClass}
           >
             <option value="">Select a product</option>
-            {productLines.map((line) => (
+            {visibleProductLines.map((line) => (
               <option key={line.slug} value={line.name}>
                 {line.name}
               </option>

@@ -54,6 +54,13 @@ export type ProductModel = {
   description?: string;
   specs?: ModelSpec[];
   comingSoon?: boolean;
+  /** Temporarily pulled from the menus, product cards and contact form. The
+   *  model page still exists at its URL — this only removes the links. */
+  hidden?: boolean;
+  /** Optional sub-heading in the Product Lines dropdown, for a line that
+   *  splits into more than one kind of machine. Models with no group render
+   *  first, ungrouped. */
+  group?: string;
   /** Path to the brochure PDF under /public. The "View brochure" button on the
    *  model page only renders when this is set. */
   brochure?: string;
@@ -79,6 +86,11 @@ export type ProductLine = {
   /** Whole line is not in production yet. Shows a "Coming soon" tag in the
    *  Product Lines menu. */
   comingSoon?: boolean;
+  /** Temporarily pulled from the menus, footer, product cards and contact
+   *  form. The line's pages still exist — this only removes the links. */
+  hidden?: boolean;
+  /** Which block the line sits in on /products. */
+  family?: "heating" | "equipment";
   /** The long form page content. Omit for lines that are not written yet. */
   linePage?: LinePage;
 };
@@ -94,7 +106,8 @@ export const productLines: ProductLine[] = [
     accent: "#e02a26",
     logoZoom: 1.3,
     logo: "/images/heat-king-logo.png",
-    category: "Mobile glycol heating equipment",
+        category: "Mobile glycol heaters",
+    family: "heating",
     summary:
       "Glycol ground thaw and heating units for concrete curing, ground thaw and temporary heat.",
     hasAccessories: true,
@@ -336,7 +349,8 @@ export const productLines: ProductLine[] = [
     accent: "#b01f2e",
     logoZoom: 1.3,
     logo: "/images/thawzall-logo.png",
-    category: "Flameless and mobile glycol heating equipment",
+      category: "Flameless heaters & mobile glycol heaters",
+    family: "heating",
     summary:
       "Flameless and hydronic heaters built for enclosed and sensitive work areas.",
     hasAccessories: true,
@@ -344,6 +358,7 @@ export const productLines: ProductLine[] = [
       {
         slug: "tch-250",
         name: "TCH 250",
+        group: "Glycol heating equipment",
         tagline: "Hydronic surface heater for thaw, cure and temporary heat.",
         description:
           "HeatZone fluid distribution and a three way mixing valve give precise outlet temperature control, which makes the TCH 250 the pick of the range for concrete curing.",
@@ -392,6 +407,7 @@ export const productLines: ProductLine[] = [
       {
         slug: "xhr-700",
         name: "XHR 700",
+        group: "Flameless heaters",
         tagline: "Largest flameless heater in the XHR range.",
         description:
           "The biggest flameless unit Thawzall builds, with variable air flow up to 6,000 CFM for large enclosures and sensitive work areas.",
@@ -428,6 +444,8 @@ export const productLines: ProductLine[] = [
       {
         slug: "xhr-475",
         name: "XHR 475",
+        group: "Flameless heaters",
+        hidden: true,
         tagline: "Mid capacity flameless heater for general site work.",
         description:
           "The general purpose flameless unit, on the same frame as the XHR 700 with a smaller engine and fuel tank.",
@@ -464,6 +482,7 @@ export const productLines: ProductLine[] = [
       {
         slug: "xhr-200",
         name: "XHR 200",
+        group: "Flameless heaters",
         tagline: "Compact flameless heater for smaller enclosed areas.",
         comingSoon: true,
         description:
@@ -492,6 +511,15 @@ export const productLines: ProductLine[] = [
           { label: "Dry weight", value: "1,188 lbs" },
           { label: "Fuel tank capacity", value: "Integral fuel tank coming soon" },
         ],
+      },
+      {
+        slug: "xhr-1000",
+        name: "XHR 1000",
+        tagline: "High capacity flameless heater for large enclosures.",
+        group: "Flameless heaters",
+        comingSoon: true,
+        description:
+          "The largest unit in the flameless range. Specifications are being finalised — contact sales for availability.",
       },
     ],
     linePage: {
@@ -567,7 +595,9 @@ export const productLines: ProductLine[] = [
     name: "Renegade",
     accent: "#f5b301",
     logo: "/images/renegade-logo.png",
-    category: "Sub-compact tractor loader backhoe",
+    category: "Sub-compact tractor loader backhoes",
+    family: "equipment",
+    hidden: true,
     summary:
       "Subcompact tractor loader backhoe sized for tight access work and utility trenching.",
     hasAccessories: false,
@@ -701,7 +731,9 @@ export const productLines: ProductLine[] = [
     name: "Maverick",
     accent: "#ffc400",
     logo: "/images/maverick-logo.png",
-    category: "Site sweeper",
+    category: "Site sweepers",
+    family: "equipment",
+    hidden: true,
     summary:
       "Site sweepers for dust control and surface cleanup on active job sites.",
     hasAccessories: false,
@@ -822,7 +854,8 @@ export const productLines: ProductLine[] = [
     accent: "#e2711d",
     logoZoom: 1.25,
     logo: "/images/muddog-logo-2.png",
-    category: "Electric and gas concrete buggies",
+    category: "Concrete buggies",
+    family: "equipment",
     summary:
       "Concrete power buggies for moving material across rough and confined job sites.",
     hasAccessories: false,
@@ -901,6 +934,14 @@ export const productLines: ProductLine[] = [
           { label: "Bucket type", value: "Poly or steel" },
         ],
       },
+      {
+        slug: "cb-2100-poly",
+        name: "CB-2100 Poly",
+        tagline: "Larger capacity buggy with a poly bucket.",
+        comingSoon: true,
+        description:
+          "A higher capacity addition to the buggy range with a poly bucket. Specifications are being finalised — contact sales for availability.",
+      },
     ],
     linePage: {
       eyebrow: "Electric and gas powered concrete buggies",
@@ -969,7 +1010,8 @@ export const productLines: ProductLine[] = [
     accent: "#b08d2e",
     logoZoom: 1.3,
     logo: "/images/yarddog-logo.png",
-    category: "Trailer mover",
+    category: "Trailer movers",
+    family: "equipment",
     summary:
       "Trailer movers for repositioning loaded trailers in yards and staging areas.",
     hasAccessories: false,
@@ -979,6 +1021,15 @@ export const productLines: ProductLine[] = [
     models: [],
   },
 ];
+
+/** Everything the public navigation should show. Use this rather than
+ *  `productLines` anywhere a visitor picks from a list. */
+export const visibleProductLines = productLines.filter((l) => !l.hidden);
+
+/** The visible models within a line, in data order. */
+export function visibleModels(line: ProductLine): ProductModel[] {
+  return line.models.filter((m) => !m.hidden);
+}
 
 export function getProductLine(slug: string): ProductLine | undefined {
   return productLines.find((p) => p.slug === slug);

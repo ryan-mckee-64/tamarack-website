@@ -172,7 +172,7 @@ export default function Header() {
                 menu === "contact" ? "contact-pill-open" : ""
               }`}
             >
-              Sales &amp; Support
+              Contact Us
               <span
                 className={`text-[0.6rem] transition-transform duration-200 ${
                   menu === "contact" ? "rotate-180" : ""

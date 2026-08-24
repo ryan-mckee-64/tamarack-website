@@ -10,17 +10,12 @@ const OPTIONS: {
   {
     href: "/contact/sales",
     label: "Sales",
-    blurb: "Pricing, availability, rentals and new equipment enquiries.",
+    blurb: "Pricing, availability, and product inquiries.",
   },
   {
     href: "/contact/support",
     label: "Support",
-    blurb: "Service, parts, troubleshooting and warranty questions.",
-  },
-  {
-    href: "/contact/quote",
-    label: "Get a quote",
-    blurb: "Request pricing for a specific machine or job.",
+    blurb: "Service, parts, troubleshooting, and warranty questions.",
   },
 ];
 

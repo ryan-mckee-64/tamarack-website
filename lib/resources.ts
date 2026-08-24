@@ -148,6 +148,21 @@ export const resourceGroups: ResourceGroup[] = [
     ],
   },
   {
+    slug: "warranty",
+    label: "Warranty",
+    blurb: "Submit a warranty claim on a machine you own.",
+    items: [
+      {
+        slug: "warranty-claim",
+        label: "Warranty claim form",
+        href: "/resources/warranty-claim",
+        status: "live",
+        description:
+          "Send us the machine details and the fault, and our service team will open a claim.",
+      },
+    ],
+  },
+  {
     slug: "tools",
     label: "Tools",
     blurb: "Sizing tools for planning a job.",

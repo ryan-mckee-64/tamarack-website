@@ -13,10 +13,8 @@ const COLUMNS = [
   {
     title: "Equipment",
     links: [
-      { label: "Renegade", href: "/products/renegade" },
       { label: "Mud Dog", href: "/products/mud-dog" },
       { label: "Yard Dog", href: "/products/yard-dog" },
-      { label: "Maverick", href: "/products/maverick" },
     ],
   },
   {

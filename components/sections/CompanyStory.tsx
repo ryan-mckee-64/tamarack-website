@@ -19,17 +19,19 @@ type StoryPhoto = {
   caption: string;
 };
 
-// Swap this for the group shot of all three Heat King models when it arrives.
+// Set src to the file path once the photo is in public/images/. Until then
+// each slot renders a labelled dashed placeholder at the right aspect ratio,
+// so the page layout is already final.
 const PHOTO_ONE: StoryPhoto = {
-  src: "/images/heat-king.png",
-  alt: "Tamarack Heat King mobile glycol heating system on a trailer",
-  caption: "Heat King mobile glycol heating system",
+  src: null,
+  alt: "Tamarack Heat King mobile glycol heating systems",
+  caption: "Replace: group shot of the Heat King range",
 };
 
 const PHOTO_TWO: StoryPhoto = {
   src: null,
   alt: "A Tamarack unit on the job",
-  caption: "Archive photo, a unit on the job",
+  caption: "Replace: a unit working on site",
 };
 
 function StoryImage({ photo }: { photo: StoryPhoto }) {

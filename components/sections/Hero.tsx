@@ -61,11 +61,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative flex h-full flex-col justify-center">
         <div className="mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-20">
-          <p className="tech-label hero-eyebrow">
-            Tamarack Industries · Winnipeg, Manitoba
-          </p>
-
-          <h1 className="font-display hero-title mt-5 max-w-4xl text-[clamp(2.5rem,6.5vw,5rem)] font-extrabold leading-[1.02] tracking-[-0.035em]">
+          <h1 className="font-display hero-title max-w-4xl text-[clamp(2.5rem,6.5vw,5rem)] font-extrabold leading-[1.02] tracking-[-0.035em]">
             Trusted in rental for 30 years.
           </h1>
 
