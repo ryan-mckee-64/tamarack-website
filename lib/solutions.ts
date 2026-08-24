@@ -18,7 +18,15 @@ export type Solution = {
   label: string;
   href: string;
   kind: SolutionKind;
+  /** One line, used as the page's standfirst and in listings. */
   description: string;
+  /** How our equipment fits this application or industry. Each string is a
+   *  paragraph. Omit and the page just runs description → equipment. */
+  body?: string[];
+  /** Photo of the work being done. Set to a path under /public once the
+   *  photo arrives; null renders a labelled placeholder at the right size. */
+  photo?: string | null;
+  photoCaption?: string;
   products: SolutionProduct[];
 };
 
@@ -57,6 +65,12 @@ export const solutions: Solution[] = [
     kind: "application",
     description:
       "Thawing frozen ground ahead of excavation and foundation work.",
+    body: [
+      "PLACEHOLDER — how our glycol units thaw frozen ground: hose layout over the area, insulated blankets on top, and the depth and rate you can expect in a prairie winter.",
+      "PLACEHOLDER — how to size the job: square footage per unit, typical run times, and when to step up from an HK 150 to an HK 300 or HK 600.",
+    ],
+    photo: null,
+    photoCaption: "Hoses and blankets laid out on a frozen site",
     products: GLYCOL_HEATERS,
   },
   {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { products, documentCountsForProduct } from "@/lib/manuals";
+import { visibleProducts, documentCountsForProduct } from "@/lib/manuals";
 import { getProductLine } from "@/lib/product-lines";
 import LineName from "@/components/product/LineName";
 
@@ -45,7 +45,7 @@ export default function ManualsPage() {
 
       <section className="mx-auto max-w-[1280px] px-6 py-16 md:px-10 md:py-20">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => {
+          {visibleProducts.map((product) => {
             const counts = documentCountsForProduct(product.slug);
             return (
               <Link

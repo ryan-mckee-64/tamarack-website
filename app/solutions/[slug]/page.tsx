@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -40,8 +41,38 @@ export default async function SolutionPage({
           {solution.description}
         </p>
 
-        {/* Equipment for this application or industry. Photos for each
-            solution drop in above this block once they arrive. */}
+        {solution.photo ? (
+          <Image
+            src={solution.photo}
+            alt={solution.photoCaption ?? solution.label}
+            width={878}
+            height={549}
+            className="mt-10 h-auto w-full rounded-2xl"
+          />
+        ) : (
+          <figure className="mt-10 flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-dashed border-[color:var(--line-strong)] bg-[var(--surface-2)]">
+            <figcaption className="px-6 text-center text-xs text-[color:var(--ink-faint)]">
+              {solution.photoCaption ?? `Photo: ${solution.label}`}
+            </figcaption>
+          </figure>
+        )}
+
+        {solution.body && solution.body.length > 0 && (
+          <div className="mt-10">
+            {solution.body.map((para, i) => (
+              <p
+                key={i}
+                className={`text-base leading-relaxed text-[color:var(--ink-dim)] ${
+                  i > 0 ? "mt-5" : ""
+                }`}
+              >
+                {para}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {/* Equipment for this application or industry. */}
         {solution.products.length > 0 && (
           <div className="mt-14">
             <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">

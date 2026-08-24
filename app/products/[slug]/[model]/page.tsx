@@ -100,7 +100,7 @@ export default async function ModelPage({
                   rel="noopener noreferrer"
                   className="rounded-full border border-[color:var(--line-strong)] px-6 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
                 >
-                  View brochure
+                  Download brochure
                 </a>
               )}
               <Link
@@ -143,6 +143,35 @@ export default async function ModelPage({
             </p>
           )}
         </div>
+
+        {/* Videos for this model. Links rather than embeds — an embed per
+            model would pull a third party player onto every product page. */}
+        {m.videos && m.videos.length > 0 && (
+          <div className="mt-20">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
+              Videos
+            </h2>
+            <ul className="mt-6 space-y-3">
+              {m.videos.map((v) => (
+                <li key={v.url}>
+                  <a
+                    href={v.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between rounded-xl border border-[color:var(--line)] bg-[var(--surface)] px-5 py-4 transition hover:border-[color:var(--orange)] hover:shadow-sm"
+                  >
+                    <span className="text-sm font-semibold text-[color:var(--ink)] transition group-hover:text-[color:var(--orange)]">
+                      {v.label}
+                    </span>
+                    <span className="shrink-0 text-[color:var(--ink-faint)] transition group-hover:translate-x-0.5 group-hover:text-[color:var(--orange)]">
+                      &rarr;
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Interactive 3D model. Lives here rather than on a separate page. */}
         {model3d && (

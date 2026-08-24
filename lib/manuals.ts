@@ -24,6 +24,8 @@ export type Product = {
   name: string;
   family: string;
   summary: string;
+  /** Temporarily pulled from the manual library index. */
+  hidden?: boolean;
   /**
    * Model numbers shown under the summary, on both the manuals index card and
    * the line's own manuals page. Optional — a line with no published model
@@ -86,8 +88,8 @@ export const products: Product[] = [
   {
     slug: "heat-king",
     name: "Heat King",
-    family: "Glycol heaters",
-    summary: "Mobile glycol heaters",
+    family: "Mobile glycol heaters",
+    summary: "Mobile glycol heating equipment.",
     modelsLabel: "HK 150, HK 300, HK 600",
     heroImage: "/images/heat-king.png",
     heroTop: -17,
@@ -95,8 +97,8 @@ export const products: Product[] = [
   {
     slug: "thawzall-xhr",
     name: "Thawzall XHR",
-    family: "Flameless and glycol heat",
-    summary: "Flameless heaters and mobile glycol heaters",
+    family: "Flameless heaters & mobile glycol heaters",
+    summary: "Flameless heaters and mobile glycol heaters.",
     modelsLabel: "TCH 250, XHR 700, XHR 475, E-XHR 100",
     heroImage: "/images/thawzall.png",
     heroTop: -17,
@@ -104,16 +106,17 @@ export const products: Product[] = [
   {
     slug: "renegade",
     name: "Renegade",
-    family: "Subcompact tractor loader backhoe",
-    summary: "Subcompact tractor loader backhoes",
+    family: "Subcompact tractor loader backhoes",
+    summary: "Subcompact tractor loader backhoes.",
+    hidden: true,
     heroImage: "/images/renegade.png",
     heroTop: -56,
   },
   {
     slug: "mud-dog",
     name: "Mud Dog",
-    family: "Concrete power buggy",
-    summary: "Concrete buggies",
+    family: "Concrete buggies",
+    summary: "Concrete buggies.",
     modelsLabel: "CB-1600, CB-1600E",
     heroImage: "/images/muddog.png",
     heroTop: -5,
@@ -121,19 +124,22 @@ export const products: Product[] = [
   {
     slug: "yard-dog",
     name: "Yard Dog",
-    family: "Trailer mover",
-    summary: "Trailer movers",
+    family: "Trailer movers",
+    summary: "Trailer movers.",
     heroImage: "/images/yarddog.png",
   },
   {
     slug: "maverick",
     name: "Maverick",
-    family: "Site sweeper",
-    summary: "Site sweepers",
+    family: "Site sweepers",
+    summary: "Site sweepers.",
+    hidden: true,
     heroImage: "/images/maverick.png",
     heroTop: -56,
   },
 ];
+
+export const visibleProducts = products.filter((p) => !p.hidden);
 
 export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);

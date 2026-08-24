@@ -61,9 +61,13 @@ export type ProductModel = {
    *  splits into more than one kind of machine. Models with no group render
    *  first, ungrouped. */
   group?: string;
-  /** Path to the brochure PDF under /public. The "View brochure" button on the
-   *  model page only renders when this is set. */
+  /** Path to the brochure PDF under /public. The "Download brochure" button on
+   *  the model page only renders when this is set. */
   brochure?: string;
+  /** Training, demo and maintenance videos for this model. Renders as a list
+   *  under the specs. YouTube/Vimeo watch URLs are fine — these are links,
+   *  not embeds. */
+  videos?: { label: string; url: string }[];
   /** High level specs for the comparison row on the product line page. Plain
    *  strings so each line can word them its own way. A model without these is
    *  left out of that row. */
