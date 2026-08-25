@@ -1,9 +1,22 @@
 "use client";
 
-import { Suspense } from "react";
+import { Component, Suspense, useMemo } from "react";
+import type { ReactNode } from "react";
+import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Html, useProgress, useGLTF } from "@react-three/drei";
-import type { Hotspot } from "@/lib/models";
+import {
+  OrbitControls,
+  ContactShadows,
+  Html,
+  useProgress,
+  useGLTF,
+} from "@react-three/drei";
+import type { Hotspot, UpAxis } from "@/lib/models";
+
+// The machine is scaled to fit inside a box this many world units tall or
+// wide, whichever is larger. Every model therefore arrives on screen at a
+// predictable size no matter what units the CAD package exported in.
+const TARGET_SIZE = 3.4;
 
 function LoadingIndicator() {
   const { progress } = useProgress();
@@ -16,9 +29,51 @@ function LoadingIndicator() {
   );
 }
 
-function LoadedModel({ url }: { url: string }) {
-  const { scene } = useGLTF(url);
-  return <primitive object={scene} />;
+/**
+ * Renders a glTF or GLB file, centred on the origin and sitting on the
+ * ground plane. CAD exports come out in millimetres, off centre, and often
+ * with Z pointing up, so none of this can be assumed correct in the file.
+ */
+function LoadedModel({ url, upAxis }: { url: string; upAxis: UpAxis }) {
+  const { scene } = useGLTF(url, "/draco/");
+
+  const { object, scale, offset } = useMemo(() => {
+    // Clone so the cached original is never mutated. The same file may be
+    // shown twice on a page, or remounted when the viewer is reset.
+    const clone = scene.clone(true);
+
+    if (upAxis === "z-up") {
+      clone.rotation.x = -Math.PI / 2;
+      clone.updateMatrixWorld(true);
+    }
+
+    clone.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+
+    const box = new THREE.Box3().setFromObject(clone);
+    const size = box.getSize(new THREE.Vector3());
+    const centre = box.getCenter(new THREE.Vector3());
+    const longestAxis = Math.max(size.x, size.y, size.z) || 1;
+
+    return {
+      object: clone,
+      scale: TARGET_SIZE / longestAxis,
+      // Centred left to right and front to back, resting on y = 0.
+      offset: [-centre.x, -box.min.y, -centre.z] as [number, number, number],
+    };
+  }, [scene, upAxis]);
+
+  // The offset sits on the inner object and the scale on the outer group, so
+  // the two never multiply into each other.
+  return (
+    <group scale={scale}>
+      <primitive object={object} position={offset} />
+    </group>
+  );
 }
 
 function PlaceholderMachine() {
@@ -33,31 +88,58 @@ function PlaceholderMachine() {
         <meshStandardMaterial color={red} roughness={0.45} metalness={0.15} />
       </mesh>
 
-      <mesh position={[0.6, 1.75, 0]}>
+      <mesh position={[0.6, 1.75, 0]} castShadow>
         <boxGeometry args={[1.4, 0.7, 1.3]} />
         <meshStandardMaterial color={dark} roughness={0.6} />
       </mesh>
 
-      <mesh position={[-1.35, 1.5, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[-1.35, 1.5, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <cylinderGeometry args={[0.42, 0.42, 0.9, 32]} />
         <meshStandardMaterial color={grey} roughness={0.5} metalness={0.3} />
       </mesh>
 
-      <mesh position={[0, 0.3, 0.85]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[0, 0.3, 0.85]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <cylinderGeometry args={[0.35, 0.35, 0.28, 24]} />
         <meshStandardMaterial color={dark} roughness={0.8} />
       </mesh>
-      <mesh position={[0, 0.3, -0.85]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[0, 0.3, -0.85]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <cylinderGeometry args={[0.35, 0.35, 0.28, 24]} />
         <meshStandardMaterial color={dark} roughness={0.8} />
       </mesh>
 
-      <mesh position={[-1.9, 0.55, 0]}>
+      <mesh position={[-1.9, 0.55, 0]} castShadow>
         <boxGeometry args={[0.9, 0.14, 0.14]} />
         <meshStandardMaterial color={grey} metalness={0.4} roughness={0.4} />
       </mesh>
     </group>
   );
+}
+
+/**
+ * A missing or corrupt model file must not take the page down with it. If the
+ * GLB fails to load the viewer quietly shows the placeholder machine instead,
+ * so the rest of the page, including the component list, keeps working.
+ */
+class ModelErrorBoundary extends Component<
+  { fallback: ReactNode; children: ReactNode; onError?: () => void },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error("3D model failed to load", error);
+    // Let the viewer label the fallback, so a missing file is never passed
+    // off to a visitor as the real machine.
+    this.props.onError?.();
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
 }
 
 function HotspotMarker({
@@ -91,18 +173,22 @@ function HotspotMarker({
 
 export default function ModelScene({
   modelUrl,
+  upAxis = "y-up",
   autoRotate,
   hotspots,
   showHotspots,
   selectedId,
   onSelect,
+  onLoadError,
 }: {
   modelUrl: string | null;
+  upAxis?: UpAxis;
   autoRotate: boolean;
   hotspots: Hotspot[];
   showHotspots: boolean;
   selectedId: string | null;
   onSelect: (id: string | null) => void;
+  onLoadError?: () => void;
 }) {
   return (
     <Canvas
@@ -113,31 +199,47 @@ export default function ModelScene({
     >
       <color attach="background" args={["#f6f4f0"]} />
 
-      <ambientLight intensity={0.6} />
+      <ambientLight intensity={0.5} />
+      <hemisphereLight args={["#ffffff", "#c9c2b8", 0.7]} />
       <directionalLight
         position={[6, 8, 5]}
         intensity={1.4}
         castShadow
-        shadow-mapSize={[1024, 1024]}
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.0005}
       />
       <directionalLight position={[-5, 3, -4]} intensity={0.4} />
 
-      <Suspense fallback={<LoadingIndicator />}>
-        <group>
-          {modelUrl ? <LoadedModel url={modelUrl} /> : <PlaceholderMachine />}
+      <ModelErrorBoundary fallback={<PlaceholderMachine />} onError={onLoadError}>
+        <Suspense fallback={<LoadingIndicator />}>
+          <group>
+            {modelUrl ? (
+              <LoadedModel url={modelUrl} upAxis={upAxis} />
+            ) : (
+              <PlaceholderMachine />
+            )}
 
-          {showHotspots &&
-            hotspots.map((h, i) => (
-              <HotspotMarker
-                key={h.id}
-                hotspot={h}
-                index={i}
-                selected={selectedId === h.id}
-                onSelect={onSelect}
-              />
-            ))}
-        </group>
-      </Suspense>
+            {showHotspots &&
+              hotspots.map((h, i) => (
+                <HotspotMarker
+                  key={h.id}
+                  hotspot={h}
+                  index={i}
+                  selected={selectedId === h.id}
+                  onSelect={onSelect}
+                />
+              ))}
+          </group>
+        </Suspense>
+      </ModelErrorBoundary>
+
+      <ContactShadows
+        position={[0, 0.01, 0]}
+        opacity={0.45}
+        scale={12}
+        blur={2.4}
+        far={5}
+      />
 
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
@@ -151,7 +253,9 @@ export default function ModelScene({
       <gridHelper args={[14, 14, "#d6d1cb", "#e2ded9"]} position={[0, 0, 0]} />
 
       <OrbitControls
+        makeDefault
         enablePan
+        enableZoom
         enableDamping
         dampingFactor={0.08}
         minDistance={2.5}

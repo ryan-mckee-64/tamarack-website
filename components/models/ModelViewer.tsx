@@ -3,7 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import type { Hotspot } from "@/lib/models";
+import type { ProductModel } from "@/lib/models";
 
 const ModelScene = dynamic(() => import("./ModelScene"), {
   ssr: false,
@@ -15,45 +15,80 @@ const ModelScene = dynamic(() => import("./ModelScene"), {
 });
 
 export default function ModelViewer({
-  modelUrl,
-  isPlaceholder,
-  hotspots,
+  models,
+  productName,
   manualHref,
 }: {
-  modelUrl: string | null;
-  isPlaceholder: boolean;
-  hotspots: Hotspot[];
+  models: ProductModel[];
+  productName: string;
   manualHref: string;
 }) {
+  const [activeId, setActiveId] = useState(models[0].id);
   const [autoRotate, setAutoRotate] = useState(false);
   const [showHotspots, setShowHotspots] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [sceneKey, setSceneKey] = useState(0);
+  const [loadFailed, setLoadFailed] = useState(false);
+
+  const model = models.find((m) => m.id === activeId) ?? models[0];
+  const hotspots = model.hotspots;
+  const isPlaceholder = model.modelUrl === null;
 
   const selected = hotspots.find((h) => h.id === selectedId) ?? null;
   const hasHotspots = hotspots.length > 0;
 
+  function chooseModel(id: string) {
+    setActiveId(id);
+    setSelectedId(null);
+    setLoadFailed(false);
+    // Force a fresh canvas so the camera starts framed on the new machine.
+    setSceneKey((k) => k + 1);
+  }
+
   return (
     <div>
+      {models.length > 1 && (
+        <div className="mb-5 flex flex-wrap gap-2">
+          {models.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => chooseModel(m.id)}
+              aria-pressed={m.id === model.id}
+              className={
+                m.id === model.id
+                  ? "rounded-lg bg-[var(--ember)] px-4 py-2 text-sm font-semibold text-white"
+                  : "rounded-lg bg-[var(--surface-2)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)] transition hover:bg-[var(--orange-tint)]"
+              }
+            >
+              {m.variant ?? m.name}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
         <div className="relative h-[520px] w-full overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[var(--surface-2)]">
           <ModelScene
             key={sceneKey}
-            modelUrl={modelUrl}
+            modelUrl={model.modelUrl}
+            upAxis={model.upAxis}
             autoRotate={autoRotate}
             hotspots={hotspots}
             showHotspots={showHotspots}
             selectedId={selectedId}
             onSelect={setSelectedId}
+            onLoadError={() => setLoadFailed(true)}
           />
 
-          {isPlaceholder && (
+          {(isPlaceholder || loadFailed) && (
             <div className="pointer-events-none absolute left-5 top-5 rounded-lg bg-[var(--bg-85)] px-4 py-2 shadow-sm backdrop-blur-md">
               <p className="tech-label text-[color:var(--ember)]">
                 Placeholder geometry
               </p>
               <p className="mt-1 text-xs text-[color:var(--ink-dim)]">
-                Drag to rotate. The real model will behave the same way.
+                {loadFailed
+                  ? "The model file for this machine is not available yet."
+                  : "Drag to rotate. The real model will behave the same way."}
               </p>
             </div>
           )}
@@ -166,6 +201,7 @@ export default function ModelViewer({
           onClick={() => {
             setSceneKey((k) => k + 1);
             setSelectedId(null);
+            setLoadFailed(false);
           }}
           className="rounded-lg bg-[var(--surface-2)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)] transition hover:bg-[var(--orange-tint)]"
         >
@@ -174,6 +210,27 @@ export default function ModelViewer({
 
         <p className="text-sm text-[color:var(--ink-dim)]">
           Drag to rotate, scroll to zoom, right click to pan
+        </p>
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-7">
+        <h2 className="font-display text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)]">
+          {model.name}
+          {model.variant ? `, ${model.variant}` : ""}
+        </h2>
+        {model.notes && (
+          <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
+            {model.notes}
+          </p>
+        )}
+        <p className="mt-5 text-sm text-[color:var(--ink-dim)]">
+          Looking for specifications and service information?{" "}
+          <Link
+            href={manualHref}
+            className="font-semibold text-[color:var(--orange)] underline underline-offset-4"
+          >
+            View the {productName} documents
+          </Link>
         </p>
       </div>
     </div>

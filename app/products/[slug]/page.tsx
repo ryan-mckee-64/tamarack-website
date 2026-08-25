@@ -33,7 +33,7 @@ export default async function ProductLinePage({
   const line = getProductLine(slug);
   if (!line) notFound();
 
-  const model3d = modelsForProduct(line.slug)[0];
+  const models3d = modelsForProduct(line.slug);
   const lp = line.linePage;
 
   // Models that have carried high level specs get the comparison row. The rest
@@ -469,7 +469,7 @@ export default async function ProductLinePage({
         )}
 
         {/* Interactive 3D model, on the product page rather than its own. */}
-        {model3d && (
+        {models3d.length > 0 && (
           <div className={lp ? "" : "mt-16"}>
             <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
               Explore it in 3D
@@ -480,9 +480,8 @@ export default async function ProductLinePage({
             </p>
             <div className="mt-7">
               <ModelViewer
-                modelUrl={model3d.modelUrl}
-                isPlaceholder={model3d.modelUrl === null}
-                hotspots={model3d.hotspots}
+                models={models3d}
+                productName={line.name}
                 manualHref={`/manuals/${line.slug}`}
               />
             </div>

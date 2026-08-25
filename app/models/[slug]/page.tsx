@@ -34,7 +34,6 @@ export default async function ProductModelPage({
   if (!product) notFound();
 
   const productModels = modelsForProduct(slug);
-  const model = productModels[0];
 
   return (
     <main>
@@ -58,36 +57,12 @@ export default async function ProductModelPage({
         </p>
 
         <div className="mt-12">
-          {model ? (
-            <>
-              <ModelViewer
-                modelUrl={model.modelUrl}
-                isPlaceholder={model.modelUrl === null}
-                hotspots={model.hotspots}
-                manualHref={`/manuals/${product.slug}`}
-              />
-
-              <div className="mt-8 rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] p-7">
-                <h2 className="font-display text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)]">
-                  {model.name}
-                  {model.variant ? `, ${model.variant}` : ""}
-                </h2>
-                {model.notes && (
-                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
-                    {model.notes}
-                  </p>
-                )}
-                <p className="mt-5 text-sm text-[color:var(--ink-dim)]">
-                  Looking for specifications and service information?{" "}
-                  <Link
-                    href={`/manuals/${product.slug}`}
-                    className="font-semibold text-[color:var(--orange)] underline underline-offset-4"
-                  >
-                    View the {product.name} documents
-                  </Link>
-                </p>
-              </div>
-            </>
+          {productModels.length > 0 ? (
+            <ModelViewer
+              models={productModels}
+              productName={product.name}
+              manualHref={`/manuals/${product.slug}`}
+            />
           ) : (
             <div className="rounded-2xl border border-dashed border-[color:var(--line-strong)] bg-[var(--surface)] p-12 text-center">
               <p className="font-semibold text-[color:var(--ink)]">

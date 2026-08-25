@@ -37,7 +37,7 @@ export default async function ModelPage({
   if (!line || !m) notFound();
 
   const siblings = line.models.filter((x) => x.slug !== m.slug);
-  const model3d = modelsForProduct(line.slug)[0];
+  const models3d = modelsForProduct(line.slug);
 
   return (
     <main>
@@ -174,7 +174,7 @@ export default async function ModelPage({
         )}
 
         {/* Interactive 3D model. Lives here rather than on a separate page. */}
-        {model3d && (
+        {models3d.length > 0 && (
           <div className="mt-20">
             <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
               Explore it in 3D
@@ -185,9 +185,8 @@ export default async function ModelPage({
             </p>
             <div className="mt-7">
               <ModelViewer
-                modelUrl={model3d.modelUrl}
-                isPlaceholder={model3d.modelUrl === null}
-                hotspots={model3d.hotspots}
+                models={models3d}
+                productName={line.name}
                 manualHref={`/manuals/${line.slug}`}
               />
             </div>

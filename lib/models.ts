@@ -1,5 +1,11 @@
 import { products, getProduct } from "@/lib/manuals";
 
+/**
+ * Most CAD packages export with Z pointing up, while three.js works in Y up.
+ * Set "z-up" on a model to lay the machine flat instead of stood on its nose.
+ */
+export type UpAxis = "y-up" | "z-up";
+
 export type HotspotSpec = {
   label: string;
   value: string;
@@ -19,7 +25,9 @@ export type ProductModel = {
   productSlug: string;
   name: string;
   variant?: string;
+  /** Path to a GLB or glTF file under public. Null shows placeholder geometry. */
   modelUrl: string | null;
+  upAxis?: UpAxis;
   fileSize?: string;
   notes?: string;
   hotspots: Hotspot[];
@@ -30,6 +38,21 @@ export type ProductModel = {
 // When a real model arrives these get repositioned once against
 // the actual geometry, and everything else stays the same.
 export const models: ProductModel[] = [
+  {
+    id: "hk-300-model",
+    productSlug: "heat-king",
+    name: "Heat King glycol heater",
+    variant: "HK 300",
+    modelUrl: "/models/heat-king/hk300.glb",
+    // The CAD source was a 3D PDF, which is Z up. Flip it to Y up for three.js.
+    upAxis: "z-up",
+    notes:
+      "Trailer mounted unit. Drag to rotate, scroll to zoom, right click to pan.",
+    // Hotspots are placed in scene units against the fitted model, which is
+    // scaled so its longest side is 3.4 units and sits on the ground plane.
+    // Add entries here once the real part numbers are confirmed.
+    hotspots: [],
+  },
   {
     id: "hk-400-model",
     productSlug: "heat-king",
@@ -188,7 +211,11 @@ export const models: ProductModel[] = [
 ];
 
 export function modelsForProduct(slug: string): ProductModel[] {
-  return models.filter((m) => m.productSlug === slug);
+  // Models with real geometry come first, so a product that still has
+  // placeholder entries opens on the machine we can actually show.
+  return models
+    .filter((m) => m.productSlug === slug)
+    .sort((a, b) => Number(b.modelUrl !== null) - Number(a.modelUrl !== null));
 }
 
 export function getModel(id: string): ProductModel | undefined {
