@@ -276,7 +276,6 @@ export default function ShareYourUnitForm() {
           rows={4}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="What the machine was doing, how long you have run it, anything worth knowing."
           className={inputClass + " resize-y"}
         />
       </div>

@@ -41,10 +41,6 @@ export default function TradeShowsPage() {
               Visit us at these upcoming trade shows
             </h1>
             <hr className="brand-rule mt-7 w-24" />
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-[color:var(--ink-dim)]">
-              Come see the equipment in person, talk to the people who build it,
-              and get your questions answered on the spot.
-            </p>
           </Reveal>
 
           {nextShow && (
@@ -190,9 +186,6 @@ export default function TradeShowsPage() {
             <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
               On the floor
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
-              A look at where we have been.
-            </p>
 
             {/* Columns rather than a grid: a two column grid ties each row to
                 its tallest photo, which left ragged gaps between mixed
