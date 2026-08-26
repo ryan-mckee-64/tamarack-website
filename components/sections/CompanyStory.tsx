@@ -29,9 +29,9 @@ const PHOTO_ONE: StoryPhoto = {
 };
 
 const PHOTO_TWO: StoryPhoto = {
-  src: null,
-  alt: "A Tamarack unit on the job",
-  caption: "Replace: a unit working on site",
+  src: "/images/L2.png",
+  alt: "A Tamarack unit working on a job site",
+  caption: "",
 };
 
 function StoryImage({ photo }: { photo: StoryPhoto }) {
@@ -54,9 +54,7 @@ function StoryImage({ photo }: { photo: StoryPhoto }) {
         height={549}
         className="h-auto w-full rounded-2xl"
       />
-      <figcaption className="mt-3 text-xs text-[color:var(--ink-faint)]">
-        {photo.caption}
-      </figcaption>
+
     </figure>
   );
 }
@@ -157,9 +155,7 @@ export default function CompanyStory() {
                     height={549}
                     className="h-auto w-full rounded-2xl"
                   />
-                  <figcaption className="mt-2 text-xs text-[color:var(--ink-faint)]">
-                    {photo.caption}
-                  </figcaption>
+
                 </figure>
               ))}
             </div>

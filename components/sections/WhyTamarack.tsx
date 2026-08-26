@@ -28,7 +28,7 @@ const REASONS = [
 
 // Photo of the Alexandria, MN plant. Drop the file in public/images/ and set
 // this to its path — the panel renders a labelled placeholder until then.
-const PLANT_PHOTO: string | null = null;
+const PLANT_PHOTO: string | null = "/images/Alexandria.png";
 
 export default function WhyTamarack() {
   return (
