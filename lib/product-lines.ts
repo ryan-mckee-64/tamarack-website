@@ -68,6 +68,8 @@ export type ProductModel = {
    *  under the specs. YouTube/Vimeo watch URLs are fine — these are links,
    *  not embeds. */
   videos?: { label: string; url: string }[];
+  /** Job site photos shown above the specifications on the model page. */
+  gallery?: { src: string; alt: string }[];
   /** High level specs for the comparison row on the product line page. Plain
    *  strings so each line can word them its own way. A model without these is
    *  left out of that row. */
@@ -119,11 +121,21 @@ export const productLines: ProductLine[] = [
       {
         slug: "hk-150",
         name: "HK 150",
-        tagline: "Compact glycol unit for smaller pours and tight access sites.",
+        tagline: "Mobile glycol heating system",
         image: "/images/heat-king150.png",
         description:
-          "The smallest unit in the Heat King range, sized for tight access work and smaller pours where a full size trailer will not fit.",
-        // brochure: "/docs/brochures/hk-150-brochure.pdf",
+          "The HK 150 is the smallest model in the Heat King line. The smaller, more compact design of the HK 150 allows for trouble-free towing and placement around the job site.",
+        brochure: "/docs/brochures/hk-150-brochure.pdf",
+        gallery: [
+          {
+            src: "/images/HK1501.png",
+            alt: "Tamarack HK 150 with the service doors open, showing the pump and reel",
+          },
+          {
+            src: "/images/GH1502.png",
+            alt: "Tamarack HK 150 parked outside the plant",
+          },
+        ],
         cardSpecs: [
           "150,000 BTU/hr",
           "2 - 700 ft hoses (made up of 1-700 ft, 1-500 ft & 1-200 ft)",

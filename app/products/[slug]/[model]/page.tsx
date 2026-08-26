@@ -109,9 +109,32 @@ export default async function ModelPage({
               >
                 Manuals and parts
               </Link>
+              <Link
+                href={`/products/${line.slug}`}
+                className="rounded-full border border-[color:var(--line-strong)] px-6 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
+              >
+                Learn more about {line.name}
+              </Link>
             </div>
           </div>
         </div>
+
+        {/* Job site photos, above the spec table */}
+        {m.gallery && m.gallery.length > 0 && (
+          <div className="mt-16 grid gap-6 sm:grid-cols-2">
+            {m.gallery.map((photo) => (
+              <Image
+                key={photo.src}
+                src={photo.src}
+                alt={photo.alt}
+                width={1600}
+                height={1200}
+                sizes="(max-width: 640px) 100vw, 45vw"
+                className="aspect-[4/3] w-full rounded-2xl object-cover"
+              />
+            ))}
+          </div>
+        )}
 
         {/* Specifications */}
         <div className="mt-20">
