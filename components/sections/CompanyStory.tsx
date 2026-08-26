@@ -23,9 +23,9 @@ type StoryPhoto = {
 // each slot renders a labelled dashed placeholder at the right aspect ratio,
 // so the page layout is already final.
 const PHOTO_ONE: StoryPhoto = {
-  src: null,
-  alt: "Tamarack Heat King mobile glycol heating systems",
-  caption: "Replace: group shot of the Heat King range",
+  src: "/images/L1.png",
+  alt: "A Tamarack heater running on an excavation site",
+  caption: "Ground thaw and curing on a winter excavation",
 };
 
 const PHOTO_TWO: StoryPhoto = {
@@ -60,6 +60,25 @@ function StoryImage({ photo }: { photo: StoryPhoto }) {
     </figure>
   );
 }
+
+// Product photos stacked under the timeline on the right.
+const TIMELINE_PHOTOS: StoryPhoto[] = [
+  {
+    src: "/images/R1.JPG",
+    alt: "A row of Tamarack Heat King glycol heating units outside the plant",
+    caption: "Heat King units ready to ship",
+  },
+  {
+    src: "/images/R2.png",
+    alt: "Tamarack ground thaw trailers lined up in a yard",
+    caption: "Ground thaw trailers",
+  },
+  {
+    src: "/images/R3.jpg",
+    alt: "A Thawzall flameless heater on site",
+    caption: "Thawzall flameless heat",
+  },
+];
 
 export default function CompanyStory() {
   return (
@@ -128,6 +147,22 @@ export default function CompanyStory() {
                 </li>
               ))}
             </ol>
+                        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+              {TIMELINE_PHOTOS.map((photo) => (
+                <figure key={photo.src}>
+                  <Image
+                    src={photo.src as string}
+                    alt={photo.alt}
+                    width={878}
+                    height={549}
+                    className="h-auto w-full rounded-2xl"
+                  />
+                  <figcaption className="mt-2 text-xs text-[color:var(--ink-faint)]">
+                    {photo.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
         </div>
       </div>
