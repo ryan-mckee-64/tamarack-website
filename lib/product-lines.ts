@@ -203,10 +203,21 @@ export const productLines: ProductLine[] = [
       {
         slug: "hk-300",
         name: "HK 300",
-        tagline: "Mid capacity glycol unit for general ground thaw and cure work.",
+        tagline: "Mobile glycol heating system",
         image: "/images/heat-king300.png",
         description:
-          "The general purpose unit in the range, covering most ground thaw and concrete cure work on a typical site.",
+          "The HK 300 is the popular model in the Heat King line. Powerful while remaining quiet and efficient.",
+        brochure: "/docs/brochures/hk-300-brochure.pdf",
+        gallery: [
+          {
+            src: "/images/HK3001.JPEG",
+            alt: "Tamarack HK 300 hitched to a truck on a lumber yard site",
+          },
+          {
+            src: "/images/HK3002.JPEG",
+            alt: "Tamarack HK 300 with its onboard generator, parked on a job site",
+          },
+        ],
         cardSpecs: [
           "311,000 BTU/hr",
           "4 - 700 ft hoses",
@@ -220,47 +231,71 @@ export const productLines: ProductLine[] = [
           "On board air compressor for evacuating hoses",
         ],
         specs: [
-          { label: "Hose", value: "4 - 700 ft field hoses (5/8\" hose)" },
-          {
-            label: "Supply manifold",
-            value: "4 - 1/2\" quick connect & 1 - 1\" quick connect",
-          },
-          {
-            label: "Return manifold",
-            value: "4 - 1/2\" quick connect & 1 - 1\" quick connect",
-          },
           { label: "Ground thawing capacity", value: "5,600 ft²" },
           { label: "Concrete curing capacity", value: "11,200 ft²" },
           {
             label: "Temporary heating capacity",
             value: "12,000 ft² (varies with R-value)",
           },
-          { label: "Field pump", value: "1 Hp centrifugal" },
-          { label: "Circulating pump", value: "1/2 Hp centrifugal" },
+          { label: "Hose", value: "4 - 700 ft field hoses (5/8\" hose)" },
           { label: "Heater capacity, diesel", value: "311,000 BTU/H heating fuel input" },
-          { label: "Burner", value: "Beckett burner" },
-          { label: "Glycol tank", value: "96 US gal" },
-          { label: "Fuel tank", value: "192 US gal" },
+          { label: "Glycol tank capacity", value: "96 US gal" },
+          { label: "Fuel tank capacity", value: "192 US gal" },
           { label: "Run time", value: "Up to 120 hours" },
           {
             label: "Fuel consumption",
             value: "HK 300 = 2.24 GPH, genset = 0.55 GPH",
           },
           { label: "Electrical requirements", value: "2 - 120V AC 20A circuits" },
-          { label: "Generator (optional)", value: "1 - 7 kW or 1 - 6 kW MQ" },
-          { label: "Axle", value: "1 - 7,000 lb torsion axle, electric brakes" },
-          { label: "Hitch", value: "2 5/16\" ball (pintle also available)" },
           { label: "Dimensions", value: "14' x 86\" x 83\"" },
           { label: "Weight (fuel empty / full)", value: "5,665 lbs / 7,009 lbs" },
+        ],
+        features: [
+          {
+            title: "Safe design",
+            body: "The Heat King uses only centrifugal pumps for the field and circulation loops. Safer than positive displacement pumps, they are engineered to eliminate dangerous pressure situations.",
+          },
+          {
+            title: "Powerful 305,000 BTU/Hr burner",
+            body: "By using a coil for the heat exchanger, Heat Kings are built to be more rugged and durable than competing systems that rely on boilers designed to be stationary.",
+          },
+          {
+            title: "Rugged trailer design",
+            body: "The Heat King's trailer features a rugged unibody design with 7,000 lb leaf springs for stable, reliable towing. All doors can be locked during operation, helping protect the unit, tools, and equipment from tampering or theft.",
+          },
+          {
+            title: "Hose reel",
+            body: "The Heat King's powered reel holds all 2,800 feet of hose. Operation is controlled by a heavy duty CSA and UL approved foot switch, leaving the hands free to control the hose.",
+          },
+          {
+            title: "Precise digital temperature control",
+            body: "The Heat King features precise digital temperature control and monitoring. With the touch of a button on the control panel, operators can adjust the output temperature in 1 degree F increments anywhere from 0 to 180 degrees F.",
+          },
+          {
+            title: "User friendly control panel",
+            body: "All Heat King control panels feature large, easy-to-use switches designed for operation even while wearing winter gloves. A prominent emergency stop button immediately shuts down all functions, while a ground fault circuit interrupter (GFI) breaker provides protection for the electrical system.",
+          },
         ],
       },
       {
         slug: "hk-600",
         name: "HK 600",
-        tagline: "Maximum coverage glycol unit for large scale ground thaw.",
+        tagline: "Mobile glycol heating system",
         image: "/images/heat-king600.png",
-        description:
-          "The largest unit in the range, built for large scale ground thaw and multi zone heating where coverage area is the limiting factor.",
+               description:
+          "The HK 600 is the largest and most powerful model in the Heat King line. This unit was designed with big jobs in mind.",
+        brochure: "/docs/brochures/hk-600-brochure.pdf",
+        gallery: [
+          {
+            src: "/images/HK6001.JPG",
+            alt: "Tamarack HK 600 with its onboard generator, parked outside the plant",
+          },
+          {
+            src: "/images/HK6002.JPG",
+            alt: "Tamarack HK 600 with the rear doors open, showing the powered hose reel",
+          },
+        ],
+
         cardSpecs: [
           "605,000 BTU/hr",
           "8 - 700 ft hoses",
@@ -273,41 +308,53 @@ export const productLines: ProductLine[] = [
           "On board air compressor",
         ],
         specs: [
-          { label: "Hose", value: "8 - 700 ft field hoses (5/8\" hose)" },
-          {
-            label: "Supply manifold",
-            value: "8 - 1/2\" quick connect & 2 - 1\" quick connect",
-          },
-          {
-            label: "Return manifold",
-            value: "8 - 1/2\" quick connect & 2 - 1\" quick connect",
-          },
           { label: "Ground thawing capacity", value: "11,200 ft²" },
           { label: "Concrete curing capacity", value: "22,400 ft²" },
           {
             label: "Temporary heating capacity",
             value: "15,000 ft² (varies with R-value)",
           },
-          { label: "Field pump", value: "1 Hp centrifugal" },
-          { label: "Circulating pump", value: "1/2 Hp centrifugal" },
+          { label: "Hose", value: "8 - 700 ft field hoses (5/8\" hose)" },
           { label: "Heater capacity, diesel", value: "605,000 BTU/H heating fuel input" },
-          { label: "Burner", value: "Beckett burner" },
-          { label: "Glycol tank", value: "130 US gal" },
-          { label: "Fuel tank", value: "192 US gal" },
+          { label: "Glycol tank capacity", value: "130 US gal" },
+          { label: "Fuel tank capacity", value: "192 US gal" },
           { label: "Run time", value: "Up to 60 hours" },
           {
             label: "Fuel consumption",
             value: "HK 600 = 4.44 GPH, genset = 0.55 GPH",
           },
           { label: "Electrical requirements", value: "2 - 120V AC 20A circuits" },
-          { label: "Generator (optional)", value: "1 - 7 kW or 1 - 6 kW MQ" },
-          { label: "Axle", value: "1 - 8,000 lb torsion axle, electric brakes" },
-          { label: "Hitch", value: "2 5/16\" ball (pintle also available)" },
           {
             label: "Dimensions",
             value: "165\" x 75\" x 84\" (including heater vent)",
           },
           { label: "Weight (fuel empty / full)", value: "7,095 lbs / 8,439 lbs" },
+        ],
+        features: [
+          {
+            title: "Safe design",
+            body: "The Heat King uses only centrifugal pumps for the field and circulation loops. Safer than positive displacement pumps, they are engineered to eliminate dangerous pressure situations.",
+          },
+          {
+            title: "Powerful 605,000 BTU/Hr burner",
+            body: "By using a coil for the heat exchanger, Heat Kings are built to be more rugged and durable than competing systems that rely on boilers designed to be stationary.",
+          },
+          {
+            title: "Rugged trailer design",
+            body: "The Heat King's trailer features a rugged unibody design with 8,000 lb leaf springs for stable, reliable towing. All doors can be locked during operation, helping protect the unit, tools, and equipment from tampering or theft.",
+          },
+          {
+            title: "Hose reel",
+            body: "The Heat King's powered reel holds all 5,600 feet of hose. Operation is controlled by a heavy duty CSA and UL approved foot switch, leaving the hands free to control the hose.",
+          },
+          {
+            title: "Precise digital temperature control",
+            body: "The Heat King features precise digital temperature control and monitoring. With the touch of a button on the control panel, operators can adjust the output temperature in 1 degree F increments anywhere from 0 to 180 degrees F.",
+          },
+          {
+            title: "User friendly control panel",
+            body: "All Heat King control panels feature large, easy-to-use switches designed for operation even while wearing winter gloves. A prominent emergency stop button immediately shuts down all functions, while a ground fault circuit interrupter (GFI) breaker provides protection for the electrical system.",
+          },
         ],
       },
     ],
