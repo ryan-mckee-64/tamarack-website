@@ -167,6 +167,28 @@ export default async function ModelPage({
           )}
         </div>
 
+        {m.features && m.features.length > 0 && (
+          <div className="mt-20">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
+              Features of the {m.name}
+            </h2>
+            <div className="mt-8 grid gap-x-12 gap-y-9 sm:grid-cols-2">
+              {m.features.map((f) => (
+                <div key={f.title}>
+                  <h3 className="font-display text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)]">
+                    {f.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink-dim)]">
+                    {f.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Feature writeups, under the spec table */}
+
         {/* Videos for this model. Links rather than embeds — an embed per
             model would pull a third party player onto every product page. */}
         {m.videos && m.videos.length > 0 && (

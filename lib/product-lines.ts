@@ -70,6 +70,8 @@ export type ProductModel = {
   videos?: { label: string; url: string }[];
   /** Job site photos shown above the specifications on the model page. */
   gallery?: { src: string; alt: string }[];
+  /** Feature writeups shown under the specifications on the model page. */
+  features?: LineFeature[];
   /** High level specs for the comparison row on the product line page. Plain
    *  strings so each line can word them its own way. A model without these is
    *  left out of that row. */
@@ -128,11 +130,11 @@ export const productLines: ProductLine[] = [
         brochure: "/docs/brochures/hk-150-brochure.pdf",
         gallery: [
           {
-            src: "/images/HK1501.png",
+            src: "/images/HK1501.JPG",
             alt: "Tamarack HK 150 with the service doors open, showing the pump and reel",
           },
           {
-            src: "/images/GH1502.png",
+            src: "/images/HK1502.JPG",
             alt: "Tamarack HK 150 parked outside the plant",
           },
         ],
@@ -149,37 +151,53 @@ export const productLines: ProductLine[] = [
           "On board air compressor for evacuating hoses",
         ],
         specs: [
-          { label: "Hose", value: "1 - 700 ft, 1 - 500 ft, 1 - 200 ft (5/8\" hose)" },
-          {
-            label: "Supply manifold",
-            value: "2 - 1/2\" quick connect & 1 - 1\" quick connect",
-          },
-          {
-            label: "Return manifold",
-            value: "2 - 1/2\" quick connect & 1 - 1\" quick connect",
-          },
           { label: "Ground thawing capacity", value: "2,800 ft²" },
           { label: "Concrete curing capacity", value: "5,600 ft²" },
           {
             label: "Temporary heating capacity",
             value: "6,200 ft² (varies with R-value)",
           },
-          { label: "Field pump", value: "1/2 Hp centrifugal" },
-          { label: "Circulating pump", value: "1/2 Hp centrifugal" },
+          {
+            label: "Field hoses 5/8\"",
+            value: "1 - 700 ft, 1 - 500 ft, 1 - 200 ft",
+          },
           { label: "Heater capacity, diesel", value: "150,000 BTU/H heating fuel input" },
-          { label: "Glycol tank", value: "55 US gal" },
-          { label: "Fuel tank", value: "70 US gal" },
+          { label: "Glycol tank capacity", value: "55 US gal" },
+          { label: "Fuel tank capacity", value: "70 US gal" },
           { label: "Run time", value: "50+ hours" },
           {
             label: "Fuel consumption",
             value: "HK 150 = 1.1 GPH, genset = 0.55 GPH",
           },
           { label: "Electrical requirements", value: "1 - 120V AC 20A circuit" },
-          { label: "Generator (optional)", value: "1 - 7 kW or 1 - 6 kW MQ" },
-          { label: "Axle", value: "1 - 4,400 lbs leaf springs, electric brakes" },
-          { label: "Hitch", value: "2 5/16\" ball (pintle also available)" },
           { label: "Dimensions", value: "124\" x 72\" x 70\"" },
           { label: "Weight (fuel empty / full)", value: "3,204 lbs / 3,703 lbs" },
+        ],
+        features: [
+          {
+            title: "Safe design",
+            body: "The Heat King uses only centrifugal pumps for the field and circulation loops. Safer than positive displacement pumps, they are engineered to eliminate dangerous pressure situations.",
+          },
+          {
+            title: "Powerful 150,000 BTU/Hr burner",
+            body: "By using a coil for the heat exchanger, Heat Kings are built to be more rugged and durable than competing systems that rely on boilers designed to be stationary.",
+          },
+          {
+            title: "Rugged trailer design",
+            body: "The Heat King's trailer features a rugged unibody design with 4,400 lb leaf springs for stable, reliable towing. All doors can be locked during operation, helping protect the unit, tools, and equipment from tampering or theft.",
+          },
+          {
+            title: "Hose reel",
+            body: "The Heat King's powered reel holds all 1,400 feet of hose. Operation is controlled by a heavy duty CSA and UL approved foot switch, leaving the hands free to control the hose.",
+          },
+          {
+            title: "Precise digital temperature control",
+            body: "The Heat King features precise digital temperature control and monitoring. With the touch of a button on the control panel, operators can adjust the output temperature in 1 degree F increments anywhere from 0 to 180 degrees F.",
+          },
+          {
+            title: "User friendly control panel",
+            body: "All Heat King control panels feature large, easy-to-use switches designed for operation even while wearing winter gloves. A prominent emergency stop button immediately shuts down all functions, while a ground fault circuit interrupter (GFI) breaker provides protection for the electrical system.",
+          },
         ],
       },
       {
