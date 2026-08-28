@@ -72,19 +72,19 @@ export default function ProductsMenu({
 }) {
   return (
     <div
-      className={`absolute left-1/2 top-full z-50 w-[540px] -translate-x-1/2 transition-all duration-200 ease-out ${
+      className={`absolute left-0 top-full z-50 w-[660px] transition-all duration-200 ease-out ${
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0"
       }`}
     >
       <div className="mt-2 rounded-2xl border border-[color:var(--line)] bg-white p-6 shadow-xl">
-        {/* Columns rather than a grid: a 2 column grid ties each row to its
-            tallest cell, which left a dead gap under Heat King next to the
-            much longer Thawzall list. Columns balance on height instead. */}
-        <div className="columns-2 gap-x-7 [column-fill:balance]">
+        {/* One column per line, aligned to the top. Balanced CSS columns used
+            to flow the lines by height, which stacked two short lines beside
+            Thawzall's long one and left the first column half empty. */}
+        <div className="grid grid-cols-3 items-start gap-x-6 gap-y-7">
           {visibleProductLines.map((line) => (
-            <div key={line.slug} className="mb-5 break-inside-avoid last:mb-0">
+            <div key={line.slug}>
               <Link
                 href={`/products/${line.slug}`}
                 onClick={onNavigate}

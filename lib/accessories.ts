@@ -12,6 +12,11 @@ export type AccessoryImage = {
    *  cutouts and studio shots. "cover" fills the frame edge to edge, for the
    *  jobsite photos that carry a real background of their own. */
   fit?: "contain" | "cover";
+  /** Serve straight from /public instead of through Next's image optimizer.
+   *  The optimizer rejects this jobsite photo outright, so the choice is
+   *  between an unoptimized image and no image. Keep the source file small,
+   *  because nothing downstream will shrink it. */
+  unoptimized?: boolean;
 };
 
 export type Accessory = {
@@ -68,6 +73,7 @@ export const accessories: Accessory[] = [
         src: "/images/accessories/Remote-manifold.jpg",
         alt: "Tamarack remote supply and return manifolds",
         fit: "cover",
+        unoptimized: true,
       },
     ],
     details: [

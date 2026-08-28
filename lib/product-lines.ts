@@ -46,12 +46,31 @@ export type LinePage = {
   };
 };
 
+/** One block in a model page's "Features" section: a heading, prose and/or a
+ *  short bullet list, and a photo that alternates side to side down the page. */
+export type ModelFeature = {
+  title: string;
+  /** A single paragraph, or one entry per paragraph. */
+  body?: string | string[];
+  bullets?: string[];
+  image?: string;
+  imageAlt?: string;
+  /** Optional link under the copy, e.g. out to the accessories page. */
+  link?: { href: string; label: string };
+};
+
 export type ProductModel = {
   slug: string;
   name: string;
   tagline: string;
   image?: string;
   description?: string;
+  /** Small line above the model name, e.g. "Mobile glycol heating system". */
+  eyebrow?: string;
+  /** Jobsite photos shown as a row under the hero. */
+  gallery?: { src: string; alt: string }[];
+  /** Long form feature blocks under the specifications. */
+  features?: ModelFeature[];
   specs?: ModelSpec[];
   comingSoon?: boolean;
   /** Temporarily pulled from the menus, product cards and contact form. The
@@ -68,10 +87,6 @@ export type ProductModel = {
    *  under the specs. YouTube/Vimeo watch URLs are fine — these are links,
    *  not embeds. */
   videos?: { label: string; url: string }[];
-  /** Job site photos shown above the specifications on the model page. */
-  gallery?: { src: string; alt: string }[];
-  /** Feature writeups shown under the specifications on the model page. */
-  features?: LineFeature[];
   /** High level specs for the comparison row on the product line page. Plain
    *  strings so each line can word them its own way. A model without these is
    *  left out of that row. */
@@ -439,9 +454,57 @@ export const productLines: ProductLine[] = [
         slug: "tch-250",
         name: "TCH 250",
         group: "Glycol heating equipment",
+        image: "/images/tch250/TCH 250 transparent.png",
+        eyebrow: "Mobile glycol heating system",
         tagline: "Hydronic surface heater for thaw, cure and temporary heat.",
+        gallery: [
+          {
+            src: "/images/tch250/TCH 250 fixed background.JPG",
+            alt: "Thawzall TCH 250 units on a jobsite",
+          },
+          {
+            src: "/images/tch250/TCH 250 view 2.JPG",
+            alt: "Thawzall TCH 250 seen from the drawbar side",
+          },
+        ],
+        features: [
+          {
+            title: "Superior heat transfer",
+            body: [
+              "The Manifold System provides more flow for better heat transfer. With 5 heating zones, the TCH 250 is more versatile than ever for both ground thawing and concrete curing applications.",
+              "The TCH 250 also comes equipped with a 1\" quick coupler for accommodating HX 200 heat exchangers and other accessories.",
+            ],
+            image: "/images/tch250/TCH 250 manifold.JPG",
+            imageAlt: "TCH 250 manifold and hose reel behind the open door",
+            link: { href: "/products/accessories", label: "See the accessories" },
+          },
+          {
+            title: "Simple control and operation",
+            body: [
+              "Easy operator interface: the newly designed control box located at the rear passenger side has one single off/on switch for simple operation.",
+              "Simply set the supply temperatures of the HTF for ground thawing and concrete curing applications.",
+            ],
+            bullets: [
+              "Individual return temperature readings for each of the 5 zones, displayed on the digital control screen",
+              "Fuel gauge and low water alert added to the control box for troubleshooting",
+            ],
+            image: "/images/tch250/TCH 250 control panel.JPG",
+            imageAlt: "TCH 250 digital control panel",
+          },
+          {
+            title: "Optimization",
+            bullets: [
+              "160 gallon fuel tank for longer run times",
+              "Powered hose reel with free-wheeling option for one person operation",
+              "On board pump for charging the system with glycol when needed",
+              "Optional standard and long run generators available",
+            ],
+            image: "/images/tch250/TCH 250- back view.JPG",
+            imageAlt: "TCH 250 with the rear doors open showing the hose reel",
+          },
+        ],
         description:
-          "HeatZone fluid distribution and a three way mixing valve give precise outlet temperature control, which makes the TCH 250 the pick of the range for concrete curing.",
+          "The Thawzall TCH 250 is a simple and efficient way to cure concrete, thaw ground, and provide temporary heat in the coldest of environments. HeatZone fluid distribution and a three way mixing valve give precise outlet temperature control, which makes the TCH 250 the pick of the range for concrete curing.",
         cardSpecs: [
           "5 - 600 ft hoses",
           "Thaw up to 6,000 ft²",
@@ -453,33 +516,23 @@ export const productLines: ProductLine[] = [
           "Simple to operate, 1 switch with digital monitoring",
           "HeatZone fluid distribution",
         ],
+        // Capacities lead: they are what a contractor sizes the machine on.
         specs: [
-          { label: "Hose", value: "5 - 600 ft field hoses (5/8\" hose)" },
-          {
-            label: "Supply manifold",
-            value: "5 - 3/4\" quick connect & 1 - 1\" quick connect",
-          },
-          {
-            label: "Return manifold",
-            value: "5 - 3/4\" quick connect & 1 - 1\" quick connect",
-          },
           { label: "Ground thawing capacity", value: "Up to 6,000 ft²" },
           { label: "Concrete curing capacity", value: "Up to 12,000 ft²" },
           {
             label: "Temporary heating capacity",
             value: "12,000 ft² (varies with R-value)",
           },
-          { label: "Field pump", value: "1/2 Hp closed loop centrifugal" },
+          { label: "Hose", value: "5 - 600 ft field hoses (5/8\" hose)" },
           { label: "Heater capacity, diesel", value: "280,000 BTU/H heating fuel input" },
-          { label: "Fuel tank", value: "150 US gal double wall tank" },
+          { label: "Fuel tank capacity", value: "150 US gal double wall tank" },
           { label: "Run time", value: "Up to 100 hours (with genset)" },
           {
             label: "Fuel consumption",
             value: "TCH 250 = 2.06 GPH, genset = 0.55 GPH",
           },
           { label: "Electrical requirements", value: "1 - 120V AC 20A circuit" },
-          { label: "Generator (optional)", value: "1 - 7,000 W" },
-          { label: "Hitch", value: "2 5/16\" ball (pintle also available)" },
           { label: "Dimensions", value: "170\" x 84\" x 93\"" },
           { label: "Weight (fuel full)", value: "5,900 lbs" },
         ],

@@ -73,6 +73,11 @@ export default async function ModelPage({
             <h1 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.03em] text-[color:var(--ink)] sm:text-5xl">
               {m.name}
             </h1>
+            {m.eyebrow && (
+              <p className="tech-label mt-3 text-[color:var(--ink-faint)]">
+                {m.eyebrow}
+              </p>
+            )}
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--ink-dim)]">
               {m.tagline}
             </p>
@@ -110,6 +115,27 @@ export default async function ModelPage({
           </div>
         </div>
 
+        {/* Jobsite photos. A plain row under the hero rather than a carousel:
+            two or three shots read at a glance and nothing needs clicking. */}
+        {m.gallery && m.gallery.length > 0 && (
+          <div className="mt-16 grid gap-5 sm:grid-cols-2">
+            {m.gallery.map((photo) => (
+              <div
+                key={photo.src}
+                className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[var(--surface-2)]"
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Specifications */}
         <div className="mt-20">
           <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--orange)] sm:text-3xl">
@@ -140,6 +166,103 @@ export default async function ModelPage({
             </p>
           )}
         </div>
+
+        {/* Features. Alternating rows so the photos zig zag down the page
+            instead of stacking in one column beside a wall of text. */}
+        {m.features && m.features.length > 0 && (
+          <div className="mt-24">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
+              {`Features of the ${m.name}`}
+            </h2>
+            <span className="brand-gradient mt-4 block h-0.5 w-16" />
+
+            {/* A 7/5 split rather than even halves, with every other row nudged
+                down: the photos carry the page, and the offset turns a plain
+                zig zag into the staircase the layout is going for. */}
+            <div className="mt-14 space-y-20 md:space-y-24">
+              {m.features.map((feature, i) => (
+                <div
+                  key={feature.title}
+                  className="grid items-center gap-8 md:grid-cols-12 md:gap-14"
+                >
+                  {feature.image && (
+                    <div
+                      className={`relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[var(--surface-2)] shadow-[0_24px_60px_-28px_rgba(0,0,0,0.5)] ring-1 ring-black/5 md:col-span-7 ${
+                        i % 2 === 1
+                          ? "md:order-first"
+                          : "md:order-last md:mt-10"
+                      }`}
+                    >
+                      <Image
+                        src={feature.image}
+                        alt={feature.imageAlt ?? feature.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 58vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+
+                  <div
+                    className={
+                      feature.image
+                        ? `md:col-span-5 ${i % 2 === 1 ? "md:mt-10" : ""}`
+                        : "md:col-span-12"
+                    }
+                  >
+                    <p className="font-mono-label text-[0.7rem] tracking-[0.18em] text-[color:var(--ink-faint)]">
+                      {String(i + 1).padStart(2, "0")}
+                    </p>
+                    <h3 className="font-display mt-2 text-2xl font-bold tracking-[-0.015em] text-[color:var(--orange)]">
+                      {feature.title}
+                    </h3>
+                    <span className="brand-gradient mt-3 block h-0.5 w-10" />
+
+                    {(Array.isArray(feature.body)
+                      ? feature.body
+                      : feature.body
+                        ? [feature.body]
+                        : []
+                    ).map((paragraph) => (
+                      <p
+                        key={paragraph}
+                        className="mt-4 text-sm leading-relaxed text-[color:var(--ink-dim)]"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+
+                    {feature.bullets && feature.bullets.length > 0 && (
+                      <ul className="mt-4 space-y-2.5">
+                        {feature.bullets.map((bullet) => (
+                          <li
+                            key={bullet}
+                            className="flex gap-3 text-sm leading-relaxed text-[color:var(--ink-dim)]"
+                          >
+                            <span
+                              aria-hidden
+                              className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--orange)]"
+                            />
+                            {bullet}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {feature.link && (
+                      <Link
+                        href={feature.link.href}
+                        className="mt-5 inline-block text-sm font-semibold text-[color:var(--orange)] underline underline-offset-4"
+                      >
+                        {feature.link.label}
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Videos for this model. Links rather than embeds — an embed per
             model would pull a third party player onto every product page. */}

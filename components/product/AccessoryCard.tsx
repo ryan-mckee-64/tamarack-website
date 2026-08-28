@@ -37,6 +37,7 @@ export default function AccessoryCard({
             alt={hero.alt}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            unoptimized={hero.unoptimized}
             className={
               hero.fit === "cover" ? "object-cover" : "object-contain p-6"
             }
@@ -126,6 +127,7 @@ export default function AccessoryCard({
                         alt={img.alt}
                         fill
                         sizes="(max-width: 1024px) 50vw, 20vw"
+                        unoptimized={img.unoptimized}
                         className={
                           img.fit === "cover"
                             ? "object-cover"
