@@ -31,7 +31,7 @@ export const accessories: Accessory[] = [
       "For adding extra hose to a heater, the portable hose reel will hold 8 – 700 ft lengths of field hose.",
     images: [
       {
-        src: "/images/accessories/portable-hose-reel.jpg",
+        src: "/images/accessories/Portable-Hose.jpg",
         alt: "Tamarack PHR 5600 portable hose reel",
       },
     ],
@@ -57,7 +57,7 @@ export const accessories: Accessory[] = [
       "Supply and return manifolds with 2 – 75 ft 1\" hoses with 1\" quick disconnects.",
     images: [
       {
-        src: "/images/accessories/remote-manifold.jpg",
+        src: "/images/accessories/Remote-manifold.jpg",
         alt: "Tamarack remote supply and return manifolds",
       },
     ],
@@ -72,12 +72,12 @@ export const accessories: Accessory[] = [
       "The diesel generator kit will allow you to run your Heat King or Thawzall TCH 250s autonomously off the internal diesel fuel tank.",
     images: [
       {
-        src: "/images/accessories/mq-6kw.png",
+        src: "/images/accessories/MQ6KW.png",
         alt: "MQ 6KW diesel generator",
         caption: "MQ 6KW",
       },
       {
-        src: "/images/accessories/mq-7000.png",
+        src: "/images/accessories/MQ7000.png",
         alt: "MQ 7000 diesel generator",
         caption: "MQ 7000",
       },
@@ -105,12 +105,12 @@ export const accessories: Accessory[] = [
       "The Booster Pump Kit is an inline pump, to boost hose pressures for elevated slabs. Works with all Heat Kings and Thawzall TCH 250.",
     images: [
       {
-        src: "/images/accessories/booster-pump-kit-1.jpg",
+        src: "/images/accessories/booster-pump1.jpg",
         alt: "Tamarack booster pump kit",
         caption: "Booster Pump Kit",
       },
       {
-        src: "/images/accessories/booster-pump-kit-2.jpg",
+        src: "/images/accessories/booster-pump2.jpg",
         alt: "Tamarack booster pump kit, second view",
       },
     ],
@@ -133,11 +133,11 @@ export const accessories: Accessory[] = [
       "Use the HX 200 unit heater to provide dry heat on your jobsite. Works with all Heat Kings and Thawzall TCH 250.",
     images: [
       {
-        src: "/images/accessories/hx200-angle.png",
+        src: "/images/accessories/HX200-front.png",
         alt: "Tamarack HX 200 portable heat exchanger",
       },
       {
-        src: "/images/accessories/hx200-back.png",
+        src: "/images/accessories/HX200-back.png",
         alt: "Tamarack HX 200 portable heat exchanger, back view",
       },
     ],
