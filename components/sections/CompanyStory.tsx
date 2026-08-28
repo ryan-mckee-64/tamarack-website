@@ -80,7 +80,7 @@ const TIMELINE_PHOTOS: StoryPhoto[] = [
 
 export default function CompanyStory() {
   return (
-    <section id="company" className="scroll-mt-28 border-t border-[color:var(--line)]">
+    <section id="company" className="home-shade scroll-mt-28 border-t border-[color:var(--line)]">
       <div className="mx-auto max-w-[1280px] px-6 py-24 md:px-10">
         {/* Story on the left, timeline down the right. The timeline sticks as
             the story scrolls, so the two stay related on a tall screen. */}

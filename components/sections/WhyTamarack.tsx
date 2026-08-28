@@ -32,7 +32,7 @@ const PLANT_PHOTO: string | null = "/images/Alexandria.png";
 
 export default function WhyTamarack() {
   return (
-    <section id="why" className="border-b border-[color:var(--line)]">
+    <section id="why" className="home-shade home-shade-alt border-b border-[color:var(--line)]">
       <div className="mx-auto grid max-w-[1280px] gap-16 px-6 py-24 md:px-10 md:py-32 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <p className="tech-label text-[color:var(--orange)]">Why Tamarack</p>

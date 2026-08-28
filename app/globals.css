@@ -487,3 +487,100 @@ body {
     transform: none;
   }
 }
+/* ============================================================
+   HOMEPAGE SECTION SHADING
+   Alternating warm washes so the sections below the hero read as
+   distinct bands instead of one flat white page. `isolation:
+   isolate` keeps the ::before/::after layers behind the section's
+   own content without touching any inner markup.
+   ============================================================ */
+.home-shade {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--surface);
+}
+
+.home-shade::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      75% 60% at 88% -5%,
+      color-mix(in srgb, var(--grad-4) 30%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      65% 55% at 2% 100%,
+      color-mix(in srgb, var(--grad-1) 20%, transparent) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f7f4f1 50%,
+      #efeae6 100%
+    );
+}
+
+/* Alternate band: mirrors the blooms and starts from the tinted end,
+   so consecutive sections flow into each other instead of stepping. */
+.home-shade-alt::before {
+  background:
+    radial-gradient(
+      70% 60% at 5% -5%,
+      color-mix(in srgb, var(--grad-3) 26%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      75% 65% at 98% 100%,
+      color-mix(in srgb, var(--grad-5) 34%, transparent) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #efeae6 0%,
+      #f7f4f1 45%,
+      #ffffff 100%
+    );
+}
+
+/* Diagonal hatching, masked back to nothing before it reaches the
+   middle of the section so text never sits on top of texture. */
+.home-shade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(51, 51, 51, 0.06) 0 1px,
+    transparent 1px 14px
+  );
+  -webkit-mask-image: radial-gradient(
+    80% 75% at 100% 0%,
+    rgba(0, 0, 0, 0.9) 0%,
+    transparent 68%
+  );
+  mask-image: radial-gradient(
+    80% 75% at 100% 0%,
+    rgba(0, 0, 0, 0.9) 0%,
+    transparent 68%
+  );
+}
+
+.home-shade-alt::after {
+  -webkit-mask-image: radial-gradient(
+    80% 75% at 0% 100%,
+    rgba(0, 0, 0, 0.9) 0%,
+    transparent 68%
+  );
+  mask-image: radial-gradient(
+    80% 75% at 0% 100%,
+    rgba(0, 0, 0, 0.9) 0%,
+    transparent 68%
+  );
+}
