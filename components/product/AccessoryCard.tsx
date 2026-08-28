@@ -26,14 +26,24 @@ export default function AccessoryCard({
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] transition hover:border-[color:var(--orange)] hover:shadow-md">
-      <div className="relative aspect-[16/10] w-full bg-[var(--surface-2)]">
+      {/* White plate rather than the grey surface token: most of these are
+          studio cutouts on white, and a grey plate framed them as a visible
+          white rectangle floating inside the card. The hairline below carries
+          the separation the grey used to. */}
+      <div
+        className={`relative aspect-[4/3] w-full overflow-hidden border-b border-[color:var(--line)] ${
+          hero ? "bg-white" : "bg-[var(--surface-2)]"
+        }`}
+      >
         {hero ? (
           <Image
             src={hero.src}
             alt={hero.alt}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-contain p-5"
+            className={
+              hero.fit === "cover" ? "object-cover" : "object-contain p-6"
+            }
           />
         ) : (
           <span className="absolute inset-0 flex items-center justify-center text-xs text-[color:var(--ink-faint)]">
@@ -118,13 +128,17 @@ export default function AccessoryCard({
               <div className="mt-5 grid gap-3 grid-cols-2">
                 {rest.map((img) => (
                   <figure key={img.src}>
-                    <div className="relative aspect-[4/3] w-full rounded-xl bg-[var(--surface-2)]">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-[color:var(--line)] bg-white">
                       <Image
                         src={img.src}
                         alt={img.alt}
                         fill
                         sizes="(max-width: 1024px) 50vw, 20vw"
-                        className="object-contain p-3"
+                        className={
+                          img.fit === "cover"
+                            ? "object-cover"
+                            : "object-contain p-3"
+                        }
                       />
                     </div>
                     {img.caption && (

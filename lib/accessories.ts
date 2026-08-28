@@ -4,7 +4,15 @@
 
 export type AccessorySpec = { label: string; value: string };
 
-export type AccessoryImage = { src: string; alt: string; caption?: string };
+export type AccessoryImage = {
+  src: string;
+  alt: string;
+  caption?: string;
+  /** "contain" (default) sits the whole product on a white plate, which suits
+   *  cutouts and studio shots. "cover" fills the frame edge to edge, for the
+   *  jobsite photos that carry a real background of their own. */
+  fit?: "contain" | "cover";
+};
 
 export type Accessory = {
   slug: string;
@@ -59,6 +67,7 @@ export const accessories: Accessory[] = [
       {
         src: "/images/accessories/Remote-manifold.jpg",
         alt: "Tamarack remote supply and return manifolds",
+        fit: "cover",
       },
     ],
     details: [
@@ -112,6 +121,7 @@ export const accessories: Accessory[] = [
       {
         src: "/images/accessories/booster-pump2.jpg",
         alt: "Tamarack booster pump kit, second view",
+        fit: "cover",
       },
     ],
     details: [
