@@ -3,9 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductLine, getModel, allModelParams } from "@/lib/product-lines";
-import { modelsForProduct } from "@/lib/models";
 import LineName from "@/components/product/LineName";
-import ModelViewer from "@/components/models/ModelViewer";
 
 export function generateStaticParams() {
   return allModelParams();
@@ -37,7 +35,6 @@ export default async function ModelPage({
   if (!line || !m) notFound();
 
   const siblings = line.models.filter((x) => x.slug !== m.slug);
-  const models3d = modelsForProduct(line.slug);
 
   return (
     <main>
@@ -109,32 +106,9 @@ export default async function ModelPage({
               >
                 Manuals and parts
               </Link>
-              <Link
-                href={`/products/${line.slug}`}
-                className="rounded-full border border-[color:var(--line-strong)] px-6 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--orange)] hover:text-[color:var(--orange)]"
-              >
-                Learn more about {line.name}
-              </Link>
             </div>
           </div>
         </div>
-
-        {/* Job site photos, above the spec table */}
-        {m.gallery && m.gallery.length > 0 && (
-          <div className="mt-16 grid gap-6 sm:grid-cols-2">
-            {m.gallery.map((photo) => (
-              <Image
-                key={photo.src}
-                src={photo.src}
-                alt={photo.alt}
-                width={1600}
-                height={1200}
-                sizes="(max-width: 640px) 100vw, 45vw"
-                className="aspect-[4/3] w-full rounded-2xl object-cover"
-              />
-            ))}
-          </div>
-        )}
 
         {/* Specifications */}
         <div className="mt-20">
@@ -167,28 +141,6 @@ export default async function ModelPage({
           )}
         </div>
 
-        {m.features && m.features.length > 0 && (
-          <div className="mt-20">
-            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
-              Features of the {m.name}
-            </h2>
-            <div className="mt-8 grid gap-x-12 gap-y-9 sm:grid-cols-2">
-              {m.features.map((f) => (
-                <div key={f.title}>
-                  <h3 className="font-display text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)]">
-                    {f.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink-dim)]">
-                    {f.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Feature writeups, under the spec table */}
-
         {/* Videos for this model. Links rather than embeds — an embed per
             model would pull a third party player onto every product page. */}
         {m.videos && m.videos.length > 0 && (
@@ -215,26 +167,6 @@ export default async function ModelPage({
                 </li>
               ))}
             </ul>
-          </div>
-        )}
-
-        {/* Interactive 3D model. Lives here rather than on a separate page. */}
-        {models3d.length > 0 && (
-          <div className="mt-20">
-            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
-              Explore it in 3D
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
-              Drag to rotate the machine. Select a marker to see the component,
-              its part number and its specifications.
-            </p>
-            <div className="mt-7">
-              <ModelViewer
-                models={models3d}
-                productName={line.name}
-                manualHref={`/manuals/${line.slug}`}
-              />
-            </div>
           </div>
         )}
 

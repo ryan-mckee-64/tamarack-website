@@ -3,8 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { productLines, getProductLine } from "@/lib/product-lines";
-import { modelsForProduct } from "@/lib/models";
-import ModelViewer from "@/components/models/ModelViewer";
 
 export function generateStaticParams() {
   return productLines.map((p) => ({ slug: p.slug }));
@@ -33,7 +31,6 @@ export default async function ProductLinePage({
   const line = getProductLine(slug);
   if (!line) notFound();
 
-  const models3d = modelsForProduct(line.slug);
   const lp = line.linePage;
 
   // Models that have carried high level specs get the comparison row. The rest

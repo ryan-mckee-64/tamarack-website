@@ -26,16 +26,12 @@ export default function AccessoryCard({
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[var(--surface)] transition hover:border-[color:var(--orange)] hover:shadow-md">
-      {/* White plate rather than the grey surface token: most of these are
-          studio cutouts on white, and a grey plate framed them as a visible
-          white rectangle floating inside the card. The hairline below carries
-          the separation the grey used to. */}
-      <div
-        className={`relative aspect-[4/3] w-full overflow-hidden border-b border-[color:var(--line)] ${
-          hero ? "bg-white" : "bg-[var(--surface-2)]"
-        }`}
-      >
-        {hero ? (
+      {/* No plate at all when there is no photo: an empty placeholder panel
+          drew the eye to the one accessory we have no shot of. White plate
+          rather than the grey surface token, because most of these are studio
+          cutouts on white and grey framed them as a floating rectangle. */}
+      {hero && (
+        <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-[color:var(--line)] bg-white">
           <Image
             src={hero.src}
             alt={hero.alt}
@@ -45,12 +41,8 @@ export default function AccessoryCard({
               hero.fit === "cover" ? "object-cover" : "object-contain p-6"
             }
           />
-        ) : (
-          <span className="absolute inset-0 flex items-center justify-center text-xs text-[color:var(--ink-faint)]">
-            Photo coming soon
-          </span>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-lg font-bold tracking-[-0.01em] text-[color:var(--ink)]">
