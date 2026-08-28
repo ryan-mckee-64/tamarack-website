@@ -1087,6 +1087,7 @@ export const productLines: ProductLine[] = [
   {
     slug: "yard-dog",
     name: "Yard Dog",
+    hidden: true,
     accent: "#b08d2e",
     logoZoom: 1.3,
     logo: "/images/yarddog-logo.png",

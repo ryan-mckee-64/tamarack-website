@@ -11,7 +11,7 @@ import ContactMenu from "./ContactMenu";
 import AboutMenu from "./AboutMenu";
 import LineName from "@/components/product/LineName";
 import { resourceGroups } from "@/lib/resources";
-import { productLines } from "@/lib/product-lines";
+import { visibleProductLines, visibleModels } from "@/lib/product-lines";
 import { applicationSolutions, industrySolutions } from "@/lib/solutions";
 import { aboutItems } from "@/lib/about";
 
@@ -220,7 +220,7 @@ export default function Header() {
       {open && (
         <nav className="max-h-[75vh] overflow-y-auto border-t border-[color:var(--line)] bg-[var(--surface)] px-6 py-4 lg:hidden">
           <p className="tech-label text-[color:var(--ember)]">Product Lines</p>
-          {productLines.map((line) => {
+          {visibleProductLines.map((line) => {
             const expanded = mobileGroup === `p-${line.slug}`;
             return (
               <div
@@ -253,7 +253,7 @@ export default function Header() {
                         Overview
                       </Link>
                     </li>
-                                        {line.models.map((model) => (
+                                        {visibleModels(line).map((model) => (
                       <li key={model.slug}>
                         <Link
                           href={`/products/${line.slug}/${model.slug}`}
