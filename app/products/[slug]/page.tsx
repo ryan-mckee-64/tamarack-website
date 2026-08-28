@@ -409,7 +409,7 @@ export default async function ProductLinePage({
         </section>
       )}
 
-      {/* ---------- Shared tail: model cards, 3D, accessories ---------- */}
+      {/* ---------- Shared tail: model cards, 3D ---------- */}
       <section className="mx-auto max-w-5xl px-6 py-20 md:px-10">
         {lp && (
           <p className="mb-16 text-sm text-[color:var(--ink-dim)]">
@@ -488,29 +488,7 @@ export default async function ProductLinePage({
           </div>
         )}
 
-        {line.hasAccessories && (
-          <div id="accessories" className="mt-16 scroll-mt-32">
-            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
-              Accessories
-            </h2>
-            <div className="mt-6 rounded-2xl border border-dashed border-[color:var(--line-strong)] bg-[var(--surface)] p-8">
-              <p className="font-semibold text-[color:var(--ink)]">
-                Accessory listings are being prepared
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-dim)]">
-                Hoses, ducting, fittings and add on equipment for the {line.name}{" "}
-                line will be listed here. In the meantime our team can quote any
-                accessory directly.
-              </p>
-              <Link
-                href="/contact/sales"
-                className="mt-5 inline-block text-sm font-semibold text-[color:var(--orange)] underline underline-offset-4"
-              >
-                Contact our team
-              </Link>
-            </div>
-          </div>
-        )}
+
       </section>
     </main>
   );

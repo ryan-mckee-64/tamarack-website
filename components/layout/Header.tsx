@@ -264,22 +264,22 @@ export default function Header() {
                         </Link>
                       </li>
                     ))}
-                    {line.hasAccessories && (
-                      <li>
-                        <Link
-                          href={`/products/${line.slug}#accessories`}
-                          onClick={() => setOpen(false)}
-                          className="block py-2 pl-3 text-sm text-[color:var(--ink-dim)]"
-                        >
-                          Accessories
-                        </Link>
-                      </li>
-                    )}
+
                   </ul>
                 )}
               </div>
             );
           })}
+
+          {/* Accessories fit every glycol heater rather than one line, so they
+              sit beside the product lines instead of inside one. */}
+          <Link
+            href="/products/accessories"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2 border-b border-[color:var(--line)] py-3 text-sm font-semibold text-[color:var(--ink)]"
+          >
+            Accessories
+          </Link>
 
           <p className="tech-label mt-5 text-[color:var(--ember)]">
             By application

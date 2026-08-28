@@ -90,7 +90,6 @@ export type ProductLine = {
   category: string;
   summary: string;
   models: ProductModel[];
-  hasAccessories: boolean;
   /** Whole line is not in production yet. Shows a "Coming soon" tag in the
    *  Product Lines menu. */
   comingSoon?: boolean;
@@ -118,7 +117,7 @@ export const productLines: ProductLine[] = [
     family: "heating",
     summary:
       "Glycol ground thaw and heating units for concrete curing, ground thaw and temporary heat.",
-    hasAccessories: true,
+
     models: [
       {
         slug: "hk-150",
@@ -434,7 +433,7 @@ export const productLines: ProductLine[] = [
     family: "heating",
     summary:
       "Flameless and hydronic heaters built for enclosed and sensitive work areas.",
-    hasAccessories: true,
+
     models: [
       {
         slug: "tch-250",
@@ -681,7 +680,7 @@ export const productLines: ProductLine[] = [
     hidden: true,
     summary:
       "Subcompact tractor loader backhoe sized for tight access work and utility trenching.",
-    hasAccessories: false,
+
     models: [
       {
         slug: "tlb-25",
@@ -817,7 +816,7 @@ export const productLines: ProductLine[] = [
     hidden: true,
     summary:
       "Site sweepers for dust control and surface cleanup on active job sites.",
-    hasAccessories: false,
+  
     comingSoon: true,
     models: [
       {
@@ -939,7 +938,7 @@ export const productLines: ProductLine[] = [
     family: "equipment",
     summary:
       "Concrete power buggies for moving material across rough and confined job sites.",
-    hasAccessories: false,
+  
     models: [
       {
         slug: "cb-1600e",
@@ -1095,7 +1094,7 @@ export const productLines: ProductLine[] = [
     family: "equipment",
     summary:
       "Trailer movers for repositioning loaded trailers in yards and staging areas.",
-    hasAccessories: false,
+
     // Yard Dog does not appear in the 2026 catalogue, so there is no linePage
     // or model data for it yet. Add both here and the long form layout turns
     // on automatically, exactly as it does for the other lines.

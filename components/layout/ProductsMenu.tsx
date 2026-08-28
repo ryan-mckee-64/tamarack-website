@@ -58,19 +58,7 @@ function ModelList({
         </div>
       ))}
 
-      {line.hasAccessories && (
-        <ul className="mt-1">
-          <li>
-            <Link
-              href={`/products/${line.slug}#accessories`}
-              onClick={onNavigate}
-              className="block rounded-md px-1.5 py-1 text-[0.8rem] text-[color:var(--ink-dim)] transition hover:bg-[var(--surface-2)] hover:text-[color:var(--ink)]"
-            >
-              Accessories
-            </Link>
-          </li>
-        </ul>
-      )}
+
     </>
   );
 }
@@ -130,13 +118,22 @@ export default function ProductsMenu({
           ))}
         </div>
 
-        <div className="mt-6 border-t border-[color:var(--line)] pt-3.5">
+        <div className="mt-6 flex items-center gap-5 border-t border-[color:var(--line)] pt-3.5">
           <Link
             href="/products"
             onClick={onNavigate}
             className="text-[0.8rem] font-semibold text-[color:var(--orange)] underline underline-offset-4"
           >
             View all product lines
+          </Link>
+          {/* Accessories fit every glycol heater rather than one line, so they
+              hang off the menu itself instead of sitting under a product. */}
+          <Link
+            href="/products/accessories"
+            onClick={onNavigate}
+            className="text-[0.8rem] font-semibold text-[color:var(--orange)] underline underline-offset-4"
+          >
+            Accessories
           </Link>
         </div>
       </div>
