@@ -465,25 +465,6 @@ export default async function ProductLinePage({
           </div>
         )}
 
-        {/* Interactive 3D model, on the product page rather than its own. */}
-        {models3d.length > 0 && (
-          <div className={lp ? "" : "mt-16"}>
-            <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-[color:var(--ink)]">
-              Explore it in 3D
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--ink-dim)]">
-              Drag to rotate the machine. Select a marker to see the component,
-              its part number and its specifications.
-            </p>
-            <div className="mt-7">
-              <ModelViewer
-                models={models3d}
-                productName={line.name}
-                manualHref={`/manuals/${line.slug}`}
-              />
-            </div>
-          </div>
-        )}
 
 
       </section>
